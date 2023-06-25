@@ -9,103 +9,60 @@ format: frontpage
     </div><!-- /.row -->
 </div><!-- /#header-home -->
 
-
-{% comment %}
-*
-* First check, if widget is empty or not by checking if there is a title
-*
-{% endcomment %}
 <div class="row t60">
-	{% if page.widget1.image or page.widget1.video or page.widget1.title %}
-		{% include _frontpage-widget.html widget=page.widget1 %}
-	{% endif %}
+    <h1>About Me</h1>
+    <img src="images/gallery-example-1-thumb.jpg" alt="Your Name" style="float: left; margin-right: 20px;">
+    <p>
+        I'm an Assistant Professor in the Department of Civil, Environmental, and Geo-Engineering at the
+        <a href="https://cse.umn.edu/cege/seongjin-choi">University of Minnesota, Twin Cities</a>. I received my Ph.D.
+        from the Department of Civil and
+        Environmental Engineering at Korea Advanced Institute of Science and Technology supervised by Professor Hwasoo
+        Yeo
+        at <a href="https://www.aimobility.kaist.ac.kr/">AIxMobility Lab</a>. I
+        received my Bachelor and Master's degrees from the same department and institute. Also, I was a Postdoctoral
+        Researcher in the Department of Civil Engineering at McGill University in Canada with <a
+            href="https://lijunsun.github.io/">Professor Lijun Sun's
+            group</a>.
+    </p>
 
-	{% if page.widget2.image or page.widget2.video or page.widget2.title %}
-		{% include _frontpage-widget.html widget=page.widget2 %}
-	{% endif %}
+    <p>
+        My research interests are broad and interdisciplinary, encompassing Urban Mobility Data Analytics,
+        Spatiotemporal
+        Data Modeling, Deep Learning & Artificial Intelligence, and Connected Automated Vehicles (CAV) &
+        Cooperative-ITS. I
+        am particularly driven by the desire to optimize urban mobility and contribute to the development of a
+        sustainable
+        and efficient urban transportation system. My work involves utilizing data analytics to draw valuable insights
+        from
+        urban mobility data and applying cutting-edge AI technologies in the field of transportation.
+    </p>
 
-	{% if page.widget3.image or page.widget3.video or page.widget3.title %}
-		{% include _frontpage-widget.html widget=page.widget3 %}
-	{% endif %}
-</div><!-- /.row -->
+    <p>
+        My research topics and interests are as follows:
+    </p>
 
+    <ul>
+        <li>Urban transportation and mobility data analytics</li>
+        <li>Spatiotemporal data modeling (forecasting, imputation)</li>
+        <li>Generative AI for transportation and mobility data</li>
+        <li>Modeling CAV, C-ITS using Reinforcement Learning
+        <li>Other applications of machine learning and deep learning in the transportation domain</li>
+    </ul>
 
+    <h2>For Prospective Students/Postdocs</h2>
+    <p>
+        I am looking for 1-2 PhD students (and/or a Postdoc) for 2024 Spring/Fall (starts in January/September) who
+        are excited about machine learning for urban transportation and mobility data. If you're interested, please send
+        me an email at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>.
+        Please include a CV, a research statement,and an academic transcript.
+        <br>
+        Please use “Prospective PhD student [Your name]” as your email subject. Due to the large volume of emails, I
+        apologize for not replying to individual inquiries I have received.
+    </p>
 
-{% comment %}
-*
-* First check, if there is a call for action-button
-*
-{% endcomment %}
-{% if page.callforaction.url contains 'http' %}
-{% assign url = '' %}
-{% else %}
-{% capture url %}{{ site.url }}{{ site.baseurl }}{% endcapture %}
-{% endif %}
-{% if page.callforaction %}
-    <div class="row t60 b60">
-        <div class="small-12 text-center columns">
-            <a class="button large radius {{ page.callforaction.style }}" href="{{ url }}{{ page.callforaction.url }}"{% if page.callforaction.url contains 'http' %} target="_blank" {% endif %}>{{ page.callforaction.text }}</a>
-        </div><!-- /.small-12.columns -->
-    </div><!-- /.row -->
-{% endif %}
-
-
-
-{% comment %}
-*
-* First check, if there are any posts at all
-*
-{% endcomment %}
-
-{% unless site.posts == empty %}
-    <div class="row t30 b20 homepage">
-        <div class="small-12 columns">
-            {% for post in site.posts limit:1 %}
-            {% if post.image.homepage %}
-            <p>
-                <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}" title="{{ post.title | escape_once }}"><img width="970" src="{{ site.urlimg }}{{ post.image.homepage }}" alt="{{ page.title | escape_once }}"></a>
-            </p>
-
-            {% if post.image.caption_url and post.image.caption %}
-            <p class="text-right caption">
-                <a href="{{ post.image.caption_url }}">{{ post.image.caption }}</a>
-            </p>
-            {% endif %}
-            {% else post.image.homepage == NULL %}
-            <h2>{{ site.data.language.new_blog_entries }}</h2>
-            {% endif %}
-            {% endfor %}
-        </div><!-- /.small-12.columns -->
-    </div><!-- /.row -->
-
-
-    <div class="row">
-        <div class="medium-6 columns">
-            {% for post in site.posts limit:1 %}
-            {% if post.subheadline %}<p class="subheadline">{{ post.subheadline }}</p>{% endif %}
-            <h2><a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-            <p>
-                {% if post.meta_description %}{{ post.meta_description | strip_html | escape }}{% else post.teaser %}{{ post.teaser | strip_html | escape }}{% endif %}
-                <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}" title="Read {{ post.title | escape_once }}"><strong>{{ site.data.language.read_more }}</strong></a>
-            </p>
-            {% endfor %}
-        </div><!-- /.medium-5.columns -->
-
-
-        <div class="medium-6 columns">
-            <p><strong>{{ site.data.language.more_articles }}</strong></p>
-            {% include list-posts entries='3' offset='1' %}
-        </div><!-- /.medium-7.columns -->
-    </div><!-- /.row -->
-{% endunless %}
-
-
-{% comment %}
-*
-* Finally, if there is content, spit it out.
-*
-{% endcomment %}
-
-<div class="row">
-    {{ content }}
-</div><!-- /.row -->
+    <p>
+        See more info about <a href="https://cse.umn.edu/cege/graduate">Civil, Environmental, and Geo- Engineering @
+            University of Minnesota, Twin
+            Cities</a>
+    </p>
+</div>

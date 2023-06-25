@@ -1,42 +1,50 @@
-- title: Seongjin Choi
+- title: Dr. Seongjin Choi
   url: "/"
   side: left
 
 - title: Team
-  url: "/getting-started/"
+  url: "/team/"
   side: left
 
 - title: "Research Projects"
-  url: "/design/"
+  url: "/research/"
   side: left
-  dropdown:
-    - title: "Grid & Colors"
-      url: "/design/grid/"
-    - title: "Typography"
-      url: "/design/typography/typography/"
-    - title: "Page/Post"
-      url: "/design/page/"
-    - title: "Post-Left-Sidebar"
-      url: "/design/post-left-sidebar/"
-    - title: "Post-Right-Sidebar"
-      url: "/design/post-right-sidebar/"
-    - title: "Page Full-Width"
-      url: "/design/page-fullwidth/"
-    - title: "Blog-Page"
-      url: "/blog/"
-    - title: "Video"
-      url: "/design/video/"
-    - title: "Gallery"
-      url: "/design/gallery/"
-    - title: "Portfolio"
-      url: "/design/portfolio/"
+  # dropdown:
+  #   - title: "Grid & Colors"
+  #     url: "/design/grid/"
+  #   - title: "Typography"
+  #     url: "/design/typography/typography/"
+  #   - title: "Page/Post"
+  #     url: "/design/page/"
+  #   - title: "Post-Left-Sidebar"
+  #     url: "/design/post-left-sidebar/"
+  #   - title: "Post-Right-Sidebar"
+  #     url: "/design/post-right-sidebar/"
+  #   - title: "Page Full-Width"
+  #     url: "/design/page-fullwidth/"
+  #   - title: "Blog-Page"
+  #     url: "/blog/"
+  #   - title: "Video"
+  #     url: "/design/video/"
+  #   - title: "Gallery"
+  #     url: "/design/gallery/"
+  #   - title: "Portfolio"
+  #     url: "/design/portfolio/"
 
 - title: Publications
-  url: "/getting-started/"
+  url: "/publications/"
   side: left
 
 - title: Teaching
-  url: "/getting-started/"
+  url: "/teaching/"
+  side: left
+
+- title: Gallary
+  url: "/gallary/"
+  side: left
+
+- title: "Contact"
+  url: "/contact/"
   side: left
 
 # - title: "Header Styles"
@@ -76,8 +84,4 @@
 
 - title: "Search"
   url: "/search/"
-  side: right
-
-- title: "Contact"
-  url: "/contact/"
   side: right
