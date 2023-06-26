@@ -39,14 +39,13 @@
   url: "/teaching/"
   side: left
 
-- title: Gallary
-  url: "/gallary/"
-  side: left
+# - title: Gallary
+#   url: "/gallary/"
+#   side: left
 
 - title: "Contact"
   url: "/contact/"
   side: left
-
 # - title: "Header Styles"
 #   url: "/headers/"
 #   side: left
@@ -82,6 +81,6 @@
 #     - title: "Blog Archive"
 #       url: "/blog/archive/"
 
-- title: "Search"
-  url: "/search/"
-  side: right
+# - title: "Search"
+#   url: "/search/"
+#   side: right
