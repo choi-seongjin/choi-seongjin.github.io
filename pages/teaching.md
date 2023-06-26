@@ -1,9 +1,9 @@
 ---
 layout              : page-fullwidth
 title               : "Teaching"
-meta_title          : "Contact and use our contact form"
+meta_title          : ""
 subheadline         : ""
-teaser              : "Current and previous teaching experience"
+teaser              : ""
 permalink           : "/teaching/"
 ---
 

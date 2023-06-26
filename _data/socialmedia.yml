@@ -1,12 +1,12 @@
-- name: GitHub
-  url: http://github.com/benchoi93
-  class: icon-github
-  title: Code und mehr...
-
 - name: LinkedIn
-  url: linkedin.com/in/seongjin-choi-852b2b198
+  url: http://linkedin.com/in/seongjin-choi-852b2b198
   class: icon-linkedin
   title: "LinkedIn Profile"
+# - name: GitHub
+#   url: http://github.com/benchoi93
+#   class: icon-github
+#   title: Code und mehr...
+
 # - name: Twitter
 #   url: http://twitter.com/phlow
 #   class: icon-twitter

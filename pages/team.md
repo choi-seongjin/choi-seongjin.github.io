@@ -7,9 +7,12 @@ teaser              : ""
 permalink           : "/team/"
 ---
 
-## Current PhD Students
+## Current Ph.D. Students @UMN
 
 - Zhenyu Pan (2024.01-)
+
+
+
 
 <!-- ## Current Postdocs
 
