@@ -5,6 +5,7 @@ meta_title          : ""
 subheadline         : ""
 teaser              : ""
 permalink           : "/contact/"
+header: no
 ---
 **Address to be added here when my room is assigned.**
 

@@ -5,6 +5,7 @@ meta_title          : ""
 subheadline         : ""
 teaser              : ""
 permalink           : "/team/"
+header: no
 ---
 
 ## Current Ph.D. Students @UMN

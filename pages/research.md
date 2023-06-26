@@ -5,6 +5,7 @@ meta_title: ""
 subheadline: ""
 teaser: ""
 permalink: "/research/"
+header: no
 ---
 
 <div style="float: left; margin-right: 20px; min-height: 400px; width: 400px; height: 300px;">

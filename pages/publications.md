@@ -5,6 +5,7 @@ meta_title: ""
 subheadline: ""
 teaser: ""
 permalink: "/publications/"
+header: no
 ---
 Please refer to my [Google Scholar](https://scholar.google.com/citations?user=tyLWFk4AAAAJ) for up-to-date information.
 

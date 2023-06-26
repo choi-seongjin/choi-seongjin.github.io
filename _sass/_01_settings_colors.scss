@@ -27,8 +27,8 @@ $body-bg : #fdfdfd;
 ------------------------------------------------------------------- */
 
 $ci-1 : #7A0019; // UMN Maroon
-$ci-2 : #FF9900; // 
-$ci-3 : #EFC94C; // yellow
+$ci-2 : #900021; // 
+$ci-3 : #060605; // yellow
 $ci-4 : #E27A3F; // orange
 $ci-5 : #DF4949; // red
 $ci-6 : #FFCC33; // UMN Gold
@@ -72,7 +72,7 @@ $grey-16 : #0B0B0B;
 /* Topbar-Navigation
 ------------------------------------------------------------------- */
 
-$topbar-bg-color : $body-bg;
+$topbar-bg-color : $ci-6;
 $topbar-bg : $topbar-bg-color;
 
 
@@ -87,7 +87,7 @@ $topbar-dropdown-label-color: $ci-2;
 $topbar-dropdown-link-bg-hover: $ci-6;
 
 $topbar-link-bg-active: $ci-6; // Active Navigation Link
-$topbar-link-bg-hover: $ci-6;
+$topbar-link-bg-hover: $ci-2;
 $topbar-link-bg-active-hover: $ci-2;
 
 
