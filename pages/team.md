@@ -32,7 +32,7 @@ header: no
         <h4>Professional Experience:</h4>
         <ul>
             <li>2024.01 - Present: Assistant Professor at UMN</li>
-            <li>2023.06 - Present: Associate Editor of The Journal of the Korean Society of Transportation (JKST)</li>
+            <!-- <li>2023.06 - Present: Associate Editor of The Journal of the Korean Society of Transportation (JKST)</li> -->
             <li>2022.01 - 2023.12: Postdoctoral Researcher at McGill University</li>
             <li>2021.09 - 2021.11: Postdoctoral Researcher at KAIST</li>
         </ul>
@@ -43,8 +43,24 @@ header: no
 
 ## Current Ph.D. Students @UMN
 
-- Zhenyu Pan (2024.01-)
+<!-- - Zhenyu Pan (2024.01-) -->
 
+## Join Our Team!
+<div>
+    <p style="margin-bottom:5px;">
+        I am looking for 1-2 PhD students (and/or a Postdoc) for 2024 Spring/Fall (starts in January/September) who are
+        excited about machine learning for urban transportation and mobility data. If you're interested, please send me
+        an
+        email at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>. Please include a CV, a research statement, and an
+        academic transcript.
+        <br>
+        Please use “Prospective PhD student [Your name]” as your email subject. Due to the large volume of emails, I
+        apologize for not replying to individual inquiries I have received.
+    </p>
+    <div class="text-right">
+        <a href="/news/230607">Read More</a>
+    </div>
+</div>
 
 
 
