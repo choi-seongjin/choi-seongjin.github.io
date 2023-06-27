@@ -41,21 +41,28 @@ header: no
 
 
 
-## Current Ph.D. Students @UMN
-
+## Current Students @UMN
 <!-- - Zhenyu Pan (2024.01-) -->
+
+## Collaborators
+- Hwasoo Yeo (KAIST)
+- Jiwon Kim (University of Queensland)
+- Lijun Sun (McGill University)
+- Nicolas Saunier (Polytechnique Montreal)
+- Jinwoo Lee (KAIST)
+- Zhihao Zheng (McGill University)
+- Sicong Jian (McGill University)
+- Qiujia Liu (McGill University)
+- Zhixiong Jin (Gustave-Eiffel University)
+- Sohyeong Kim (EPFL)
+
 
 ## Join Our Team!
 <div>
     <p style="margin-bottom:5px;">
-        I am looking for 1-2 PhD students (and/or a Postdoc) for 2024 Spring/Fall (starts in January/September) who are
-        excited about machine learning for urban transportation and mobility data. If you're interested, please send me
-        an
-        email at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>. Please include a CV, a research statement, and an
-        academic transcript.
+        I am looking for students who are excited about machine learning for urban transportation and mobility data. If you're interested, please send me an email at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>. Please include a CV, a research statement, and an academic transcript.
         <br>
-        Please use “Prospective PhD student [Your name]” as your email subject. Due to the large volume of emails, I
-        apologize for not replying to individual inquiries I have received.
+        Please use “Prospective student [Your name]” as your email subject. Due to the large volume of emails, I apologize for not replying to individual inquiries I have received.
     </p>
     <div class="text-right">
         <a href="/news/230607">Read More</a>
