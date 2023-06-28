@@ -1,5 +1,9 @@
-- title: Dr. Seongjin Choi
+- title: Home
   url: "/"
+  side: left
+
+- title: Dr. Seongjin Choi
+  url: "/drseongjinchoi/"
   side: left
 
 - title: Team
