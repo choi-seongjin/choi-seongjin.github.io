@@ -11,7 +11,7 @@ header: no
 <div class="row">
     <div class="small-4 columns">
         <h3></h3>
-        <img src="{{ site.url }}/images/gallery-example-1-thumb.jpg" alt="Your Name" style="width: 300px; height: 400px;">
+        <img src="{{ site.url }}/images/profile_sjchoi.jpg" alt="Seongjin Choi" style="width: 300px; height: 400px;">
     </div>
     <div class="small-8 columns">
         <h3>Dr. Seongjin Choi</h3>
