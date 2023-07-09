@@ -36,7 +36,7 @@ Please refer to my [Google Scholar](https://scholar.google.com/citations?user=ty
 - Jin, Zhixiong, Jiwon Kim, Hwasoo Yeo, and **Seongjin Choi**. "Transformer-based Map-Matching Model with Limited Labeled Data using Transfer-Learning Approach." *Transportation Research Part C: Emerging Technologies*, 140 (2022): 103668. **[Corresponding author]**
     - [https://doi.org/10.1016/j.trc.2022.103668](https://doi.org/10.1016/j.trc.2022.103668) **[JCR Q1; IF=8.3]**
 - Tak, Sehyun and **Seongjin Choi**. "Safety Monitoring System of CAVs Considering the Trade-off Between Sampling Interval and Data Reliability." *Sensors*, 22(10), 3611 (2022). **[Corresponding author]**
-    - [https://doi.org/10.3390/s22103611](https://doi.org/10.3390/s22103611) **[JCR Q2; IF=3.847]**
+    - [https://doi.org/10.3390/s22103611](https://doi.org/10.3390/s22103611) **[JCR Q2; IF=3.9]**
 - **Choi, Seongjin**, Jiwon Kim, and Hwasoo Yeo. "TrajGAIL: Generating Urban Vehicle Trajectories using Generative Adversarial Imitation Learning." *Transportation Research Part C: Emerging Technologies*, 128 (2021): 103091. 
     - [https://doi.org/10.1016/j.trc.2021.103091](https://doi.org/10.1016/j.trc.2021.103091) **[JCR Q1; IF=8.3]**
 - **Choi, Seongjin**, Hwasoo Yeo, and Jiwon Kim. "Network-wide Vehicle Trajectory Prediction in Urban Traffic Networks Using Deep Learning." *Transportation Research Record* 2672.45 (2018): 173-184. 
