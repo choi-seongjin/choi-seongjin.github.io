@@ -1,5 +1,6 @@
 ---
 layout              : page-fullwidth
+title               : "{{site.title}}"
 meta_title          : ""
 subheadline         : ""
 teaser              : ""
