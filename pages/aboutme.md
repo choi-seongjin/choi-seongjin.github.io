@@ -1,6 +1,6 @@
 ---
 layout              : page-fullwidth
-title               : "Dr. Seongjin Choi"
+title               : ""
 meta_title          : ""
 subheadline         : ""
 teaser              : ""
