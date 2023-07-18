@@ -1,6 +1,6 @@
 ---
 layout              : page-fullwidth
-title               : "Contact me"
+title               : ""
 meta_title          : ""
 subheadline         : ""
 teaser              : ""
