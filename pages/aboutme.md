@@ -1,6 +1,5 @@
 ---
 layout              : page-fullwidth
-title               : ""
 meta_title          : ""
 subheadline         : ""
 teaser              : ""
