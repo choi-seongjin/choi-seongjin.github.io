@@ -29,7 +29,7 @@ Please refer to my [Google Scholar](https://scholar.google.com/citations?user=ty
   - As one of co-first authors and as a corresponding author -->
 
 ### --- International Journal
-- **Choi, Seongjin**, and Jinwoo Lee. "An analytical model of parking infrastructure and fleet size optimization for Shared Autonomous Vehicles." *Transportation Research Part E: Logistics and Transportation Review*, 176 (2023): 103213. 
+- **Choi, Seongjin**, and Jinwoo Lee. "Optimal planning of parking infrastructure and fleet size for Shared Autonomous Vehicles." *Transportation Research Part E: Logistics and Transportation Review*, 176 (2023): 103213. 
     - [https://doi.org/10.1016/j.tre.2023.103213](https://doi.org/10.1016/j.tre.2023.103213) **[JCR Q1; IF=10.6]**
 - **Choi, Seongjin**, Donghoun Lee, Sari Kim, and Sehyun Tak. "Framework for Connected and Automated Bus Rapid Transit with Sectionalized Speed Guidance based on Deep Reinforcement Learning: Field Test in Sejong City." *Transportation Research Part C: Emerging Technologies*, 148 (2023): 104049. 
     - [https://doi.org/10.1016/j.trc.2023.104049](https://doi.org/10.1016/j.trc.2023.104049) **[JCR Q1; IF=8.3]**

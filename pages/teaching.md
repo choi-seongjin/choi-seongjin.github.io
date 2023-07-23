@@ -8,4 +8,4 @@ permalink           : "/teaching/"
 header: no
 ---
 
-To be added
+**2024 Spring: CEGE 3101 - Computer Applications I**
