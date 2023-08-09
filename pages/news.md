@@ -1,10 +1,14 @@
 ---
-layout:  page-fullwidth
-title: "News Archive"
-teaser: ""
-permalink: "/news/"
+layout              : page-fullwidth
+title               : "News Archive"
+meta_title          : ""
+subheadline         : ""
+teaser              : ""
+permalink           : "/news/"
 header: no
 ---
+
+
 <div id="blog-index" class="row">
 	<div class="small-12 columns t30">
 		<h1>{{ page.title }}</h1>
