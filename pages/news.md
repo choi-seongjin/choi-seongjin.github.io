@@ -2,7 +2,7 @@
 layout:  page-fullwidth
 title: "News Archive"
 teaser: ""
-permalink: "/news"
+permalink: "/news/"
 header: no
 ---
 <div id="blog-index" class="row">
