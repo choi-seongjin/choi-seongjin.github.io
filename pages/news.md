@@ -11,7 +11,7 @@ header: no
 
 <div id="blog-index" class="row">
 	<div class="small-12 columns t30">
-		<h1>{{ page.title }}</h1>
+<!-- 		<h1>{{ page.title }}</h1> -->
 		{% if page.teaser %}<p class="teaser">{{ page.teaser }}</p>{% endif %}
 
 		<dl class="accordion" data-accordion>
