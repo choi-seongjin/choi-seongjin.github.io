@@ -43,9 +43,9 @@
   url: "/teaching/"
   side: left
 
-# - title: Gallary
-#   url: "/gallary/"
-#   side: left
+- title: News
+  url: "/news/"
+  side: left
 
 - title: "Contact"
   url: "/contact/"
