@@ -1,11 +1,9 @@
 ---
-layout: default
-title: "Blog Archive"
-teaser: "Check out all blog posts in my blog archive. Click on a headline to read the teaser."
-breadcrumb: true
-header:
-   image_fullwidth: header_unsplash_8.jpg
+layout:  page-fullwidth
+title: "News Archive"
+teaser: ""
 permalink: "/news"
+header: no
 ---
 <div id="blog-index" class="row">
 	<div class="small-12 columns t30">
