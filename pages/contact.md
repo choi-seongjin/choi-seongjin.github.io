@@ -7,7 +7,6 @@ teaser              : ""
 permalink           : "/contact/"
 header: no
 ---
-**Seongjin Choi**
 
 Room 162, Civil Engineering Building<br>
 500 Pillsbury Dr. SE<br>
