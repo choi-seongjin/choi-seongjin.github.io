@@ -7,10 +7,13 @@ teaser              : ""
 permalink           : "/contact/"
 header: no
 ---
-**Seongjin Choi
+**Seongjin Choi**
+
 Room 162, Civil Engineering Building
+
 500 Pillsbury Dr. SE
-Minneapolis, MN 55455**
+
+Minneapolis, MN 55455
 
 Meetings are by appointment only.<br>
 Please send me an email to schedule a meeting at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>.
