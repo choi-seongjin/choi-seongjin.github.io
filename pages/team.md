@@ -11,7 +11,7 @@ header: no
 
 
 ## Current Students @UMN
-<!-- - Zhenyu Pan (2024.01-) -->
+<!-- - Pouya Parsa (2024.01-) Master Student -->
 
 ## Collaborators
 - [Hwasoo Yeo (KAIST)](https://www.aimobility.kaist.ac.kr/)
