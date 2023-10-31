@@ -15,16 +15,17 @@ header: no
 
 ## Collaborators
 - [Hwasoo Yeo (KAIST)](https://www.aimobility.kaist.ac.kr/)
-- [Jiwon Kim (University of Queensland)](https://researchers.uq.edu.au/researcher/10269)
 - [Lijun Sun (McGill University)](https://lijunsun.github.io/)
+- [Jiwon Kim (University of Queensland)](https://researchers.uq.edu.au/researcher/10269)
 - [Nicolas Saunier (Polytechnique Montreal)](http://n.saunier.free.fr/saunier/)
 - [Jinwoo Lee (KAIST)](https://lee.kaist.ac.kr/home)
 - Sehyun Tak (KOTI)
 - Donghoun Lee (KOTI)
+- [Soomin Woo (Konkuk University)](https://www.thesemlab.com/)
 
 
 <!-- - Zhihao Zheng (McGill University)
-- Sicong Jian (McGill University)
+- Sicong Jiang (McGill University)
 - Qiujia Liu (McGill University)
 - Zhixiong Jin (Gustave-Eiffel University)
 - Sohyeong Kim (EPFL) -->
