@@ -9,8 +9,8 @@ header: no
 ---
 **Seongjin Choi**
 
-Room 162, Civil Engineering Building
-500 Pillsbury Dr. SE
+Room 162, Civil Engineering Building<br>
+500 Pillsbury Dr. SE<br>
 Minneapolis, MN 55455
 
 Meetings are by appointment only.<br>
