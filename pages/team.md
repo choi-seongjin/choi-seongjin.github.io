@@ -11,20 +11,20 @@ header: no
 
 
 ## Current Students 
-### Graduate Students
-- Lindong Liu (2024. 09-) - Ph.D. Student
-  - Causal generative models
-- Mithell Kosieradzki (2024. 05-) - Master student in Data Science (Capstone project)
-  - Probabilistic trajectory prediction
-- Sicong Jiang - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
-  - Autonomous driving, Distributional reinforcement learning
+- ### Graduate Students
+  - **Lindong Liu** (2024. 09-) - Ph.D. Student
+    - Causal generative models, Time series analysis
+  - **Mithell Kosieradzki** (2024. 05-) - Master student in Data Science (Capstone project)
+    - Probabilistic trajectory prediction
+  - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
+    - Autonomous driving, Distributional reinforcement learning
 
-### Undergraduate research assistant
-- Dev Patel (2024. 05-) 
-  - Virtual Reality (VR)-based multi-agent driving simulator
-  - Digitizing MTO data
-- Noah Hebeisen (2024. 05-)
-  - Digitizing MTO data
+- ### Undergraduate research assistant
+  - **Dev Patel** (2024. 05-) 
+    - Virtual Reality (VR)-based multi-agent driving simulator
+    - Digitizing MTO data
+  - **Noah Hebeisen** (2024. 05-)
+    - Digitizing MTO data
 
 <!-- Sicong Jiang (2021. 09-) Ph.D. Student at McGill University (co-supervised with Prof. Lijun Sun) -->
 <!-- - Pouya Parsa (2024.09-) Master Student -->
