@@ -10,17 +10,20 @@ header: no
 
 
 
-## Current Students @UMN
-<!-- - Pouya Parsa (2024.01-) Master Student -->
+## Current Students 
+Lindong Liu (2024. 09-) Ph.D. Student
+Sicong Jiang (2021. 09-) Ph.D. Student at McGill University (co-supervised with Prof. Lijun Sun)
+<!-- Hyeyoung Tak (2024. 01-) Ph.D. Student at KAIST (co-supervised with Prof. Hwasoo Yeo) -->
+<!-- - Pouya Parsa (2024.09-) Master Student -->
 
 ## Collaborators
 - [Hwasoo Yeo (KAIST)](https://www.aimobility.kaist.ac.kr/)
 - [Lijun Sun (McGill University)](https://lijunsun.github.io/)
 - [Jiwon Kim (University of Queensland)](https://researchers.uq.edu.au/researcher/10269)
-- [Nicolas Saunier (Polytechnique Montreal)](http://n.saunier.free.fr/saunier/)
+<!-- - [Nicolas Saunier (Polytechnique Montreal)](http://n.saunier.free.fr/saunier/) -->
 - [Jinwoo Lee (KAIST)](https://lee.kaist.ac.kr/home)
 - Sehyun Tak (KOTI)
-- Donghoun Lee (KOTI)
+- Donghoun Lee (Sejong University)
 - [Soomin Woo (Konkuk University)](https://www.thesemlab.com/)
 
 

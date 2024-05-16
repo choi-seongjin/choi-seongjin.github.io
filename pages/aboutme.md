@@ -34,7 +34,7 @@ header: no
         <h4>Academic Service:</h4>
         <ul >
             <li><strong>2023.06 - Present:</strong> Associate Editor of The Journal of the Korean Society of Transportation (JKST)</li>
-            <li><strong>2023.07 - Present:</strong> Guest Editor of the special issue titled "Advanced Data Intelligence Theory and Practice in Transport 2023" in Journal of Advanced Transportation </li>
+            <li><strong>2023.07 - 2024.02:</strong> Guest Editor of the special issue titled "Advanced Data Intelligence Theory and Practice in Transport 2023" in Journal of Advanced Transportation </li>
         </ul>
     </div>
 </div>
