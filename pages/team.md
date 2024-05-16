@@ -33,7 +33,7 @@ header: no
 - [Hwasoo Yeo (KAIST)](https://www.aimobility.kaist.ac.kr/)
 - [Lijun Sun (McGill University)](https://lijunsun.github.io/)
 - [Jiwon Kim (University of Queensland)](https://researchers.uq.edu.au/researcher/10269)
-<!-- - [Nicolas Saunier (Polytechnique Montreal)](http://n.saunier.free.fr/saunier/) -->
+- [Nicolas Saunier (Polytechnique Montreal)](http://n.saunier.free.fr/saunier/)
 - [Jinwoo Lee (KAIST)](https://lee.kaist.ac.kr/home)
 - Sehyun Tak (KOTI)
 - Donghoun Lee (Sejong University)
