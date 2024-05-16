@@ -23,7 +23,7 @@ header: no
             <a href="https://www.cts.umn.edu/research-scholars/seongjin-choi">Center for Transportation Studies</a>, 
             <a href="https://cse.umn.edu/mnri/seongjin-choi">Minnesota Robotics Institute</a>, 
             <a href="https://cse.umn.edu/dsi/seongjin-choi">Data Science Initiative</a>
-        </p>
+        </strong></p>
         <h4>Education:</h4>
         <ul>
             <li><strong>2021 Ph.D.,</strong> Korea Advanced Institute of Science and Technology</li>
