@@ -11,12 +11,20 @@ header: no
 
 
 ## Current Students 
-<!-- - Lindong Liu (2024. 09-) - Ph.D. Student -->
-- Mithell Kosieradzki - Master student in Data Science
+### Graduate Students
+- Lindong Liu (2024. 09-) - Ph.D. Student
+  - Causal generative models
+- Mithell Kosieradzki (2024. 05-) - Master student in Data Science (Capstone project)
+  - Probabilistic trajectory prediction
+- Sicong Jiang - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
+  - Autonomous driving, Distributional reinforcement learning
 
-## Current Undergraduate research assistant
+### Undergraduate research assistant
 - Dev Patel (2024. 05-) 
+  - Virtual Reality (VR)-based multi-agent driving simulator
+  - Digitizing MTO data
 - Noah Hebeisen (2024. 05-)
+  - Digitizing MTO data
 
 <!-- Sicong Jiang (2021. 09-) Ph.D. Student at McGill University (co-supervised with Prof. Lijun Sun) -->
 <!-- - Pouya Parsa (2024.09-) Master Student -->
@@ -31,13 +39,9 @@ header: no
 - Donghoun Lee (Sejong University)
 - [Soomin Woo (Konkuk University)](https://www.thesemlab.com/)
 
-
 <!-- - Zhihao Zheng (McGill University)
-- Sicong Jiang (McGill University)
-- Qiujia Liu (McGill University)
 - Zhixiong Jin (Gustave-Eiffel University)
 - Sohyeong Kim (EPFL) -->
-
 
 ## Join Our Team!
 <div>
@@ -52,15 +56,4 @@ header: no
 </div>
 
 
-
-<!-- ## Current Postdocs
-
-- Michael Brown
-- Emily Davis
-- David Wilson
-
-## Research Assistants
-
-- Sarah Lee
-- Robert Thompson
-- Olivia Rodriguez -->
+<!-- ## Alumni -->
