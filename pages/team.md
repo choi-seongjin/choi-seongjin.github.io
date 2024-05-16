@@ -11,9 +11,8 @@ header: no
 
 
 ## Current Students 
-Lindong Liu (2024. 09-) Ph.D. Student
-Sicong Jiang (2021. 09-) Ph.D. Student at McGill University (co-supervised with Prof. Lijun Sun)
-<!-- Hyeyoung Tak (2024. 01-) Ph.D. Student at KAIST (co-supervised with Prof. Hwasoo Yeo) -->
+- Lindong Liu (2024. 09-) Ph.D. Student
+<!-- Sicong Jiang (2021. 09-) Ph.D. Student at McGill University (co-supervised with Prof. Lijun Sun) -->
 <!-- - Pouya Parsa (2024.09-) Master Student -->
 
 ## Collaborators
