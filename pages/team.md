@@ -11,7 +11,13 @@ header: no
 
 
 ## Current Students 
-- Lindong Liu (2024. 09-) Ph.D. Student
+<!-- - Lindong Liu (2024. 09-) - Ph.D. Student -->
+- Mithell Kosieradzki - Master student in Data Science
+
+## Current Undergraduate research assistant
+- Dev Patel (2024. 05-) 
+- Noah Hebeisen (2024. 05-)
+
 <!-- Sicong Jiang (2021. 09-) Ph.D. Student at McGill University (co-supervised with Prof. Lijun Sun) -->
 <!-- - Pouya Parsa (2024.09-) Master Student -->
 
