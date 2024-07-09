@@ -9,5 +9,5 @@ header: no
 readmore: true
 ---
 
-For more information:
+For more information: 
 [http://kaistmobilitygroup.com/june-1728-2024-the-2nd-cho-chun-shik-graduate-school-of-mobility-summer-camp/](http://kaistmobilitygroup.com/june-1728-2024-the-2nd-cho-chun-shik-graduate-school-of-mobility-summer-camp/)
