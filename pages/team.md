@@ -15,7 +15,7 @@ header: no
   - **Lindong Liu** (2024. 09-) - Ph.D. Student
     - Causal generative models, Time series analysis
   - **Pouya Parsa** (2024. 09-) - Master Student
-    - ...
+    - Data Privacy and Security for Transportation
   - **Mithell Kosieradzki** (2024. 05-) - Master student in Data Science (Capstone project)
     - Probabilistic trajectory prediction
   - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
