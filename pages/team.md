@@ -12,9 +12,9 @@ header: no
 
 ## Current Students 
 - ### Graduate Students
-  - **Lindong Liu** (2024. 09-) - Ph.D. Student
+  - **Lindong Liu** (2024. 09-) - Ph.D. Student in CEGE
     - Causal generative models, Time series analysis
-  - **Pouya Parsa** (2024. 09-) - Master Student
+  - **Pouya Parsa** (2024. 09-) - Master Student in CEGE
     - Data Privacy and Security for Transportation
   - **Mithell Kosieradzki** (2024. 05-) - Master student in Data Science (Capstone project)
     - Probabilistic trajectory prediction
