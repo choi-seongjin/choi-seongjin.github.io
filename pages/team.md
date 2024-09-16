@@ -18,6 +18,10 @@ header: no
     - Data Privacy and Security for Transportation
   - **Mithell Kosieradzki** (2024. 05-) - Master student in Data Science (Capstone project)
     - Probabilistic trajectory prediction
+  - **Sujeendra Ramesh** (2024. 09-) - Master student in Minnesota Robotics Institute (MnRI)
+    - Emergency Collision Avoidance for autonomous vehicles
+  - **Rammesh Adhav Saravanan** (2024. 09-) - Master student in Minnesota Robotics Institute (MnRI)
+    - Motion Prediction for autonomous vehicles
   - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
     - Autonomous driving, Distributional reinforcement learning
 
