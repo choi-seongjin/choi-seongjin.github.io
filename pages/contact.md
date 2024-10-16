@@ -10,7 +10,8 @@ header: no
 
 Room 162, Civil Engineering Building<br>
 500 Pillsbury Dr. SE<br>
-Minneapolis, MN 55455
+Minneapolis, MN 55455<be>
+Tel: +1-612-625-1371
 
 Meetings are by appointment only.<br>
 Please send me an email to schedule a meeting at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>.
