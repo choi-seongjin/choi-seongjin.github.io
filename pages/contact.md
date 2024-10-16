@@ -10,7 +10,7 @@ header: no
 
 Room 162, Civil Engineering Building<br>
 500 Pillsbury Dr. SE<br>
-Minneapolis, MN 55455<be>
+Minneapolis, MN 55455<br>
 Tel: +1-612-625-1371
 
 Meetings are by appointment only.<br>
