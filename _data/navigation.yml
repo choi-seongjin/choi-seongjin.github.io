@@ -47,6 +47,10 @@
   url: "/news/"
   side: left
 
+- title: Datasets&Code
+  url: "/datasetcode/"
+  side: left
+
 - title: "Contact"
   url: "/contact/"
   side: left
