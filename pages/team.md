@@ -14,7 +14,7 @@ header: no
 - ### Graduate Students
   - **Lindong Liu** (2024. 09-) - Ph.D. Student in CEGE
     - Causal generative models, Generative models
-  - **Christopher Cheong** (2024. 09-) - Ph.D. Student in CEGE
+  - **Christopher Cheong** (2025. 01-) - Ph.D. Student in CEGE
     - Traffic Forecasting, Neural networks for large-scale spatiotemporal data
   - **Pouya Parsa** (2024. 09-) - Master Student in CEGE
     - Computer Vision, 3D reconstruction
