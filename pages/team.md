@@ -13,17 +13,23 @@ header: no
 ## Current Students 
 - ### Graduate Students
   - **Lindong Liu** (2024. 09-) - Ph.D. Student in CEGE
-    - Causal generative models, Time series analysis
+    - Causal generative models, Generative models
+  - **Christopher Cheong** (2024. 09-) - Ph.D. Student in CEGE
+    - Traffic Forecasting, Neural networks for large-scale spatiotemporal data
   - **Pouya Parsa** (2024. 09-) - Master Student in CEGE
-    - Data Privacy and Security for Transportation
+    - Computer Vision, 3D reconstruction
   - **Mithell Kosieradzki** (2024. 05-) - Master student in Data Science (Capstone project)
     - Probabilistic trajectory prediction
-  - **Sujeendra Ramesh** (2024. 09-) - Master student in Minnesota Robotics Institute (MnRI)
-    - Emergency Collision Avoidance for autonomous vehicles
   - **Rammesh Adhav Saravanan** (2024. 09-) - Master student in Minnesota Robotics Institute (MnRI)
     - Motion Prediction for autonomous vehicles
   - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
     - Autonomous driving, Distributional reinforcement learning
+  - **Seunghee Ryu** - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
+    - Bayesian OD estimation, Pedestrian flow estimation
+  - **Donghoon Kwon** - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
+    - Large Language Models for Traffic Simulation
+    
+
 
 - ### Undergraduate research assistant
   - **Dev Patel** (2024. 05-) 
