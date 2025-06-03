@@ -29,13 +29,13 @@ Please refer to my [Google Scholar](https://scholar.google.com/citations?user=ty
   - As one of co-first authors and as a corresponding author -->
 
 ### --- International Journal
-- **Choi, Seongjin**, Zhixiong Jin, Seung Woo Ham, Jiwon Kim, and Lijun Sun. (2025). A gentle introduction and tutorial on deep generative models in transportation research. Transportation Research Part C: Emerging Technologies, 176, 105145.
+- **Choi, Seongjin**, Zhixiong Jin, Seung Woo Ham, Jiwon Kim, and Lijun Sun. (2025). A gentle introduction and tutorial on deep generative models in transportation research. *Transportation Research Part C: Emerging Technologies*, 176, 105145.
     - [https://doi.org/10.1016/j.trc.2025.105145](https://doi.org/10.1016/j.trc.2025.105145) 
     - [Preprint](https://choi-seongjin.github.io/publist/gentle2025choi.pdf)
-- Vincent Zhihao Zheng, **Seongjin Choi**, and Lijun Sun. (2025). Probabilistic Traffic Forecasting with Dynamic Regression. Transportation Science.
+- Vincent Zhihao Zheng, **Seongjin Choi**, and Lijun Sun. (2025). Probabilistic Traffic Forecasting with Dynamic Regression. *Transportation Science*.
     - [https://doi.org/10.1287/trsc.2024.0560](https://doi.org/10.1287/trsc.2024.0560)
     - [Preprint](https://choi-seongjin.github.io/publist/probabilistic2025zheng.pdf)
-- **Choi, Seongjin**, Nicolas Saunier, Vincent Zhihao Zheng, Martin Trepanier, and Lijun Sun. (2025). Scalable dynamic mixture model with full covariance for probabilistic traffic forecasting. Transportation Science.
+- **Choi, Seongjin**, Nicolas Saunier, Vincent Zhihao Zheng, Martin Trepanier, and Lijun Sun. (2025). Scalable dynamic mixture model with full covariance for probabilistic traffic forecasting. *Transportation Science8.
     - [https://doi.org/10.1287/trsc.2024.0547](https://doi.org/10.1287/trsc.2024.0547)
     - [Preprint](https://choi-seongjin.github.io/publist/scalable2025choi.pdf)
 - **Choi, Seongjin**, and Jinwoo Lee. "Optimal planning of parking infrastructure and fleet size for Shared Autonomous Vehicles." *Transportation Research Part E: Logistics and Transportation Review*, 176 (2023): 103213. 
