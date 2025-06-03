@@ -31,22 +31,29 @@ Please refer to my [Google Scholar](https://scholar.google.com/citations?user=ty
 ### --- International Journal
 - **Choi, Seongjin**, Zhixiong Jin, Seung Woo Ham, Jiwon Kim, and Lijun Sun. (2025). A gentle introduction and tutorial on deep generative models in transportation research. Transportation Research Part C: Emerging Technologies, 176, 105145.
     - [https://doi.org/10.1016/j.trc.2025.105145](https://doi.org/10.1016/j.trc.2025.105145) 
+    - [Preprint](https://choi-seongjin.github.io/publist/gentle2025choi.pdf)
 - Vincent Zhihao Zheng, **Seongjin Choi**, and Lijun Sun. (2025). Probabilistic Traffic Forecasting with Dynamic Regression. Transportation Science.
     - [https://doi.org/10.1287/trsc.2024.0560](https://doi.org/10.1287/trsc.2024.0560)
+    - [Preprint](https://choi-seongjin.github.io/publist/probabilistic2025zheng.pdf)
 - **Choi, Seongjin**, Nicolas Saunier, Vincent Zhihao Zheng, Martin Trepanier, and Lijun Sun. (2025). Scalable dynamic mixture model with full covariance for probabilistic traffic forecasting. Transportation Science.
     - [https://doi.org/10.1287/trsc.2024.0547](https://doi.org/10.1287/trsc.2024.0547)
+    - [Preprint](https://choi-seongjin.github.io/publist/scalable2025choi.pdf)
 - **Choi, Seongjin**, and Jinwoo Lee. "Optimal planning of parking infrastructure and fleet size for Shared Autonomous Vehicles." *Transportation Research Part E: Logistics and Transportation Review*, 176 (2023): 103213. 
     - [https://doi.org/10.1016/j.tre.2023.103213](https://doi.org/10.1016/j.tre.2023.103213)  
+    - [Preprint](https://choi-seongjin.github.io/publist/optimal2024choi.pdf)
 - **Choi, Seongjin**, Donghoun Lee, Sari Kim, and Sehyun Tak. "Framework for Connected and Automated Bus Rapid Transit with Sectionalized Speed Guidance based on Deep Reinforcement Learning: Field Test in Sejong City." *Transportation Research Part C: Emerging Technologies*, 148 (2023): 104049. 
     - [https://doi.org/10.1016/j.trc.2023.104049](https://doi.org/10.1016/j.trc.2023.104049)  
+    - [Preprint](https://choi-seongjin.github.io/publist/AdvisorySpeedLimit2023Choi.pdf)
 - Jin, Zhixiong, Jiwon Kim, Hwasoo Yeo, and **Seongjin Choi**. "Transformer-based Map-Matching Model with Limited Labeled Data using Transfer-Learning Approach." *Transportation Research Part C: Emerging Technologies*, 140 (2022): 103668. **[Corresponding author]**
     - [https://doi.org/10.1016/j.trc.2022.103668](https://doi.org/10.1016/j.trc.2022.103668)  
+    - [Preprint](https://choi-seongjin.github.io/publist/mapmatching2022Jin.pdf)
 - Tak, Sehyun and **Seongjin Choi**. "Safety Monitoring System of CAVs Considering the Trade-off Between Sampling Interval and Data Reliability." *Sensors*, 22(10), 3611 (2022). **[Corresponding author]**
     - [https://doi.org/10.3390/s22103611](https://doi.org/10.3390/s22103611) 
 - **Choi, Seongjin**, Jiwon Kim, and Hwasoo Yeo. "TrajGAIL: Generating Urban Vehicle Trajectories using Generative Adversarial Imitation Learning." *Transportation Research Part C: Emerging Technologies*, 128 (2021): 103091. 
     - [https://doi.org/10.1016/j.trc.2021.103091](https://doi.org/10.1016/j.trc.2021.103091)  
 - **Choi, Seongjin**, Hwasoo Yeo, and Jiwon Kim. "Network-wide Vehicle Trajectory Prediction in Urban Traffic Networks Using Deep Learning." *Transportation Research Record* 2672.45 (2018): 173-184. 
     - [https://doi.org/10.1177/0361198118794735](https://doi.org/10.1177/0361198118794735)  
+    - [Preprint](https://choi-seongjin.github.io/publist/trajgail2021choi.pdf)
 - **Choi, Seongjin**, Jiwon Kim, and Hwasoo Yeo. "Attention-based Recurrent Neural Network for Urban Vehicle Trajectory Prediction." *Procedia Computer Science* 151 (2019): 327-334.
 - **Choi, Seongjin**, Jonghae Suh, and Hwasoo Yeo. "Microscopic Analysis of Climbing Lane Performance at Freeway Uphill Section." *Transportation Research Procedia* 21 (2017): 98-109.
 - Lee, Donghoun, Sehyun Tak, **Seongjin Choi**, and Hwasoo Yeo. "Development of risk predictive collision avoidance system and its impact on traffic and vehicular safety." *Transportation Research Record* 2673.7 (2019): 454-465. 
