@@ -35,7 +35,7 @@ Please refer to my [Google Scholar](https://scholar.google.com/citations?user=ty
 - Vincent Zhihao Zheng, **Seongjin Choi**, and Lijun Sun. (2025). Probabilistic Traffic Forecasting with Dynamic Regression. *Transportation Science*.
     - [https://doi.org/10.1287/trsc.2024.0560](https://doi.org/10.1287/trsc.2024.0560)
     - [Preprint](https://choi-seongjin.github.io/publist/probabilistic2025zheng.pdf)
-- **Choi, Seongjin**, Nicolas Saunier, Vincent Zhihao Zheng, Martin Trepanier, and Lijun Sun. (2025). Scalable dynamic mixture model with full covariance for probabilistic traffic forecasting. *Transportation Science8.
+- **Choi, Seongjin**, Nicolas Saunier, Vincent Zhihao Zheng, Martin Trepanier, and Lijun Sun. (2025). Scalable dynamic mixture model with full covariance for probabilistic traffic forecasting. *Transportation Science*.
     - [https://doi.org/10.1287/trsc.2024.0547](https://doi.org/10.1287/trsc.2024.0547)
     - [Preprint](https://choi-seongjin.github.io/publist/scalable2025choi.pdf)
 - **Choi, Seongjin**, and Jinwoo Lee. "Optimal planning of parking infrastructure and fleet size for Shared Autonomous Vehicles." *Transportation Research Part E: Logistics and Transportation Review*, 176 (2023): 103213. 
