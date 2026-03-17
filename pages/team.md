@@ -12,29 +12,28 @@ header: no
 
 ## Current Students 
 - ### Graduate Students
-  - **Lindong Liu** (2024. 09-) - Ph.D. Student in CEGE
-    - Causal generative models, Inverse problems
-  - **Christopher Cheong** (2025. 01-) - Ph.D. Student in CEGE
+  - **Lindong Liu** (2024-) - Ph.D. Student in CEGE
+    - Inverse Problem, Learning from sparse data, traffic state estimation
+  - **Christopher Cheong** (2025-) - Ph.D. Student in CEGE
     - Traffic Forecasting, Neural networks for large-scale spatiotemporal data
-  - **Pouya Parsa** (2024. 09-) - Master Student in CEGE
-    - Computer Vision, 3D reconstruction, LLM/VLM
-  - **Mithell Kosieradzki** (2024. 05-) - Master student in Data Science (Capstone project)
-    - Probabilistic trajectory prediction
-  - **Rammesh Adhav Saravanan** (2024. 09-) - Master student in Minnesota Robotics Institute (MnRI)
-    - Motion Prediction for autonomous vehicles
-  - **Seunghee Ryu** (2025. 01-) - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
-    - Bayesian OD estimation, Pedestrian flow estimation
-  - **Donghoon Kwon** (2025. 01-) - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
-    - Large Language Models for Traffic Simulation, Human-AI interface
-  - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
-    - Autonomous driving, Distributional reinforcement learning
+  - **Pouya Parsa** (2024-) - Ph.D. Student in CEGE
+    - Scalable Vision-Language-Action Model for Autonomous Driving
+  - **Rammesh Adhav Saravanan** (2024-) - Master student in Minnesota Robotics Institute (MnRI)
+    - Cooperative Vision-Language-Action Model for Autonomous Driving
+  - **Ross Volkov** (2025-) - Master student in Data Science
+    - 3D reconstruction
 
 - ### Undergraduate research assistant
-  - **Dev Patel** (2024. 05-) 
-    - Virtual Reality (VR)-based multi-agent driving simulator
-    - Digitizing MTO data
-  - **Noah Hebeisen** (2024. 05-2025. 06.)
-    - Digitizing MTO data
+  - **Leo Curtis** (2025- ) TMC-Agent
+  - **Ismail Yusuf** (2026- ) Traffic Incident Detection using Vision Language Model
+
+## Alumni
+  - **Seunghee Ryu** (2025) - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
+  - **Donghoon Kwon** (2025) - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
+  - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
+  - **Mithell Kosieradzki** (2024-2025) - Master student in Data Science (Capstone project)
+  - **Dev Patel** (2024) 
+  - **Noah Hebeisen** (2024)
 
 ## Collaborators
 - [Hwasoo Yeo (KAIST)](https://www.aimobility.kaist.ac.kr/)
