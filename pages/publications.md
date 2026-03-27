@@ -62,6 +62,13 @@ Please refer to my [Google Scholar](https://scholar.google.com/citations?user=ty
 - Kim, Yeeun, **Seongjin Choi**, Jihyuk Park, and Hwasoo Yeo. "Agent-based Mesoscopic Urban Traffic Simulation based on Multi-lane Cell Transmission Model." *Procedia Computer Science* 151 (2019): 240-247.
 
 ### --- Peer-reviewed International Conference
+- **Choi, Seongjin**. "Deep Reinforcement Learning for Dynamic Origin-Destination Matrix Estimation in Microscopic Traffic Simulations Considering Credit Assignment." *The 105th Transportation Research Board Annual Meeting* (January 2026).
+- Liu, Lindong, and **Seongjin Choi**. "PMA-diffusion: A Physics-guided Mask-aware Diffusion Framework for Traffic State Estimation from Sparse Observations." *The 105th Transportation Research Board Annual Meeting* (January 2026).
+- Ryu, Seunghee, and **Seongjin Choi**. "Multi-Fidelity Surrogate-Based Optimization for Passenger-Centric Bus Berth Allocation in Urban Transit Hubs." *The 105th Transportation Research Board Annual Meeting* (January 2026).
+- Parsa, Pouya, and **Seongjin Choi**. "Video-Based Vehicle Surveillance in the Wild: License Plate Make and Model Recognition with Self Reflective Vision-Language Models." *The 105th Transportation Research Board Annual Meeting* (January 2026).
+- Kwon, Donghoon, and **Seongjin Choi**. "TrafficNetQA: Question Answering Benchmark for Evaluating LLM Performance on Traffic Network Files." *The 105th Transportation Research Board Annual Meeting* (January 2026).
+- Kosieradzki, Mitch, and **Seongjin Choi**. "TrajFlow: A Generative Framework for Occupancy Density Estimation Using Normalizing Flows." *The 105th Transportation Research Board Annual Meeting* (January 2026).
+- Ryu, Seunghee, Donghoon Kwon, **Seongjin Choi**, and Aryan Deshwal. "BO4Mob: Bayesian Optimization Benchmarks for High-Dimensional Urban Mobility Problem." *The 105th Transportation Research Board Annual Meeting* (January 2026).
 - Liu, Fuqiang, Sicong Jiang, Luis Miranda-Moreno, **Seongjin Choi**, and Lijun Sun. "Adversarial Vulnerabilities in Large Language Models for Time Series Forecasting." *The 28th International Conference on Artificial Intelligence and Statistics (AISTATS)* (May 2025)
 - Li, Tianyi., Shian Wang, Mingfeng Shang, **Seongjin Choi**, and Raphael Stern. A customizable neural network based framework for autonomous vehicle control with human-guided learning. In 2024 IEEE 27th International Conference on Intelligent Transportation Systems (ITSC) (pp. 3064-3069). IEEE. (September 2024)
 - Christopher Cheong and **Seongjin Choi**. "Weaver: A Spatio-Temporal Deep Learning Model Architecture Based on the Mixed Kronecker Matrix-Vector Identity." *The 103rd Transportation Research Board Annual Meeting* (January 2024).
