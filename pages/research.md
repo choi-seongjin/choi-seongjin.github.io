@@ -9,20 +9,21 @@ header: no
 ---
 
 <div style="float: left; margin-right: 20px; min-height: 400px; width: 400px; height: 300px;">
-<img src="/images/research/prj1.png" alt="Project 1 image" style="float: left; margin-right: 20px; width: 400px; height: 300px;">
+<img src="/images/research/prj1.png" alt="Generative intelligence for transportation modeling overview" style="float: left; margin-right: 20px; width: 400px; height: 300px;">
 </div>
 <div style="clear: right;">
-    <h4>Probabilistic Approach for better training spatiotemporal data and multivariate time-series data.</h4>
+    <h4>Generative Intelligence for Transportation Modeling</h4>
     <p>
-        In this project, we focus on developing new methods for better training spatiotemporal data and multivariate time-series data by using a probabilistic approach. Especially, we are tackling conventional MSE/MAE-based training methods which are not suitable for spatiotemporal data and multivariate time-series data where we can find strong spatial (variable-wise) and temporal correlation.
+        We develop deep generative models — including diffusion models, normalizing flows, GANs, and probabilistic mixture models — to address fundamental challenges in transportation data modeling. Our work spans traffic state estimation from sparse sensor observations, occupancy density estimation, trajectory generation, and probabilistic traffic forecasting. By leveraging generative approaches, we move beyond conventional deterministic methods to capture the inherent uncertainty and complex spatiotemporal correlations in transportation data.
     </p>
-    <!-- [Read More](/research/project1/) -->
     <details open>
         <summary><b>Related works</b></summary>
         <ul>
-            <li><a href="https://arxiv.org/abs/2305.17028">Better Batch for Deep Probabilistic Time Series Forecasting</a></li>
-            <li><a href="https://arxiv.org/abs/2212.06653">Spatiotemporal Residual Regularization with Dynamic Mixtures for Traffic Forecasting</a></li>
-            <li><a href="https://arxiv.org/abs/2301.06650">Enhancing Deep Traffic Forecasting Models with Dynamic Regression</a></li>
+            <li><a href="https://doi.org/10.1016/j.trc.2025.105145">A gentle introduction and tutorial on deep generative models in transportation research</a></li>
+            <li><a href="https://arxiv.org/abs/2512.06183">PMA-diffusion: A physics-guided mask-aware diffusion framework for traffic state estimation from sparse observations</a></li>
+            <li><a href="https://www.researchgate.net/publication/388401805">TrajFlow: A generative framework for occupancy density estimation using normalizing flows</a></li>
+            <li><a href="https://doi.org/10.1016/j.trc.2021.103091">TrajGAIL: Generating urban vehicle trajectories using generative adversarial imitation learning</a></li>
+            <li><a href="https://doi.org/10.1287/trsc.2024.0547">Scalable dynamic mixture model with full covariance for probabilistic traffic forecasting</a></li>
         </ul>
     </details>
 </div>
@@ -30,20 +31,19 @@ header: no
 
 
 <div style="float: right; margin-left: 20px; min-height: 500px; width: 400px; height: 300px;">
-<img src="/images/research/prj2.png" alt="Project 1 image" >
+<img src="/images/research/prj2.png" alt="TMC-Agent: LLM-powered traffic management" >
 </div>
 <div style="clear: left;">
-    <h4>Urban Mobility Data Analytics with AI and Machine Learning</h4>
+    <h4>TMC-Agent: LLM-Powered Traffic Management</h4>
     <p>
-The availability of extensive urban mobility data collected from diverse mobility sensors, such as GPS, WiFi, and smart cards, presents remarkable prospects for comprehending and enhancing urban mobility. This project develops artificial intelligence and machine learning models capable of complex spatiotemporal mobility patterns from large-scale urban mobility data. These models aim to analyze, forecast, and simulate the movement of individuals and vehicles, enabling more intelligent traffic management and improved mobility services. These models can be employed in diverse applications, including predicting traffic flow across an entire city, anticipating turning movements at intersections, and offering personalized route recommendations.
+        We are building AI agents powered by large language models (LLMs) to assist Traffic Management Center (TMC) operations. TMC-Agent aims to augment human operators by automating the interpretation of traffic network data, enabling natural language interaction with traffic management systems, and supporting real-time decision-making. Our research includes developing benchmarks to evaluate LLM capabilities on traffic network files and exploring how foundation models can be applied to transportation operations and planning tasks.
     </p>
-    <!-- [Read More](/research/project1/) -->
     <details open>
         <summary><b>Related works</b></summary>
         <ul>
-            <li><a href="https://doi.org/10.1016/j.trc.2021.103091">TrajGAIL: Generating urban vehicle trajectories using generative adversarial imitation learning</a></li>
-            <li><a href="https://doi.org/10.1177/0361198118794735">Network-Wide Vehicle Trajectory Prediction in Urban Traffic Networks using Deep Learning</a></li>
-            <li><a href="https://doi.org/10.1016/j.trc.2022.103668">Transformer-based map-matching model with limited labeled data using transfer-learning approach</a></li>
+            <li><a href="https://arxiv.org/abs/2510.18824">BO4Mob: Bayesian optimization benchmarks for high-dimensional urban mobility problem</a></li>
+            <li>TrafficNetQA: Question answering benchmark for evaluating LLM performance on traffic network files (TRB 2026)</li>
+            <li><a href="https://doi.org/10.1287/trsc.2024.0560">Probabilistic traffic forecasting with dynamic regression</a></li>
         </ul>
     </details>
 </div>
@@ -52,21 +52,19 @@ The availability of extensive urban mobility data collected from diverse mobilit
 
 
 <div style="float: left; margin-right: 20px; min-height: 500px; width: 400px; height: 300px;">
-<img src="/images/research/prj3.png" alt="Project 1 image" style="float: left; margin-right: 20px; width: 400px; height: 300px;">
+<img src="/images/research/prj3.png" alt="Vision-Language-Action models for autonomous driving" style="float: left; margin-right: 20px; width: 400px; height: 300px;">
 </div>
 <div style="clear: right;">
-    <h4>Analyzing the Impact of Autonomous Vehicles and Connected Environments</h4>
+    <h4>Vision-Language-Action Models for Autonomous Driving</h4>
     <p>
-        In this project, we focus on analyzing the impact of autonomous vehicles and connected environments on transportation system. We examine these new technologies from various perspectives. Also, we are developing new methodologies to control and operate these new systems on the real world. 
+        We investigate Vision-Language-Action (VLA) models that integrate visual perception, natural language understanding, and vehicle control within a unified framework for autonomous driving. Our research explores how multimodal foundation models can interpret complex traffic scenes, reason about driving scenarios, and generate control actions. We also develop vision-language approaches for transportation surveillance tasks such as vehicle identification and traffic monitoring in real-world conditions.
     </p>
-    <!-- [Read More](/research/project1/) -->
     <details open>
         <summary><b>Related works</b></summary>
         <ul>
-            <li><a href="https://doi.org/10.1016/j.trc.2023.104049">Framework for Connected and Automated Bus Rapid Transit with Sectionalized Speed Guidance based on deep reinforcement learning: Field test in Sejong City</a></li>
-            <li><a href="https://arxiv.org/abs/2208.03718">Optimal Parking Planning for Shared Autonomous Vehicles</a></li>
-            <li><a href="https://doi.org/10.3390/s22103611">Safety Monitoring System of CAVs Considering the Trade-Off between Sampling Interval and Data Reliability</a></li>
-            <li><a href="https://doi.org/10.1109/IVS.2017.7995799">Framework for simulation-based lane change control for autonomous vehicles</a></li>
+            <li><a href="https://arxiv.org/abs/2506.24044">A survey on vision-language-action models for autonomous driving</a></li>
+            <li><a href="https://www.researchgate.net/publication/394292303">Video-based vehicle surveillance in the wild: License plate, make, and model recognition with self reflective vision-language models</a></li>
+            <li><a href="https://doi.org/10.1109/ITSC57777.2024.10919679">A customizable neural network based framework for autonomous vehicle control with human-guided learning</a></li>
         </ul>
     </details>
 </div>
