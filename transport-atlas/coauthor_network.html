@@ -225,7 +225,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2114";
+const cacheBust = "20260421-2117";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -441,21 +441,25 @@ for (const n of nodes) {
   if (n.x == null) { n.x = (Math.random() - 0.5) * 400; n.y = (Math.random() - 0.5) * 400; }
 }
 
-// Community-cohesion force: each node gets pulled gently toward its community centroid.
-// Makes clusters visually separate at zoom-out without needing big link-strength tuning.
+// Community-cohesion force: each node pulled gently toward its community centroid.
+// Skip misc community (merged tiny islands) so 10k+ grey heterogeneous nodes don't
+// pileup at one centroid.
+const miscCoauthorIds = new Set();
+if (META.communities) for (const c of META.communities) if (c.misc) miscCoauthorIds.add(c.id);
 function communityForce(strength = 0.08) {
   let nodesRef = null;
   const centroids = new Map();
   function f(alpha) {
     centroids.clear();
     for (const n of nodesRef) {
-      if (n.community == null) continue;
+      if (n.community == null || miscCoauthorIds.has(n.community)) continue;
       const c = centroids.get(n.community) || { x: 0, y: 0, n: 0 };
       c.x += n.x; c.y += n.y; c.n += 1;
       centroids.set(n.community, c);
     }
     for (const c of centroids.values()) { c.x /= c.n; c.y /= c.n; }
     for (const n of nodesRef) {
+      if (miscCoauthorIds.has(n.community)) continue;
       const c = centroids.get(n.community);
       if (!c) continue;
       n.vx += (c.x - n.x) * strength * alpha;
@@ -567,13 +571,16 @@ function draw() {
 
   const nodeMult = Math.min(8, Math.pow(Math.max(1 / transform.k, 1), 0.75));
   for (const n of nodes) {
+    const misc = miscCoauthorIds.has(n.community);
+    ctx.globalAlpha = misc && n !== selectedNode ? 0.22 : 1.0;
     ctx.beginPath();
-    ctx.arc(n.x, n.y, rScale(n.papers) * nodeMult, 0, Math.PI * 2);
+    ctx.arc(n.x, n.y, rScale(n.papers) * nodeMult * (misc ? 0.7 : 1.0), 0, Math.PI * 2);
     ctx.fillStyle = nodeColor(n); ctx.fill();
     if (n === selectedNode) {
       ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2 / transform.k; ctx.stroke();
     }
   }
+  ctx.globalAlpha = 1.0;
 
   if (transform.k > 0.25) {
     const fontPx = Math.max(9, 11 / transform.k);

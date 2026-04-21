@@ -117,7 +117,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2114";
+const cacheBust = "20260421-2117";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -175,9 +175,18 @@ for (const c of SEMCOMMS) {
 }
 const combinedColor = new Map();
 const combinedLabel = new Map();
+const miscCombinedIds = new Set();
 for (const c of COMBCOMMS) {
   combinedColor.set(c.id, c.color);
   combinedLabel.set(c.id, (c.label_words || []).slice(0, 3).join(' · '));
+  if (c.misc) miscCombinedIds.add(c.id);
+}
+const miscCoauthorIds = new Set();
+if (META.communities) {
+  for (const c of META.communities) if (c.misc) miscCoauthorIds.add(c.id);
+}
+function isMisc(n) {
+  return miscCombinedIds.has(n.cc) || miscCoauthorIds.has(n.community);
 }
 let COLOR_MODE = 'combined';
 function nodeColor(n) {
@@ -230,8 +239,9 @@ const semLinks = (() => {
   return Array.from(pairs.values());
 })();
 
-// Community-cohesion force: pulls each node toward its COMBINED-community centroid.
-// This is what makes the 156 hybrid communities actually *visible* in the layout.
+// Community-cohesion force. Skip misc community (13k heterogeneous authors merged into
+// one bucket from <10-member island collapse) — pulling them all to one centroid creates
+// a huge grey blob. Misc nodes just drift freely instead.
 function communityForce(getCid, strength = 0.08) {
   let nodesRef = null;
   const centroids = new Map();
@@ -239,13 +249,14 @@ function communityForce(getCid, strength = 0.08) {
     centroids.clear();
     for (const n of nodesRef) {
       const c = getCid(n);
-      if (c == null) continue;
+      if (c == null || isMisc(n)) continue;
       const ce = centroids.get(c) || { x: 0, y: 0, n: 0 };
       ce.x += n.x; ce.y += n.y; ce.n += 1;
       centroids.set(c, ce);
     }
     for (const ce of centroids.values()) { ce.x /= ce.n; ce.y /= ce.n; }
     for (const n of nodesRef) {
+      if (isMisc(n)) continue;
       const ce = centroids.get(getCid(n));
       if (!ce) continue;
       n.vx += (ce.x - n.x) * strength * alpha;
@@ -367,16 +378,19 @@ function draw() {
     }
   }
 
-  // Nodes
+  // Nodes — dim misc-bucket authors so they don't dominate the frame
   const nodeMult = Math.min(8, Math.pow(Math.max(1 / transform.k, 1), 0.75));
   for (const n of nodes) {
+    const misc = isMisc(n);
+    ctx.globalAlpha = misc && n !== selected ? 0.22 : 1.0;
     ctx.beginPath();
-    ctx.arc(n.x, n.y, rScale(n.papers) * nodeMult, 0, Math.PI * 2);
+    ctx.arc(n.x, n.y, rScale(n.papers) * nodeMult * (misc ? 0.7 : 1.0), 0, Math.PI * 2);
     ctx.fillStyle = nodeColor(n); ctx.fill();
     if (n === selected) {
       ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2 / transform.k; ctx.stroke();
     }
   }
+  ctx.globalAlpha = 1.0;
 
   // Labels on zoom-in
   if (transform.k > 0.25) {
