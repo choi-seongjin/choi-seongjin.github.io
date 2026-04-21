@@ -117,7 +117,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2109";
+const cacheBust = "20260421-2114";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -200,14 +200,74 @@ for (const n of nodes) {
   if (n.x == null) { n.x = (Math.random() - 0.5) * 600; n.y = (Math.random() - 0.5) * 600; }
 }
 
+// Soft semantic link set — weak attractive ties between mutual top-3 semantic neighbors.
+// Drawn into the simulation alongside coauthor edges so the layout reflects BOTH signals,
+// not just collaboration. Strength held much lower than coauthor (0.08 vs 0.3) so
+// co-authorship remains the dominant spatial backbone.
+const semLinks = (() => {
+  const K = 3;
+  const topSet = new Map();
+  for (const [nid, sims] of Object.entries(SIMILAR)) {
+    const a = +nid;
+    const s = new Set();
+    for (let i = 0; i < Math.min(K, sims.length); i++) s.add(sims[i].id);
+    topSet.set(a, s);
+  }
+  const pairs = new Map();
+  for (const [nid, sims] of Object.entries(SIMILAR)) {
+    const a = +nid;
+    for (let i = 0; i < Math.min(K, sims.length); i++) {
+      const b = sims[i].id;
+      if (a === b || !nodeById.has(b)) continue;
+      const other = topSet.get(b);
+      if (!other || !other.has(a)) continue;
+      const key = a < b ? `${a}|${b}` : `${b}|${a}`;
+      if (!pairs.has(key)) pairs.set(key, {
+        source: a < b ? a : b, target: a < b ? b : a, sim: sims[i].sim,
+      });
+    }
+  }
+  return Array.from(pairs.values());
+})();
+
+// Community-cohesion force: pulls each node toward its COMBINED-community centroid.
+// This is what makes the 156 hybrid communities actually *visible* in the layout.
+function communityForce(getCid, strength = 0.08) {
+  let nodesRef = null;
+  const centroids = new Map();
+  function f(alpha) {
+    centroids.clear();
+    for (const n of nodesRef) {
+      const c = getCid(n);
+      if (c == null) continue;
+      const ce = centroids.get(c) || { x: 0, y: 0, n: 0 };
+      ce.x += n.x; ce.y += n.y; ce.n += 1;
+      centroids.set(c, ce);
+    }
+    for (const ce of centroids.values()) { ce.x /= ce.n; ce.y /= ce.n; }
+    for (const n of nodesRef) {
+      const ce = centroids.get(getCid(n));
+      if (!ce) continue;
+      n.vx += (ce.x - n.x) * strength * alpha;
+      n.vy += (ce.y - n.y) * strength * alpha;
+    }
+  }
+  f.initialize = (n) => { nodesRef = n; };
+  f.strength = (s) => { strength = s; return f; };
+  return f;
+}
+
 let simulation = d3.forceSimulation(nodes)
-  .force('link', d3.forceLink(edges).id(d => d.id).distance(28).strength(0.3))
-  .force('charge', d3.forceManyBody().strength(-40))
-  .force('center', d3.forceCenter(width / 2, height / 2).strength(0.04))
-  .force('collide', d3.forceCollide().radius(d => rScale(d.papers) + 2))
-  .alphaDecay(0.04)
+  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(28).strength(0.3))
+  .force('semantic', d3.forceLink(semLinks).id(d => d.id).distance(d => 55 * (1.2 - d.sim)).strength(0.08))
+  .force('charge',   d3.forceManyBody().strength(-50))
+  .force('cluster',  communityForce(n => n.cc, 0.08))
+  .force('center',   d3.forceCenter(width / 2, height / 2).strength(0.03))
+  .force('collide',  d3.forceCollide().radius(d => rScale(d.papers) + 2))
+  .alphaDecay(0.035)
   .on('tick', draw)
   .on('end', () => fitToView());
+console.log(`[combined] forces: ${edges.length} coauthor links · ${semLinks.length} semantic links · cluster on n.cc`);
 
 let transform = d3.zoomIdentity;
 const zoom = d3.zoom().scaleExtent([0.02, 8]).on('zoom', (e) => { transform = e.transform; draw(); });
@@ -451,7 +511,7 @@ edgeSlider.addEventListener('input', (e) => {
   edges = rawEdges.filter(x => (x.weight ?? 1) >= edgeThresh);
   edges.forEach(e => { e.source = typeof e.source === 'object' ? e.source.id : (e.sIdx ?? e.source);
                        e.target = typeof e.target === 'object' ? e.target.id : (e.tIdx ?? e.target); });
-  simulation.force('link').links(edges);
+  simulation.force('coauth').links(edges);
   simulation.alpha(0.3).restart();
 });
 
