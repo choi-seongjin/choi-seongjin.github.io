@@ -117,7 +117,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2134";
+const cacheBust = "20260421-2143";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -204,9 +204,33 @@ metaEl.innerHTML =
 const rScale = d3.scaleSqrt().domain([1, d3.max(nodes, d => d.papers) || 10]).range([1.8, 9]);
 const eScale = d3.scaleSqrt().domain([1, 20]).range([0.35, 3.2]).clamp(true);
 
-// Seed positions from server-side FA2 layout if present
-for (const n of nodes) {
-  if (n.x == null) { n.x = (Math.random() - 0.5) * 600; n.y = (Math.random() - 0.5) * 600; }
+// Seed node positions on a ring of community centroids (by combined-community), jittered.
+// The force sim refines from there instead of trying to form clusters from scratch —
+// this is what makes the 156-community structure actually legible.
+{
+  const cidList = [...new Set(
+    nodes.map(n => n.cc).filter(c => c != null && !miscCombinedIds.has(c))
+  )].sort((a, b) => a - b);
+  const R = Math.min(width, height) * 0.42;
+  const cx = width / 2, cy = height / 2;
+  const commPos = new Map();
+  cidList.forEach((cid, i) => {
+    const ang = (2 * Math.PI * i) / cidList.length;
+    commPos.set(cid, { x: cx + Math.cos(ang) * R, y: cy + Math.sin(ang) * R });
+  });
+  for (const n of nodes) {
+    const p = commPos.get(n.cc);
+    if (p) {
+      n.x = p.x + (Math.random() - 0.5) * 80;
+      n.y = p.y + (Math.random() - 0.5) * 80;
+    } else {
+      // Misc / uncommunity-ed: scatter at outer ring
+      const ang = Math.random() * 2 * Math.PI;
+      const r = R * 1.3 + Math.random() * R * 0.3;
+      n.x = cx + Math.cos(ang) * r;
+      n.y = cy + Math.sin(ang) * r;
+    }
+  }
 }
 
 // Soft semantic link set — weak attractive ties between mutual top-3 semantic neighbors.
@@ -269,13 +293,13 @@ function communityForce(getCid, strength = 0.08) {
 }
 
 let simulation = d3.forceSimulation(nodes)
-  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(28).strength(0.3))
-  .force('semantic', d3.forceLink(semLinks).id(d => d.id).distance(d => 55 * (1.2 - d.sim)).strength(0.08))
-  .force('charge',   d3.forceManyBody().strength(-50))
-  .force('cluster',  communityForce(n => n.cc, 0.08))
-  .force('center',   d3.forceCenter(width / 2, height / 2).strength(0.03))
+  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(35).strength(0.18))
+  .force('semantic', d3.forceLink(semLinks).id(d => d.id).distance(d => 60 * (1.2 - d.sim)).strength(0.10))
+  .force('charge',   d3.forceManyBody().strength(-80))
+  .force('cluster',  communityForce(n => n.cc, 0.28))        // dominant — this is the point
+  .force('center',   d3.forceCenter(width / 2, height / 2).strength(0.02))
   .force('collide',  d3.forceCollide().radius(d => rScale(d.papers) + 2))
-  .alphaDecay(0.035)
+  .alphaDecay(0.022)                                         // cool slower so clusters settle
   .on('tick', draw)
   .on('end', () => fitToView());
 console.log(`[combined] forces: ${edges.length} coauthor links · ${semLinks.length} semantic links · cluster on n.cc`);
