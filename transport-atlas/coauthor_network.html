@@ -194,9 +194,13 @@
   <div style="color:#9ca3af;">Node size = # papers · Edge thickness = # co-authored papers</div>
   <div style="color:#6b7280;margin-top:2px;">
     Drag to pan · wheel to zoom · click node to pin · drag node to reposition ·
-    <a href="#" id="report-general" class="report-link">Report data issue</a>
+    <a href="#" id="report-general" class="report-link" target="_blank" rel="noopener">Report data issue</a>
+    <span id="report-general-copy" class="report-link" style="margin-left:6px;cursor:pointer;" title="Copy details to clipboard">📋 copy</span>
   </div>
 </div>
+<div id="toast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#1f2937;color:#e5e7eb;padding:8px 14px;border-radius:6px;border:1px solid #374151;
+  font-size:12px;z-index:200;display:none;box-shadow:0 4px 12px rgba(0,0,0,.4);"></div>
 
 <div id="tooltip">
   <div class="tt-name" id="tt-name"></div>
@@ -207,7 +211,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-1634";
+const cacheBust = "20260421-1636";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -580,16 +584,15 @@ canvas.addEventListener('mouseleave', () => { tipEl.style.display = 'none'; });
 const REPORT_EMAIL = "chois@umn.edu";
 const REPORT_REPO = "UMN-Choi-Lab/transportation";
 
-function buildReportMailto(node) {
+function reportBodyForNode(node) {
   const atlasUrl = `${window.location.origin}${window.location.pathname}`;
-  const subject = `Transport Atlas: wrong attribution for "${node ? node.label : '(node)'}"`;
-  const lines = [
+  return [
     `Node: ${node ? node.label : '(click a node)'}`,
     `Internal id: ${node ? node.id : ''}`,
     `Papers in atlas: ${node ? node.papers : ''}`,
     `Last active: ${node ? node.last_year : ''}`,
     `Community: ${node ? node.community : ''}`,
-    `Atlas page: ${atlasUrl}?focus=${node ? encodeURIComponent(node.label) : ''}`,
+    `Atlas page: ${atlasUrl}`,
     `Window: ${yLo}-${yHi}`,
     ``,
     `--- Describe the issue ---`,
@@ -599,39 +602,71 @@ function buildReportMailto(node) {
     `  • I'm split across multiple nodes (list the other names)`,
     `  • Wrong co-authors`,
     ``,
-    `If you prefer GitHub, open an issue at https://github.com/${REPORT_REPO}/issues/new`,
+    `Prefer GitHub? open an issue at https://github.com/${REPORT_REPO}/issues/new`,
   ].join("\n");
-  return `mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines)}`;
 }
-
-function buildGeneralReportMailto() {
+function reportBodyGeneral() {
   const atlasUrl = `${window.location.origin}${window.location.pathname}`;
-  const subject = `Transport Atlas: data issue`;
-  const lines = [
+  return [
     `Atlas page: ${atlasUrl}`,
+    `Window: ${yLo}-${yHi}`,
     ``,
     `--- Describe the issue ---`,
     `(e.g. missing venue, duplicated author, weird cluster, wrong year, etc.)`,
     ``,
-    `If you prefer GitHub, open an issue at https://github.com/${REPORT_REPO}/issues/new`,
+    `Prefer GitHub? open an issue at https://github.com/${REPORT_REPO}/issues/new`,
   ].join("\n");
-  return `mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines)}`;
+}
+
+function showToast(msg, ms = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(t._hide);
+  t._hide = setTimeout(() => { t.style.display = 'none'; }, ms);
+}
+
+async function copyText(text, okMsg) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast(okMsg || 'Copied to clipboard');
+  } catch {
+    // Fallback: textarea + execCommand (legacy)
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast(okMsg || 'Copied'); }
+    catch { showToast('Copy failed — please select and copy manually'); }
+    finally { document.body.removeChild(ta); }
+  }
 }
 
 function updateSelectedPanel(n) {
   const box = document.getElementById('selected');
   if (!n) { box.innerHTML = ''; return; }
   const neighbors = edges.filter(x => x.source === n || x.target === n).length;
+  const subj = encodeURIComponent(`Transport Atlas: wrong attribution for "${n.label}"`);
+  const body = encodeURIComponent(reportBodyForNode(n));
   box.innerHTML = `<div class="name">${escHtml(n.label)}</div>`
     + `<div class="stat">${n.papers} papers · ${neighbors} co-authors in view · last ${n.last_year}</div>`
-    + `<a class="report" href="${buildReportMailto(n)}" title="Open an email with this node's info pre-filled">`
-    + `🚩 Report wrong attribution</a>`;
+    + `<a class="report" href="mailto:${REPORT_EMAIL}?subject=${subj}&body=${body}" target="_blank" rel="noopener" title="Open email">🚩 Report</a>`
+    + ` <span class="report" id="report-node-copy" style="cursor:pointer;" title="Copy details">📋 copy</span>`
+    + ` <a class="report" href="https://github.com/${REPORT_REPO}/issues/new?title=${subj}&body=${body}" target="_blank" rel="noopener" title="Open GitHub issue">↗ GitHub</a>`;
+  document.getElementById('report-node-copy').addEventListener('click', () =>
+    copyText(reportBodyForNode(n), 'Node details copied — paste into email or GitHub'));
 }
 
-document.getElementById('report-general').addEventListener('click', (e) => {
-  e.preventDefault();
-  window.location.href = buildGeneralReportMailto();
-});
+// Keep the general "Report data issue" link's href fresh (so it picks up the current year window).
+const reportGeneralEl = document.getElementById('report-general');
+function refreshReportGeneral() {
+  const subj = encodeURIComponent('Transport Atlas: data issue');
+  const body = encodeURIComponent(reportBodyGeneral());
+  reportGeneralEl.href = `mailto:${REPORT_EMAIL}?subject=${subj}&body=${body}`;
+}
+refreshReportGeneral();
+reportGeneralEl.addEventListener('mouseenter', refreshReportGeneral);
+reportGeneralEl.addEventListener('click', refreshReportGeneral);  // href is fresh before nav
+document.getElementById('report-general-copy').addEventListener('click', () =>
+  copyText(reportBodyGeneral(), 'Details copied — paste into email or GitHub'));
 function centerOnNode(n, scale = 1.8) {
   selectedNode = n;
   updateSelectedPanel(n);
