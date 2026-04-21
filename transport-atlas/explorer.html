@@ -46,7 +46,7 @@
     <a href="by_year.html">Papers by Year</a>
     <a href="coauthor_network.html">Coauthor Network</a>
   </nav>
-  <span class="muted" style="margin-left:auto">Built 2026-04-21 16:28</span>
+  <span class="muted" style="margin-left:auto">Built 2026-04-21 16:45</span>
 </header>
 <main>
   
@@ -55,7 +55,7 @@
   <label>Venue
     <select id="venue-filter">
       <option value="">All</option>
-      <option value="TR-A">TR-A</option><option value="TR-B">TR-B</option><option value="TR-C">TR-C</option><option value="TR-D">TR-D</option><option value="TR-E">TR-E</option><option value="TR-F">TR-F</option><option value="T-ITS">T-ITS</option><option value="T-IV">T-IV</option><option value="ITS Mag">ITS Mag</option><option value="CommTR">CommTR</option><option value="TransSci">TransSci</option><option value="CACIE">CACIE</option><option value="JICV">JICV</option><option value="JTTE">JTTE</option><option value="RailEng">RailEng</option><option value="OJ-ITS">OJ-ITS</option><option value="IJTST">IJTST</option>
+      <option value="TR-A">TR-A</option><option value="TR-B">TR-B</option><option value="TR-C">TR-C</option><option value="TR-D">TR-D</option><option value="TR-E">TR-E</option><option value="TR-F">TR-F</option><option value="T-ITS">T-ITS</option><option value="T-IV">T-IV</option><option value="ITS Mag">ITS Mag</option><option value="CommTR">CommTR</option><option value="TransSci">TransSci</option><option value="AMAR">AMAR</option><option value="TranspRev">TranspRev</option><option value="JTG">JTG</option><option value="AAP">AAP</option><option value="JUM">JUM</option><option value="TBS">TBS</option><option value="TranspPol">TranspPol</option><option value="RTBM">RTBM</option><option value="ETRR">ETRR</option><option value="IJST">IJST</option><option value="TRIP">TRIP</option><option value="JPT">JPT</option><option value="CACIE">CACIE</option><option value="JICV">JICV</option><option value="JTTE">JTTE</option><option value="RailEng">RailEng</option><option value="OJ-ITS">OJ-ITS</option><option value="IJTST">IJTST</option>
     </select>
   </label>
   <label>Year ≥ <input type="number" id="year-min" value="2000" style="width:80px"></label>
@@ -73,7 +73,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/js/tabulator.min.js"></script>
 <script>
-const cacheBust = "20260421-1628";
+const cacheBust = "20260421-1645";
 fetch(`data/papers.json?v=${cacheBust}`).then(r => r.json()).then(rows => {
   const table = new Tabulator("#tbl", {
     data: rows,
