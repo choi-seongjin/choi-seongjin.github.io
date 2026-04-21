@@ -117,7 +117,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2146";
+const cacheBust = "20260421-2156";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -525,27 +525,32 @@ function renderSelected() {
     }
     return parts.join('');
   }
+  const phantomsAll = sims.filter(s => s.phantom);
   let html = `<div class="name">${esc(selected.label)} ${profileLinks(selected)}</div>`
-    + `<div class="stat">${selected.papers} papers · coauthor-comm ${selected.community ?? '—'}`
-    + (selected.sc != null ? ` · sem-comm ${selected.sc}` : '')
-    + (selected.cc != null ? ` · comb-comm ${selected.cc}` : '')
+    + `<div class="stat">${selected.papers} papers · ${directCoauths.length} coauthors · `
+    + `<span class="phantom-color">${phantomsAll.length} phantoms ⚡</span> · `
+    + `coauth-comm ${selected.community ?? '—'}`
+    + (selected.sc != null ? ` · sem ${selected.sc}` : '')
+    + (selected.cc != null ? ` · comb ${selected.cc}` : '')
     + `</div>`;
-  html += `<div class="header"><span class="coauth-color">●</span> Direct coauthors (${directCoauths.length}):</div>`;
+  // Phantoms FIRST — the main point of this view.
+  html += `<div class="header"><span class="phantom-color">⚡</span> Phantom colleagues (top 5 of ${phantomsAll.length}):</div>`;
   html += '<div>';
-  for (const { n, w } of directCoauths.slice(0, 8)) {
-    html += `<div class="link-item" data-id="${n.id}">`
-      + `<span class="coauth-color">${esc(n.label)}</span>${profileLinks(n)}`
-      + `<span class="pct">${w} pap</span></div>`;
-  }
-  if (!directCoauths.length) html += '<div style="color:#6b7280;font-size:11px;">(none above threshold)</div>';
-  html += '</div>';
-  html += `<div class="header"><span class="phantom-color">⚡</span> Phantom colleagues (top ${phantoms.length}):</div>`;
-  html += '<div>';
-  for (const s of phantoms) {
+  for (const s of phantomsAll.slice(0, 5)) {
     html += `<div class="link-item" data-id="${s.id}">`
       + `<span class="phantom-color">${esc(s.name)}</span>${profileLinks(s)}`
       + `<span class="pct">${(s.sim * 100).toFixed(0)}%</span></div>`;
   }
+  if (!phantomsAll.length) html += '<div style="color:#6b7280;font-size:11px;">(none — all your top semantic matches already coauthor with you)</div>';
+  html += '</div>';
+  html += `<div class="header"><span class="coauth-color">●</span> Direct coauthors (top 5 of ${directCoauths.length}):</div>`;
+  html += '<div>';
+  for (const { n, w } of directCoauths.slice(0, 5)) {
+    html += `<div class="link-item" data-id="${n.id}">`
+      + `<span class="coauth-color">${esc(n.label)}</span>${profileLinks(n)}`
+      + `<span class="pct">${w} pap</span></div>`;
+  }
+  if (!directCoauths.length) html += '<div style="color:#6b7280;font-size:11px;">(none above edge threshold)</div>';
   html += '</div>';
   box.innerHTML = html;
   box.querySelectorAll('.link-item').forEach(el => el.addEventListener('click', (ev) => {
