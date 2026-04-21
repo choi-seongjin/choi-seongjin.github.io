@@ -117,7 +117,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2117";
+const cacheBust = "20260421-2134";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -441,7 +441,12 @@ canvas.addEventListener('mousemove', (e) => {
   if (n) {
     canvas.style.cursor = 'pointer';
     ttName.textContent = n.label;
-    ttStat.textContent = `${n.papers} papers · last ${n.last_year ?? '—'}`;
+    const pLinks = [];
+    if (n.orcid) pLinks.push(`ORCID ${n.orcid.slice(-10)}`);
+    const oaId = n.oa || (n.key && n.key.startsWith('a') ? n.key.toUpperCase() : null);
+    if (oaId) pLinks.push(`OA ${oaId}`);
+    ttStat.textContent = `${n.papers} papers · last ${n.last_year ?? '—'}`
+      + (pLinks.length ? ' · click node for profile links' : '');
     const coLbl = coauthorLabel.get(n.community);
     const scLbl = semanticLabel.get(n.sc);
     const ccLbl = combinedLabel.get(n.cc);
@@ -482,7 +487,21 @@ function renderSelected() {
   const sims = SIMILAR[String(selected.id)] || [];
   const phantoms = sims.filter(s => s.phantom).slice(0, 8);
 
-  let html = `<div class="name">${esc(selected.label)}</div>`
+  // Profile-link builder. ORCID preferred (author-curated), OpenAlex as fallback.
+  function profileLinks(obj) {
+    const parts = [];
+    if (obj.orcid) {
+      parts.push(`<a href="https://orcid.org/${esc(obj.orcid)}" target="_blank" rel="noopener" `
+        + `title="ORCID profile" style="color:#a3e635;font-size:10px;margin-left:4px;">iD</a>`);
+    }
+    const oaId = obj.oa || (obj.key && obj.key.startsWith('a') ? obj.key.toUpperCase() : null);
+    if (oaId) {
+      parts.push(`<a href="https://openalex.org/${esc(oaId)}" target="_blank" rel="noopener" `
+        + `title="OpenAlex profile" style="color:#38bdf8;font-size:10px;margin-left:4px;">OA</a>`);
+    }
+    return parts.join('');
+  }
+  let html = `<div class="name">${esc(selected.label)} ${profileLinks(selected)}</div>`
     + `<div class="stat">${selected.papers} papers · coauthor-comm ${selected.community ?? '—'}`
     + (selected.sc != null ? ` · sem-comm ${selected.sc}` : '')
     + (selected.cc != null ? ` · comb-comm ${selected.cc}` : '')
@@ -491,7 +510,7 @@ function renderSelected() {
   html += '<div>';
   for (const { n, w } of directCoauths.slice(0, 8)) {
     html += `<div class="link-item" data-id="${n.id}">`
-      + `<span class="coauth-color">${esc(n.label)}</span>`
+      + `<span class="coauth-color">${esc(n.label)}</span>${profileLinks(n)}`
       + `<span class="pct">${w} pap</span></div>`;
   }
   if (!directCoauths.length) html += '<div style="color:#6b7280;font-size:11px;">(none above threshold)</div>';
@@ -500,12 +519,13 @@ function renderSelected() {
   html += '<div>';
   for (const s of phantoms) {
     html += `<div class="link-item" data-id="${s.id}">`
-      + `<span class="phantom-color">${esc(s.name)}</span>`
+      + `<span class="phantom-color">${esc(s.name)}</span>${profileLinks(s)}`
       + `<span class="pct">${(s.sim * 100).toFixed(0)}%</span></div>`;
   }
   html += '</div>';
   box.innerHTML = html;
-  box.querySelectorAll('.link-item').forEach(el => el.addEventListener('click', () => {
+  box.querySelectorAll('.link-item').forEach(el => el.addEventListener('click', (ev) => {
+    if (ev.target.tagName === 'A') return;  // profile link: let the navigation happen
     const n = nodeById.get(+el.dataset.id);
     if (n) { selected = n; renderSelected(); draw(); }
   }));
