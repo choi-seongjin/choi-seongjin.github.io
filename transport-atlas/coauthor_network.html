@@ -79,6 +79,29 @@
   .slider-row { display:flex; align-items:center; gap:8px; margin-top:6px; }
   .slider-row input[type=range] { flex:1; }
   .slider-row .val { font-variant-numeric:tabular-nums; min-width:22px; text-align:right; color:#9ca3af; }
+  /* Dual-thumb year slider — two sliders overlaid */
+  .yr-dual { position:relative; height:28px; margin-top:6px; }
+  .yr-dual input[type=range] { position:absolute; inset:0; width:100%; pointer-events:none;
+    -webkit-appearance:none; appearance:none; background:transparent; margin:0; }
+  .yr-dual input[type=range]::-webkit-slider-runnable-track { background:transparent; height:4px; border-radius:2px; }
+  .yr-dual input[type=range]::-moz-range-track { background:transparent; height:4px; border-radius:2px; }
+  .yr-dual input[type=range]::-webkit-slider-thumb { pointer-events:all; -webkit-appearance:none;
+    appearance:none; background:#38bdf8; border:1px solid #0369a1; border-radius:50%;
+    width:14px; height:14px; margin-top:-5px; cursor:pointer; }
+  .yr-dual input[type=range]::-moz-range-thumb { pointer-events:all; background:#38bdf8;
+    border:1px solid #0369a1; border-radius:50%; width:14px; height:14px; cursor:pointer; }
+  .yr-dual .track { position:absolute; top:12px; left:0; right:0; height:4px;
+    background:#374151; border-radius:2px; }
+  .yr-dual .fill  { position:absolute; top:12px; height:4px; background:#38bdf8;
+    border-radius:2px; }
+  .yr-dual .ticks { position:absolute; top:20px; left:0; right:0; display:flex;
+    justify-content:space-between; font-size:9.5px; color:#6b7280; font-variant-numeric:tabular-nums; }
+  .yr-row { display:flex; align-items:baseline; gap:8px; margin-top:8px; }
+  .yr-row .label { font-size:11px; color:#9ca3af; }
+  .yr-row .vals { font-size:11px; color:#e5e7eb; font-variant-numeric:tabular-nums; margin-left:auto; }
+  .yr-row .play { background:#1f2937; border:1px solid #374151; color:#e5e7eb;
+    padding:2px 8px; border-radius:4px; cursor:pointer; font-size:11px; }
+  .yr-row .play:hover { background:#374151; }
 </style>
 </head>
 <body>
@@ -93,6 +116,19 @@
     <span style="font-size:11px;">Edge threshold</span>
     <input type="range" id="edge-slider" min="1" max="20" value="2">
     <span class="val" id="edge-val">2</span>
+  </div>
+
+  <div class="yr-row">
+    <span class="label">Year range</span>
+    <button class="play" id="yr-play" title="Animate a sliding 5-year window">▶ Play</button>
+    <span class="vals" id="yr-vals">—</span>
+  </div>
+  <div class="yr-dual" id="yr-dual">
+    <div class="track"></div>
+    <div class="fill" id="yr-fill"></div>
+    <input type="range" id="yr-lo" min="1970" max="2026" value="1970">
+    <input type="range" id="yr-hi" min="1970" max="2026" value="2026">
+    <div class="ticks"><span id="yr-tick-lo">—</span><span id="yr-tick-mid">—</span><span id="yr-tick-hi">—</span></div>
   </div>
   <div class="slider-row">
     <span style="font-size:11px;">Layout spread</span>
@@ -171,7 +207,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-1457";
+const cacheBust = "20260421-1628";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -211,12 +247,39 @@ const allNodes = DATA.nodes;
 const allEdges = DATA.edges;
 const nodeById = new Map(allNodes.map(n => [n.id, n]));
 
-// Initial filter to default threshold
-let edges = allEdges.filter(d => d.weight >= INITIAL_EDGE_THRESHOLD).map(d => ({...d}));
-const usedIdsInit = new Set();
-edges.forEach(e => { usedIdsInit.add(e.source); usedIdsInit.add(e.target); });
-let nodes = allNodes.filter(n => usedIdsInit.has(n.id));
-edges.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
+// Year range derived from edge year lists (fall back to meta if missing)
+const allYears = [];
+for (const e of allEdges) { if (e.years) for (const y of e.years) if (y) allYears.push(y); }
+const Y_MIN = allYears.length ? Math.min(...allYears) : (META.paper_year_min || 1990);
+const Y_MAX = allYears.length ? Math.max(...allYears) : (META.paper_year_max || 2026);
+let yLo = Y_MIN, yHi = Y_MAX;
+
+// Count how many collaborations in an edge fall in [yLo, yHi].
+function edgeWindowWeight(e) {
+  if (!e.years || !e.years.length) return e.weight;  // no per-year info → always present
+  let c = 0;
+  for (const y of e.years) if (y >= yLo && y <= yHi) c++;
+  return c;
+}
+
+let edgeThreshold = INITIAL_EDGE_THRESHOLD;
+
+function rebuildFromFilters() {
+  // Start from all edges; keep those with window-weight >= threshold
+  const kept = [];
+  for (const e of allEdges) {
+    const ww = edgeWindowWeight(e);
+    if (ww >= edgeThreshold) kept.push({...e, weight: ww});
+  }
+  edges = kept;
+  edges.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
+  const used = new Set();
+  edges.forEach(e => { used.add(e.source.id); used.add(e.target.id); });
+  nodes = allNodes.filter(n => used.has(n.id));
+}
+
+let edges, nodes;
+rebuildFromFilters();
 
 const years = nodes.map(n => n.last_year).filter(y => y > 0);
 const yMin = years.length ? Math.min(...years) : 2000;
@@ -719,16 +782,15 @@ function fullReset() {
   searchInput.value = ''; resultsDiv.innerHTML = '';
   hubsList.style.display = 'none'; btnHubs.textContent = '▸ Top 100 hubs (most co-authors)';
   slider.value = INITIAL_EDGE_THRESHOLD; sliderVal.textContent = INITIAL_EDGE_THRESHOLD;
+  edgeThreshold = INITIAL_EDGE_THRESHOLD;
   sparsitySlider.value = INITIAL_SPARSITY; sparsityVal.textContent = INITIAL_SPARSITY;
   sparsity = INITIAL_SPARSITY;
-  edges = allEdges.filter(d => d.weight >= INITIAL_EDGE_THRESHOLD).map(d => ({...d}));
-  const used = new Set();
-  edges.forEach(e => { used.add(e.source); used.add(e.target); });
-  nodes = allNodes.filter(n => used.has(n.id));
-  edges.forEach(e => {
-    if (typeof e.source !== 'object') e.source = nodeById.get(e.source);
-    if (typeof e.target !== 'object') e.target = nodeById.get(e.target);
-  });
+  // Reset year window
+  yLo = Y_MIN; yHi = Y_MAX;
+  yrLo.value = Y_MIN; yrHi.value = Y_MAX;
+  updateYrFill();
+  if (yrPlayTimer) { clearInterval(yrPlayTimer); yrPlayTimer = null; yrPlayBtn.textContent = '▶ Play'; }
+  rebuildFromFilters();
   for (const n of nodes) {
     n.fx = null; n.fy = null;
     n.x = width / 2 + (Math.random() - 0.5) * 200;
@@ -754,26 +816,76 @@ document.getElementById('center').onclick = () => {
   d3.select(canvas).transition().duration(400).call(zoom.transform, d3.zoomIdentity);
 };
 
-// Edge slider
-const slider = document.getElementById('edge-slider');
-const sliderVal = document.getElementById('edge-val');
-slider.oninput = (e) => {
-  const th = parseInt(e.target.value);
-  sliderVal.textContent = th;
-  edges = allEdges.filter(d => d.weight >= th).map(d => ({...d}));
-  edges.forEach(e => {
-    e.source = nodeById.get(typeof e.source === 'object' ? e.source.id : e.source);
-    e.target = nodeById.get(typeof e.target === 'object' ? e.target.id : e.target);
-  });
-  const used = new Set();
-  edges.forEach(e => { used.add(e.source.id); used.add(e.target.id); });
-  nodes = allNodes.filter(n => used.has(n.id));
+// Applies all current filters (edge threshold + year window) and restarts the simulation.
+function applyFilters() {
+  rebuildFromFilters();
   simulation.nodes(nodes); simulation.force('link').links(edges);
   simulation.alpha(0.4).restart();
   buildAdjacency(); recomputeEdgeTiers();
   if (hubsList.style.display === 'block') populateHubs();
   if (commsPanel.style.display !== 'none') populateComms();
+}
+
+// Edge-weight slider
+const slider = document.getElementById('edge-slider');
+const sliderVal = document.getElementById('edge-val');
+slider.oninput = (e) => {
+  edgeThreshold = parseInt(e.target.value);
+  sliderVal.textContent = edgeThreshold;
+  applyFilters();
 };
+
+// Year-range dual slider
+const yrLo = document.getElementById('yr-lo');
+const yrHi = document.getElementById('yr-hi');
+const yrVals = document.getElementById('yr-vals');
+const yrFill = document.getElementById('yr-fill');
+yrLo.min = yrHi.min = Y_MIN;
+yrLo.max = yrHi.max = Y_MAX;
+yrLo.value = Y_MIN; yrHi.value = Y_MAX;
+document.getElementById('yr-tick-lo').textContent = Y_MIN;
+document.getElementById('yr-tick-mid').textContent = Math.round((Y_MIN + Y_MAX) / 2);
+document.getElementById('yr-tick-hi').textContent = Y_MAX;
+function updateYrFill() {
+  const pct = (v) => 100 * (v - Y_MIN) / (Y_MAX - Y_MIN || 1);
+  yrFill.style.left = pct(yLo) + '%';
+  yrFill.style.right = (100 - pct(yHi)) + '%';
+  yrVals.textContent = `${yLo} – ${yHi}`;
+}
+function onYrChange() {
+  let lo = parseInt(yrLo.value), hi = parseInt(yrHi.value);
+  if (lo > hi) { if (event && event.target === yrLo) hi = lo; else lo = hi; yrLo.value = lo; yrHi.value = hi; }
+  yLo = lo; yHi = hi;
+  updateYrFill();
+  applyFilters();
+}
+yrLo.addEventListener('input', onYrChange);
+yrHi.addEventListener('input', onYrChange);
+updateYrFill();
+
+// Animate: sliding 5-year window from Y_MIN to Y_MAX
+let yrPlayTimer = null;
+const yrPlayBtn = document.getElementById('yr-play');
+yrPlayBtn.addEventListener('click', () => {
+  if (yrPlayTimer) {
+    clearInterval(yrPlayTimer); yrPlayTimer = null;
+    yrPlayBtn.textContent = '▶ Play'; return;
+  }
+  const WIN = 5;
+  let start = Y_MIN;
+  const step = () => {
+    const lo = start, hi = Math.min(Y_MAX, start + WIN - 1);
+    yrLo.value = lo; yrHi.value = hi; yLo = lo; yHi = hi;
+    updateYrFill(); applyFilters();
+    start += 1;
+    if (start + WIN - 1 > Y_MAX) {
+      clearInterval(yrPlayTimer); yrPlayTimer = null; yrPlayBtn.textContent = '▶ Play';
+    }
+  };
+  step();
+  yrPlayTimer = setInterval(step, 900);
+  yrPlayBtn.textContent = '⏸ Pause';
+});
 
 document.getElementById('show-degrees').addEventListener('change', (e) => {
   showDegrees = e.target.checked;
