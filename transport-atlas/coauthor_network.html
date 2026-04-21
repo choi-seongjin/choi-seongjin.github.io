@@ -211,7 +211,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-1700";
+const cacheBust = "20260421-1713";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -251,11 +251,19 @@ const allNodes = DATA.nodes;
 const allEdges = DATA.edges;
 const nodeById = new Map(allNodes.map(n => [n.id, n]));
 
-// Year range derived from edge year lists (fall back to meta if missing)
-const allYears = [];
-for (const e of allEdges) { if (e.years) for (const y of e.years) if (y) allYears.push(y); }
-const Y_MIN = allYears.length ? Math.min(...allYears) : (META.paper_year_min || 1990);
-const Y_MAX = allYears.length ? Math.max(...allYears) : (META.paper_year_max || 2026);
+// Year range derived from edge year lists (fall back to meta if missing).
+// Use an explicit loop — Math.min(...arr) throws RangeError above ~65k args in v8.
+let Y_MIN_CALC = Infinity, Y_MAX_CALC = -Infinity;
+for (const e of allEdges) {
+  if (!e.years) continue;
+  for (const y of e.years) {
+    if (!y) continue;
+    if (y < Y_MIN_CALC) Y_MIN_CALC = y;
+    if (y > Y_MAX_CALC) Y_MAX_CALC = y;
+  }
+}
+const Y_MIN = Number.isFinite(Y_MIN_CALC) ? Y_MIN_CALC : (META.paper_year_min || 1990);
+const Y_MAX = Number.isFinite(Y_MAX_CALC) ? Y_MAX_CALC : (META.paper_year_max || 2026);
 let yLo = Y_MIN, yHi = Y_MAX;
 
 // Count how many collaborations in an edge fall in [yLo, yHi].
@@ -285,9 +293,12 @@ function rebuildFromFilters() {
 let edges, nodes;
 rebuildFromFilters();
 
-const years = nodes.map(n => n.last_year).filter(y => y > 0);
-const yMin = years.length ? Math.min(...years) : 2000;
-const yMax = years.length ? Math.max(...years) : 2026;
+let yMin = Infinity, yMax = -Infinity;
+for (const n of nodes) {
+  const y = n.last_year;
+  if (y > 0) { if (y < yMin) yMin = y; if (y > yMax) yMax = y; }
+}
+if (!Number.isFinite(yMin)) { yMin = 2000; yMax = 2026; }
 const colorScale = d3.scaleSequential(d3.interpolateInferno).domain([yMin - 5, yMax]);
 
 const communityPalette = new Map();
