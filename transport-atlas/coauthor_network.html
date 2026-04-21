@@ -102,7 +102,7 @@
 <body>
 <canvas id="net"></canvas>
 <div class="panel" id="info">
-  <a href="https://choi-seongjin.umn.edu/" class="home" style="color:#6b7280;">← Choi Lab @ UMN</a>
+  <a href="https://choi-seongjin.github.io/" class="home" style="color:#6b7280;">← Choi Lab</a>
   <a href="index.html" class="home">← Transport Atlas</a>
   <h1>Coauthor network</h1>
   <div class="meta" id="meta-text"></div>
@@ -176,6 +176,19 @@
       <span style="color:#f59e0b;margin-left:10px;">● 3rd</span>
     </div>
   </div>
+  <div style="margin-top:8px;font-size:12px;">
+    <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;"
+           title="Highlight the collaborations with highest edge-betweenness — the cross-community 'bridges' in the network (Sun & Rahwan 2017)">
+      <input type="checkbox" id="show-bridges"> Highlight bridge edges
+    </label>
+    <div id="bridge-controls" style="display:none;margin-top:4px;">
+      <div class="slider-row">
+        <span style="font-size:11px;">Top</span>
+        <input type="range" id="bridge-slider" min="20" max="500" step="20" value="100">
+        <span class="val" id="bridge-val">100</span>
+      </div>
+    </div>
+  </div>
 
   <div id="selected"></div>
 </div>
@@ -191,7 +204,8 @@
     Node color = research community · <span id="comm-count" style="color:#e5e7eb;">—</span>
     communities detected via Leiden · hover a node for topic
   </div>
-  <div style="color:#9ca3af;">Node size = # papers · Edge thickness = # co-authored papers</div>
+  <div style="color:#9ca3af;">Node size = # papers · Edge thickness = # co-authored papers ·
+    <span style="color:#fbbf24;">● bridge edge</span> = high betweenness (cross-community)</div>
   <div style="color:#6b7280;margin-top:2px;">
     Drag to pan · wheel to zoom · click node to pin · drag node to reposition ·
     <a href="#" id="report-general" class="report-link" target="_blank" rel="noopener">Report data issue</a>
@@ -211,7 +225,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-1713";
+const cacheBust = "20260421-2102";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -220,11 +234,16 @@ const metaEl = document.getElementById('meta-text');
 metaEl.innerHTML = '<div class="count">Loading…</div><div class="params">fetching coauthor_network.json</div>';
 
 (async function boot() {
-let DATA;
+let DATA, SIMILAR = {};
 try {
   const res = await fetch(`data/coauthor_network.json?v=${cacheBust}`);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   DATA = await res.json();
+  // Optional: semantic neighbors (may not exist yet on first ingest). Fail soft.
+  try {
+    const r2 = await fetch(`data/author_similar.json?v=${cacheBust}`);
+    if (r2.ok) SIMILAR = await r2.json();
+  } catch {}
 } catch (err) {
   metaEl.innerHTML = '<div class="count" style="color:#f87171;">Failed to load</div>'
     + '<div class="params">' + (err.message || err) + '</div>';
@@ -370,6 +389,20 @@ buildAdjacency();
 
 let showDegrees = false;
 let edgeTier = new Map();
+
+// Bridge-edge filter: highlight top-N edges by edge-betweenness (eb field),
+// matching the cross-community "bridges" concept from Sun & Rahwan 2017.
+let showBridges = false;
+let bridgeTopN = 100;
+let bridgeSet = new Set();  // edge objects above the current cutoff
+function recomputeBridges() {
+  bridgeSet.clear();
+  if (!showBridges) return;
+  // Only consider edges with an eb value (backfilled from 0.0 if absent).
+  const withEb = edges.filter(e => typeof e.eb === 'number' && e.eb > 0);
+  withEb.sort((a, b) => b.eb - a.eb);
+  for (const e of withEb.slice(0, bridgeTopN)) bridgeSet.add(e);
+}
 function recomputeEdgeTiers() {
   edgeTier.clear();
   if (!selectedNode) return;
@@ -413,7 +446,8 @@ let simulation = d3.forceSimulation(nodes)
   .force('charge', d3.forceManyBody().strength(chargeStrength))
   .force('center', d3.forceCenter(width / 2, height / 2).strength(0.05))
   .force('collide', d3.forceCollide().radius(d => rScale(d.papers) + 2))
-  .on('tick', draw);
+  .on('tick', draw)
+  .on('end', () => fitToView());
 
 function applySparsity(s) {
   sparsity = s;
@@ -425,6 +459,20 @@ function applySparsity(s) {
 let transform = d3.zoomIdentity;
 const zoom = d3.zoom().scaleExtent([0.02, 8]).on('zoom', (e) => { transform = e.transform; draw(); });
 d3.select(canvas).call(zoom);
+
+function fitToView(pad = 0.9) {
+  let xmin = Infinity, xmax = -Infinity, ymin = Infinity, ymax = -Infinity;
+  for (const n of nodes) {
+    if (n.x < xmin) xmin = n.x; if (n.x > xmax) xmax = n.x;
+    if (n.y < ymin) ymin = n.y; if (n.y > ymax) ymax = n.y;
+  }
+  const w = Math.max(xmax - xmin, 1), h = Math.max(ymax - ymin, 1);
+  const k = Math.min(width / w, height / h) * pad;
+  const cx = (xmin + xmax) / 2, cy = (ymin + ymax) / 2;
+  const tx = width / 2 - cx * k, ty = height / 2 - cy * k;
+  d3.select(canvas).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k));
+}
+setTimeout(() => fitToView(), 1500);
 
 function draw() {
   ctx.save();
@@ -454,10 +502,22 @@ function draw() {
       ctx.moveTo(e.source.x, e.source.y); ctx.lineTo(e.target.x, e.target.y); ctx.stroke();
     }
   } else if (!selectedNode) {
-    ctx.strokeStyle = 'rgba(156,163,175,0.35)';
+    const dimBridges = showBridges && bridgeSet.size > 0;
+    ctx.strokeStyle = dimBridges ? 'rgba(156,163,175,0.08)' : 'rgba(156,163,175,0.35)';
     for (const e of edges) {
+      if (dimBridges && bridgeSet.has(e)) continue;
       ctx.beginPath(); ctx.lineWidth = eScale(e.weight) * wMult;
       ctx.moveTo(e.source.x, e.source.y); ctx.lineTo(e.target.x, e.target.y); ctx.stroke();
+    }
+    if (dimBridges) {
+      // Bridges drawn on top in a bright amber — edge-BC magnitude controls width.
+      ctx.strokeStyle = '#fbbf24'; ctx.globalAlpha = 0.95;
+      for (const e of edges) {
+        if (!bridgeSet.has(e)) continue;
+        ctx.beginPath(); ctx.lineWidth = Math.max(1.2, eScale(e.weight)) * wMult * 1.4;
+        ctx.moveTo(e.source.x, e.source.y); ctx.lineTo(e.target.x, e.target.y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
     }
   } else {
     ctx.strokeStyle = 'rgba(156,163,175,0.15)';
@@ -657,13 +717,47 @@ function updateSelectedPanel(n) {
   const neighbors = edges.filter(x => x.source === n || x.target === n).length;
   const subj = encodeURIComponent(`Transport Atlas: wrong attribution for "${n.label}"`);
   const body = encodeURIComponent(reportBodyForNode(n));
-  box.innerHTML = `<div class="name">${escHtml(n.label)}</div>`
-    + `<div class="stat">${n.papers} papers · ${neighbors} co-authors in view · last ${n.last_year}</div>`
-    + `<a class="report" href="mailto:${REPORT_EMAIL}?subject=${subj}&body=${body}" target="_blank" rel="noopener" title="Open email">🚩 Report</a>`
-    + ` <span class="report" id="report-node-copy" style="cursor:pointer;" title="Copy details">📋 copy</span>`
-    + ` <a class="report" href="https://github.com/${REPORT_REPO}/issues/new?title=${subj}&body=${body}" target="_blank" rel="noopener" title="Open GitHub issue">↗ GitHub</a>`;
+  let html = `<div class="name">${escHtml(n.label)}</div>`
+    + `<div class="stat">${n.papers} papers · ${neighbors} co-authors in view · last ${n.last_year}</div>`;
+  const sims = SIMILAR[String(n.id)] || [];
+  if (sims.length) {
+    const shown = sims.slice(0, 8);
+    const nPhantom = shown.filter(s => s.phantom).length;
+    html += `<div style="margin-top:8px;color:#9ca3af;font-size:11px;">`
+          + `Semantic neighbors`
+          + (nPhantom ? ` · <span style="color:#fbbf24;">${nPhantom} phantom ⚡</span>` : '')
+          + ` (<a href="topic_space.html" style="color:#38bdf8;">open in topic space</a>):</div>`
+          + `<div id="similar-list" style="margin-top:3px;">`;
+    for (const s of shown) {
+      const dStr = (s.d != null) ? `${s.d} hop${s.d === 1 ? '' : 's'}` : '≥4 / disconnected';
+      const phantom = s.phantom
+        ? ' <span title="Semantic match but ≥3 hops away in the coauthor graph — likely collaborator who has not yet coauthored" style="color:#fbbf24;">⚡</span>'
+        : '';
+      html += `<div class="sim-item" data-sid="${s.id}" `
+            + `title="coauthor distance: ${dStr}" `
+            + `style="padding:3px 6px;cursor:pointer;display:flex;justify-content:space-between;`
+            + `gap:8px;border-radius:3px;font-size:11.5px;">`
+            + `<span style="flex:1;">${escHtml(s.name)}${phantom}</span>`
+            + `<span style="color:#9ca3af;font-size:10.5px;">${(s.sim*100).toFixed(0)}%</span></div>`;
+    }
+    html += '</div>';
+  }
+  html += `<a class="report" href="mailto:${REPORT_EMAIL}?subject=${subj}&body=${body}" target="_blank" rel="noopener" title="Open email">🚩 Report</a>`
+        + ` <span class="report" id="report-node-copy" style="cursor:pointer;" title="Copy details">📋 copy</span>`
+        + ` <a class="report" href="https://github.com/${REPORT_REPO}/issues/new?title=${subj}&body=${body}" target="_blank" rel="noopener" title="Open GitHub issue">↗ GitHub</a>`;
+  box.innerHTML = html;
   document.getElementById('report-node-copy').addEventListener('click', () =>
     copyText(reportBodyForNode(n), 'Node details copied — paste into email or GitHub'));
+  // Clicking a semantic neighbor centers on that node
+  box.querySelectorAll('.sim-item').forEach(el => el.addEventListener('click', () => {
+    const target = nodes.find(x => x.id === +el.dataset.sid)
+                   || allNodes.find(x => x.id === +el.dataset.sid);
+    if (target) centerOnNode(target);
+  }));
+  box.querySelectorAll('.sim-item').forEach(el => {
+    el.addEventListener('mouseenter', () => el.style.background = '#374151');
+    el.addEventListener('mouseleave', () => el.style.background = '');
+  });
 }
 
 // Keep the general "Report data issue" link's href fresh (so it picks up the current year window).
@@ -873,6 +967,8 @@ function fullReset() {
   document.getElementById('tier-legend').style.display = 'none';
   document.getElementById('selected').innerHTML = '';
   edgeTier.clear();
+  showBridges = false; bridgeCheckbox.checked = false;
+  bridgeControls.style.display = 'none'; bridgeSet.clear();
   searchInput.value = ''; resultsDiv.innerHTML = '';
   hubsList.style.display = 'none'; btnHubs.textContent = '▸ Top 100 hubs (most co-authors)';
   slider.value = INITIAL_EDGE_THRESHOLD; sliderVal.textContent = INITIAL_EDGE_THRESHOLD;
@@ -915,7 +1011,7 @@ function applyFilters() {
   rebuildFromFilters();
   simulation.nodes(nodes); simulation.force('link').links(edges);
   simulation.alpha(0.4).restart();
-  buildAdjacency(); recomputeEdgeTiers();
+  buildAdjacency(); recomputeEdgeTiers(); recomputeBridges();
   if (hubsList.style.display === 'block') populateHubs();
   if (commsPanel.style.display !== 'none') populateComms();
 }
@@ -995,6 +1091,22 @@ document.getElementById('show-degrees').addEventListener('change', (e) => {
   showDegrees = e.target.checked;
   document.getElementById('tier-legend').style.display = showDegrees ? 'block' : 'none';
   recomputeEdgeTiers(); draw();
+});
+
+// Bridge edges
+const bridgeCheckbox = document.getElementById('show-bridges');
+const bridgeControls = document.getElementById('bridge-controls');
+const bridgeSlider = document.getElementById('bridge-slider');
+const bridgeValLbl = document.getElementById('bridge-val');
+bridgeCheckbox.addEventListener('change', (e) => {
+  showBridges = e.target.checked;
+  bridgeControls.style.display = showBridges ? 'block' : 'none';
+  recomputeBridges(); draw();
+});
+bridgeSlider.addEventListener('input', (e) => {
+  bridgeTopN = parseInt(e.target.value);
+  bridgeValLbl.textContent = bridgeTopN;
+  recomputeBridges(); draw();
 });
 
 const sparsitySlider = document.getElementById('sparsity-slider');

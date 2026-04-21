@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Transport Atlas — TR A-F, IEEE T-ITS / T-IV / ITS Mag papers</title>
-<meta name="description" content="Interactive explorer for transportation research papers across Transportation Research Part A-F, IEEE Transactions on Intelligent Transportation Systems, IEEE Transactions on Intelligent Vehicles, and IEEE ITS Magazine. Full-text search, coauthor network, topic communities.">
+<title>Transport Atlas — top transportation & ITS research, indexed</title>
+<meta name="description" content="Interactive explorer for papers across the top transportation and ITS journals — TR A-F, IEEE T-ITS / T-IV, Transportation Science, Transportation Research Record, Journal of Transport Geography, Accident Analysis &amp; Prevention, Communications in Transportation Research, and more. Full-text search, coauthor network with multi-metric author rankings (degree, strength, betweenness, PageRank, citations), Leiden communities, and bridge-edge analysis.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   * { box-sizing:border-box; }
@@ -27,6 +27,8 @@
   .b-tits   { background:#17becf; }
   .b-tiv    { background:#e377c2; }
   .b-itsmag { background:#bcbd22; color:#333; }
+  .b-more   { background:#fff; color:#555; border:1px solid #bbb; text-decoration:none; }
+  .b-more:hover { background:#f4f4f4; border-color:#1f77b4; color:#1f77b4; }
 
   .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
            gap:12px; margin-bottom:32px; }
@@ -69,12 +71,16 @@
 </head>
 <body>
 
-<a class="parent-link" href="https://choi-seongjin.umn.edu/">← Choi Lab @ UMN</a>
+<a class="parent-link" href="https://choi-seongjin.github.io/">← Choi Lab</a>
 <h1>Transport Atlas</h1>
 <div class="tagline">
-  Decades of transportation research, indexed. 75,302 papers from
-  Transportation Research Part A-F and IEEE T-ITS / T-IV / ITS Magazine — searchable,
-  filterable, ranked by citation impact, and clustered into 123 coauthor communities.
+  Decades of transportation research, indexed. 111,057 papers
+  from 29 top-tier transportation and ITS journals — TR A-F, IEEE T-ITS / T-IV,
+  Transportation Science, TRR, Journal of Transport Geography, AAP, Communications in
+  Transportation Research, and more. Full-text searchable, year/venue filterable, and clustered into
+  146 Leiden coauthor communities. Authors ranked by a suite of
+  network centralities (degree, strength, betweenness, PageRank) alongside citation impact, in
+  the spirit of <a href="https://doi.org/10.1016/j.tra.2017.04.011" style="color:#155a8a;">Sun &amp; Rahwan (2017)</a>.
 </div>
 
 <div class="badges">
@@ -87,18 +93,20 @@
   <span class="badge b-tits">T-ITS</span>
   <span class="badge b-tiv">T-IV</span>
   <span class="badge b-itsmag">ITS Mag</span>
+  <a class="badge b-more" href="venues.html"
+     title="Open the venue statistics page for the full list">+ 20 more →</a>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="n">75,302</div>
+  <div class="stat"><div class="n">111,057</div>
                     <div class="l">Papers (deduped)</div></div>
   <div class="stat"><div class="n">29</div>
                     <div class="l">Venues</div></div>
   <div class="stat"><div class="n">1967~2026</div>
                     <div class="l">Years covered</div></div>
-  <div class="stat"><div class="n">26,698</div>
+  <div class="stat"><div class="n">36,774</div>
                     <div class="l">Connected authors</div></div>
-  <div class="stat"><div class="n">48,567</div>
+  <div class="stat"><div class="n">67,945</div>
                     <div class="l">Coauthor edges</div></div>
 </div>
 
@@ -106,18 +114,33 @@
 <div class="cards">
   <a class="card primary" href="explorer.html">
     <div class="title">Full Explorer <span class="pill">MAIN</span></div>
-    <div class="desc">All 75,302 papers. Filter by year / venue / min-citations,
+    <div class="desc">All 111,057 papers. Filter by year / venue / min-citations,
       search title &amp; author, sort any column, paginate.</div>
     <div class="arrow">Open →</div>
   </a>
   <a class="card" href="by_year.html">
     <div class="title">Papers by Year</div>
-    <div class="desc">Annual paper counts per venue. Stacked, grouped, and line views — see the acceleration of TR-C post-2015 and the rise of T-IV.</div>
+    <div class="desc">Annual paper counts per venue. Stacked, grouped, and line views with per-venue toggles — see how fields have accelerated, which venues dominate each era, and where new outlets broke through.</div>
+    <div class="arrow">Open →</div>
+  </a>
+  <a class="card" href="venues.html">
+    <div class="title">Venue Statistics</div>
+    <div class="desc">Papers, unique authors, team sizes, collaborations and citations per venue — sortable. Tech journals vs. policy journals split the way Sun &amp; Rahwan (2017) found.</div>
     <div class="arrow">Open →</div>
   </a>
   <a class="card" href="coauthor_network.html">
     <div class="title">Coauthor Network</div>
-    <div class="desc">26,698 researchers · 48,567 coauthor pairs · 123 Leiden communities with TF-IDF topic labels. Search a name, reveal 1st / 2nd / 3rd degree collaborators.</div>
+    <div class="desc">36,774 researchers · 67,945 coauthor pairs · 146 Leiden communities with TF-IDF topic labels. Search a name, reveal 1st / 2nd / 3rd degree collaborators, slide a year window, or highlight bridge edges (high edge-betweenness) that stitch communities together.</div>
+    <div class="arrow">Open →</div>
+  </a>
+  <a class="card" href="topic_space.html">
+    <div class="title">Topic Space</div>
+    <div class="desc">SPECTER2 embeddings of every paper, aggregated to the author level and reduced to 2D with UMAP. Click any author to see their top-10 semantic neighbors and their topic trajectory across year-bins.</div>
+    <div class="arrow">Open →</div>
+  </a>
+  <a class="card" href="combined.html">
+    <div class="title">Coauthors × Topics</div>
+    <div class="desc">Coauthor force layout colored by semantic community. Phantom collaborators (semantically close, never coauthored) overlay as amber edges — introductions waiting to happen.</div>
     <div class="arrow">Open →</div>
   </a>
 </div>
@@ -172,6 +195,9 @@
     <tr><td>TransSci</td><td>OpenAlex</td>
         <td><code>0041-1655</code></td></tr>
     
+    <tr><td>TRR</td><td>OpenAlex</td>
+        <td><code>0361-1981</code></td></tr>
+    
     <tr><td>AMAR</td><td>OpenAlex</td>
         <td><code>2213-6657</code></td></tr>
     
@@ -208,9 +234,6 @@
     <tr><td>JPT</td><td>OpenAlex</td>
         <td><code>1077-291X</code></td></tr>
     
-    <tr><td>CACIE</td><td>OpenAlex</td>
-        <td><code>1093-9687</code></td></tr>
-    
     <tr><td>JICV</td><td>OpenAlex</td>
         <td><code>2399-9802</code></td></tr>
     
@@ -231,7 +254,7 @@
 
 <footer>
   Built with Python (OpenAlex API · networkx + leidenalg · scikit-learn TF-IDF · forceatlas2),
-  D3.js canvas for the network, Chart.js, and Tabulator. Last refresh: 2026-04-21 16:45. Source:
+  D3.js canvas for the network, Chart.js, and Tabulator. Last refresh: 2026-04-21 21:02. Source:
   <a href="https://github.com/UMN-Choi-Lab">UMN-Choi-Lab</a>. Inspired by
   <a href="https://gisbi-kim.github.io/robopaper-atlas/">robopaper-atlas</a>.
 </footer>

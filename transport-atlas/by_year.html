@@ -18,8 +18,24 @@
   .controls button { border:1px solid #ccc; background:#fff; padding:6px 14px;
                      margin-right:6px; border-radius:6px; cursor:pointer; font-size:13px; }
   .controls button.active { background:#1f77b4; color:#fff; border-color:#1f77b4; }
-  .wrap { background:#fff; border:1px solid #e5e5e5; border-radius:8px; padding:16px; }
-  canvas { max-height:520px; }
+  .wrap { background:#fff; border:1px solid #e5e5e5; border-radius:8px; padding:16px;
+          height:70vh; min-height:520px; }
+  .wrap canvas { width:100% !important; height:100% !important; }
+  .venue-toggles { display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center;
+                   margin-bottom:10px; background:#fff; border:1px solid #e5e5e5;
+                   border-radius:8px; padding:8px 12px; }
+  .venue-toggles label { display:inline-flex; align-items:center; gap:5px;
+                         font-size:12px; cursor:pointer; padding:2px 6px;
+                         border-radius:3px; user-select:none; }
+  .venue-toggles label:hover { background:#f4f4f4; }
+  .venue-toggles label.off { opacity:0.35; }
+  .venue-toggles label .sw { width:10px; height:10px; border-radius:2px;
+                             display:inline-block; border:1px solid rgba(0,0,0,.15); }
+  .venue-toggles input[type=checkbox] { margin:0; cursor:pointer; }
+  .venue-toggles .quick { background:#f4f4f4; border:1px solid #ccc;
+                          padding:3px 10px; border-radius:4px; cursor:pointer;
+                          font-size:11px; margin-right:8px; }
+  .venue-toggles .quick:hover { background:#e8e8e8; }
   .summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
              gap:16px; margin-top:20px; }
   .card { min-width:0; background:#fff; border:1px solid #e5e5e5; border-radius:8px;
@@ -48,15 +64,15 @@
 <body>
 
 <div class="brand" style="display:flex;gap:12px;">
-  <a href="https://choi-seongjin.umn.edu/" style="color:#888;">← Choi Lab</a>
+  <a href="https://choi-seongjin.github.io/" style="color:#888;">← Choi Lab</a>
   <span style="color:#ddd;">·</span>
   <a href="index.html">Transport Atlas</a>
 </div>
 <h1>Papers by Year — TR A-F · IEEE T-ITS / T-IV / ITS Mag</h1>
 <div class="sub">
-  <span>1967~2026 · 75,302 papers (DOI-deduped)</span>
+  <span>1967~2026 · 111,057 papers (DOI-deduped)</span>
   <span style="color:#888;text-align:right;line-height:1.4;">
-    Built 2026-04-21 16:45
+    Built 2026-04-21 21:02
   </span>
 </div>
 
@@ -68,13 +84,17 @@
     <button id="btn-grouped">Grouped</button>
     <button id="btn-line">Line</button>
   </div>
+  <div class="venue-toggles" id="venue-toggles">
+    <button class="quick" id="btn-venue-all">All</button>
+    <button class="quick" id="btn-venue-none">None</button>
+  </div>
   <div class="wrap"><canvas id="chart"></canvas></div>
 </div>
 
 <div class="table-wrap"><table id="tbl"></table></div>
 
 <script>
-const cacheBust = "20260421-1645";
+const cacheBust = "20260421-2102";
 const VENUE_COLOR = {
   "TR-A":"#1f77b4","TR-B":"#ff7f0e","TR-C":"#2ca02c","TR-D":"#d62728",
   "TR-E":"#9467bd","TR-F":"#8c564b","T-ITS":"#17becf","T-IV":"#e377c2",
@@ -84,6 +104,15 @@ const VENUE_CLASS = {
   "TR-A":"tra","TR-B":"trb","TR-C":"trc","TR-D":"trd","TR-E":"tre","TR-F":"trf",
   "T-ITS":"tits","T-IV":"tiv","ITS Mag":"itsmag",
 };
+// Fallback palette for venues not in VENUE_COLOR — golden-angle HSL so adjacent
+// venues in the toggle row get visually distinct colors.
+function fallbackColor(idx) {
+  const hue = (idx * 137.508) % 360;
+  return `hsl(${hue.toFixed(1)}, 55%, 48%)`;
+}
+function colorFor(short, idx) {
+  return VENUE_COLOR[short] || fallbackColor(idx);
+}
 
 fetch(`data/by_year.json?v=${cacheBust}`).then(r => r.json()).then(d => {
   const years = d.years;
@@ -98,12 +127,16 @@ fetch(`data/by_year.json?v=${cacheBust}`).then(r => r.json()).then(d => {
     totalAll += t;
     if (t > peakTot) { peakTot = t; peakYear = y; }
   });
-  const summaryHtml = venues.map(v => {
+  const summaryHtml = venues.map((v, idx) => {
     const tot = v.counts.reduce((a, b) => a + b, 0);
     const firstIdx = v.counts.findIndex(c => c > 0);
     const firstY = firstIdx >= 0 ? years[firstIdx] : '—';
     const klass = VENUE_CLASS[v.short] || 'tra';
-    return `<div class="card v-${klass}"><div class="num">${tot.toLocaleString()}</div>
+    const color = colorFor(v.short, idx);
+    const isKnown = !!VENUE_CLASS[v.short];
+    const borderStyle = isKnown ? '' : `style="border-top:3px solid ${color};"`;
+    const klassUse = isKnown ? `v-${klass}` : '';
+    return `<div class="card ${klassUse}" ${borderStyle}><div class="num">${tot.toLocaleString()}</div>
             <div class="label">${v.short} (${firstY}~)</div></div>`;
   }).join('') +
     `<div class="card v-total"><div class="num">${totalAll.toLocaleString()}</div>
@@ -116,10 +149,9 @@ fetch(`data/by_year.json?v=${cacheBust}`).then(r => r.json()).then(d => {
   const tbl = document.getElementById('tbl');
   const headRow = `<thead><tr><th>Year</th>${venues.map(v => `<th>${v.short}</th>`).join('')}<th>Total</th></tr></thead>`;
   const bodyRows = years.map((y, i) => {
-    const cells = venues.map(v => {
+    const cells = venues.map((v, idx) => {
       const c = v.counts[i] || 0;
-      const cls = VENUE_CLASS[v.short] || 'tra';
-      const style = c ? `color:${VENUE_COLOR[v.short]};font-variant-numeric:tabular-nums;` : 'color:#bbb;';
+      const style = c ? `color:${colorFor(v.short, idx)};font-variant-numeric:tabular-nums;` : 'color:#bbb;';
       return `<td style="${style}">${c.toLocaleString()}</td>`;
     }).join('');
     const tot = venues.reduce((acc, v) => acc + (v.counts[i] || 0), 0);
@@ -127,18 +159,24 @@ fetch(`data/by_year.json?v=${cacheBust}`).then(r => r.json()).then(d => {
   }).reverse().join('');
   tbl.innerHTML = headRow + '<tbody>' + bodyRows + '</tbody>';
 
+  // Per-venue visibility state (shared across Stacked/Grouped/Line re-renders)
+  const venueHidden = new Array(venues.length).fill(false);
+
   // Chart
   const ctx = document.getElementById('chart').getContext('2d');
   let chart;
-  const makeDatasets = (mode) => venues.map(v => ({
+  let currentMode = 'stacked';
+  const makeDatasets = (mode) => venues.map((v, idx) => ({
     label: v.short,
     data: v.counts,
-    backgroundColor: VENUE_COLOR[v.short] || '#888',
-    borderColor: VENUE_COLOR[v.short] || '#888',
+    backgroundColor: colorFor(v.short, idx),
+    borderColor: colorFor(v.short, idx),
     tension: mode === 'line' ? 0.25 : 0,
     fill: false,
+    hidden: venueHidden[idx],
   }));
   const render = (mode) => {
+    currentMode = mode;
     if (chart) chart.destroy();
     const stacked = mode === 'stacked';
     chart = new Chart(ctx, {
@@ -157,12 +195,53 @@ fetch(`data/by_year.json?v=${cacheBust}`).then(r => r.json()).then(d => {
   };
   render('stacked');
 
+  // Build per-venue checkbox toggles (colored swatch + short name + checkbox)
+  const togglesEl = document.getElementById('venue-toggles');
+  const labelFrag = document.createDocumentFragment();
+  const labelEls = [];
+  venues.forEach((v, idx) => {
+    const color = colorFor(v.short, idx);
+    const wrap = document.createElement('label');
+    wrap.innerHTML = `<span class="sw" style="background:${color};"></span>`
+      + `<input type="checkbox" checked data-idx="${idx}">`
+      + `<span>${v.short}</span>`;
+    labelFrag.appendChild(wrap);
+    labelEls.push(wrap);
+  });
+  togglesEl.appendChild(labelFrag);
+
+  function applyVisibility() {
+    if (!chart) return;
+    chart.data.datasets.forEach((ds, i) => { ds.hidden = venueHidden[i]; });
+    chart.update();
+    labelEls.forEach((lbl, i) => lbl.classList.toggle('off', venueHidden[i]));
+  }
+
+  togglesEl.addEventListener('change', (e) => {
+    const cb = e.target.closest('input[type=checkbox]');
+    if (!cb) return;
+    const idx = parseInt(cb.dataset.idx);
+    venueHidden[idx] = !cb.checked;
+    applyVisibility();
+  });
+
+  document.getElementById('btn-venue-all').addEventListener('click', () => {
+    venueHidden.fill(false);
+    togglesEl.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
+    applyVisibility();
+  });
+  document.getElementById('btn-venue-none').addEventListener('click', () => {
+    venueHidden.fill(true);
+    togglesEl.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+    applyVisibility();
+  });
+
   const btns = { stacked: 'btn-stacked', grouped: 'btn-grouped', line: 'btn-line' };
   Object.entries(btns).forEach(([mode, id]) => {
     document.getElementById(id).addEventListener('click', () => {
       Object.values(btns).forEach(x => document.getElementById(x).classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      render(mode);
+      render(mode);   // venueHidden is read inside makeDatasets so state is preserved
     });
   });
 });
