@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorer — Transport Atlas</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/css/tabulator_simple.min.css">
+<style>
+  :root { --bg:#fafafa; --fg:#1a1a1a; --muted:#666; --accent:#1f6feb; --card:#fff; --border:#e4e4e7; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         margin:0; background:var(--bg); color:var(--fg); }
+  header { background:var(--card); border-bottom:1px solid var(--border); padding:14px 24px; display:flex;
+           align-items:center; gap:24px; position:sticky; top:0; z-index:20; }
+  header h1 { margin:0; font-size:18px; font-weight:700; }
+  header .parent { font-size:11px; color:#888; text-decoration:none; margin-right:8px;
+                   letter-spacing:.3px; }
+  header .parent:hover { color:var(--accent); }
+  nav a { margin-right:16px; color:var(--fg); text-decoration:none; font-size:14px; }
+  nav a.active { color:var(--accent); font-weight:600; }
+  main { padding:24px; max-width:1400px; margin:0 auto; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; }
+  .card h2 { margin:0 0 8px; font-size:16px; }
+  .muted { color:var(--muted); font-size:13px; }
+  .stat { font-size:28px; font-weight:700; }
+  footer { text-align:center; color:var(--muted); font-size:12px; padding:24px; }
+  .controls { display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .controls label { font-size:13px; color:var(--muted); }
+  button, select, input[type="range"] { font:inherit; padding:6px 10px; border:1px solid var(--border);
+           background:var(--card); border-radius:6px; }
+  button:hover { background:#f1f5f9; cursor:pointer; }
+  #graph-container { width:100%; height:calc(100vh - 220px); background:var(--card); border:1px solid var(--border);
+                     border-radius:8px; position:relative; }
+  .chart-wrap { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; }
+  .chart-wrap canvas { max-height: 420px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="parent" href="https://choi-seongjin.umn.edu/">← Choi Lab</a>
+  <h1><a href="index.html" style="color:inherit;text-decoration:none;">🚚 Transport Atlas</a></h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="explorer.html" class="active">Explorer</a>
+    <a href="by_year.html">Papers by Year</a>
+    <a href="coauthor_network.html">Coauthor Network</a>
+  </nav>
+  <span class="muted" style="margin-left:auto">Built 2026-04-21 14:57</span>
+</header>
+<main>
+  
+<h2 style="margin:0 0 12px;">Explorer</h2>
+<div class="controls">
+  <label>Venue
+    <select id="venue-filter">
+      <option value="">All</option>
+      <option value="TR-A">TR-A</option><option value="TR-B">TR-B</option><option value="TR-C">TR-C</option><option value="TR-D">TR-D</option><option value="TR-E">TR-E</option><option value="TR-F">TR-F</option><option value="T-ITS">T-ITS</option><option value="T-IV">T-IV</option><option value="ITS Mag">ITS Mag</option><option value="CommTR">CommTR</option><option value="TransSci">TransSci</option><option value="CACIE">CACIE</option><option value="JICV">JICV</option><option value="JTTE">JTTE</option><option value="RailEng">RailEng</option><option value="OJ-ITS">OJ-ITS</option><option value="IJTST">IJTST</option>
+    </select>
+  </label>
+  <label>Year ≥ <input type="number" id="year-min" value="2000" style="width:80px"></label>
+  <label>Citations ≥ <input type="number" id="cite-min" value="0" style="width:80px"></label>
+  <input type="search" id="q" placeholder="search title or authors" style="flex:1;min-width:260px;padding:8px;">
+  <span class="muted" id="row-count"></span>
+</div>
+<div id="tbl"></div>
+
+</main>
+<footer>
+  Built from OpenAlex + IEEE Xplore + Elsevier ScienceDirect.
+  Source: <a href="https://github.com/UMN-Choi-Lab">UMN-Choi-Lab</a>. Inspired by robopaper-atlas.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/js/tabulator.min.js"></script>
+<script>
+const cacheBust = "20260421-1457";
+fetch(`data/papers.json?v=${cacheBust}`).then(r => r.json()).then(rows => {
+  const table = new Tabulator("#tbl", {
+    data: rows,
+    layout: "fitColumns",
+    pagination: true,
+    paginationSize: 50,
+    paginationSizeSelector: [25, 50, 100, 250],
+    initialSort: [{column:"year", dir:"desc"}, {column:"cited_by_count", dir:"desc"}],
+    columns: [
+      {title:"Title", field:"title", formatter:(c) => {
+         const doi = c.getRow().getData().doi;
+         const t = c.getValue() || "";
+         return doi ? `<a href="https://doi.org/${doi}" target="_blank">${t}</a>` : t;
+       }, widthGrow:3, tooltip:true},
+      {title:"Authors", field:"authors_short", widthGrow:2, tooltip:true},
+      {title:"Venue", field:"venue_short", width:110},
+      {title:"Year", field:"year", width:80, hozAlign:"right", sorter:"number"},
+      {title:"Cites", field:"cited_by_count", width:90, hozAlign:"right", sorter:"number"},
+    ],
+  });
+  const updateCount = () => document.getElementById("row-count").textContent =
+    `${table.getDataCount("active").toLocaleString()} papers`;
+  table.on("dataFiltered", updateCount);
+  table.on("tableBuilt", updateCount);
+
+  const applyFilters = () => {
+    const venue = document.getElementById("venue-filter").value;
+    const ymin = parseInt(document.getElementById("year-min").value) || 0;
+    const cmin = parseInt(document.getElementById("cite-min").value) || 0;
+    const q = document.getElementById("q").value.toLowerCase();
+    table.setFilter([
+      venue ? {field:"venue_short", type:"=", value:venue} : null,
+      {field:"year", type:">=", value:ymin},
+      {field:"cited_by_count", type:">=", value:cmin},
+      q ? {field:"title", type:"like", value:q} : null,  // Tabulator 'like' is case-insensitive by default
+    ].filter(Boolean));
+  };
+  ["venue-filter", "year-min", "cite-min", "q"].forEach(id =>
+    document.getElementById(id).addEventListener("input", applyFilters));
+});
+</script>
+
+</body>
+</html>

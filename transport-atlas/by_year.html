@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Papers by Year — Transport Atlas</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body { font-family:-apple-system,"Segoe UI",sans-serif; margin:24px;
+         background:#fafafa; color:#222; }
+  .brand { font-size:12px; letter-spacing:.5px; color:#888; margin-bottom:4px; }
+  .brand a { color:inherit; text-decoration:none; font-weight:600; }
+  .brand a:hover { color:#1f77b4; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:#666; font-size:13px; margin-bottom:20px; display:flex;
+         justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .sub a { color:#1f77b4; text-decoration:none; font-size:11px; }
+  .controls { margin-bottom:12px; }
+  .controls button { border:1px solid #ccc; background:#fff; padding:6px 14px;
+                     margin-right:6px; border-radius:6px; cursor:pointer; font-size:13px; }
+  .controls button.active { background:#1f77b4; color:#fff; border-color:#1f77b4; }
+  .wrap { background:#fff; border:1px solid #e5e5e5; border-radius:8px; padding:16px; }
+  canvas { max-height:520px; }
+  .summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+             gap:16px; margin-top:20px; }
+  .card { min-width:0; background:#fff; border:1px solid #e5e5e5; border-radius:8px;
+          padding:14px 18px; }
+  .card .num { font-size:24px; font-weight:600; }
+  .card .label { color:#666; font-size:12px; }
+  .card.v-tra    { border-top:3px solid #1f77b4; }
+  .card.v-trb    { border-top:3px solid #ff7f0e; }
+  .card.v-trc    { border-top:3px solid #2ca02c; }
+  .card.v-trd    { border-top:3px solid #d62728; }
+  .card.v-tre    { border-top:3px solid #9467bd; }
+  .card.v-trf    { border-top:3px solid #8c564b; }
+  .card.v-tits   { border-top:3px solid #17becf; }
+  .card.v-tiv    { border-top:3px solid #e377c2; }
+  .card.v-itsmag { border-top:3px solid #bcbd22; }
+  .card.v-total  { border-top:3px solid #444; }
+  table { width:100%; border-collapse:collapse; margin-top:24px; font-size:12px; }
+  th, td { border-bottom:1px solid #eee; padding:6px 10px; text-align:right; }
+  th:first-child, td:first-child { text-align:left; }
+  th { background:#f4f4f4; font-weight:600; position:sticky; top:0; }
+  td.c-total { font-weight:600; font-variant-numeric:tabular-nums; }
+  .table-wrap { max-height:60vh; overflow-y:auto; margin-top:24px;
+                border:1px solid #e5e5e5; border-radius:8px; background:#fff; }
+</style>
+</head>
+<body>
+
+<div class="brand" style="display:flex;gap:12px;">
+  <a href="https://choi-seongjin.umn.edu/" style="color:#888;">← Choi Lab</a>
+  <span style="color:#ddd;">·</span>
+  <a href="index.html">Transport Atlas</a>
+</div>
+<h1>Papers by Year — TR A-F · IEEE T-ITS / T-IV / ITS Mag</h1>
+<div class="sub">
+  <span>1967~2026 · 48,989 papers (DOI-deduped)</span>
+  <span style="color:#888;text-align:right;line-height:1.4;">
+    Built 2026-04-21 14:57
+  </span>
+</div>
+
+<div class="summary" id="summary"></div>
+
+<div style="margin-top:24px;">
+  <div class="controls">
+    <button id="btn-stacked" class="active">Stacked</button>
+    <button id="btn-grouped">Grouped</button>
+    <button id="btn-line">Line</button>
+  </div>
+  <div class="wrap"><canvas id="chart"></canvas></div>
+</div>
+
+<div class="table-wrap"><table id="tbl"></table></div>
+
+<script>
+const cacheBust = "20260421-1457";
+const VENUE_COLOR = {
+  "TR-A":"#1f77b4","TR-B":"#ff7f0e","TR-C":"#2ca02c","TR-D":"#d62728",
+  "TR-E":"#9467bd","TR-F":"#8c564b","T-ITS":"#17becf","T-IV":"#e377c2",
+  "ITS Mag":"#bcbd22",
+};
+const VENUE_CLASS = {
+  "TR-A":"tra","TR-B":"trb","TR-C":"trc","TR-D":"trd","TR-E":"tre","TR-F":"trf",
+  "T-ITS":"tits","T-IV":"tiv","ITS Mag":"itsmag",
+};
+
+fetch(`data/by_year.json?v=${cacheBust}`).then(r => r.json()).then(d => {
+  const years = d.years;
+  const venues = d.venues;   // [{slug, short, name, counts}]
+
+  // Summary cards — total per venue + first-year + peak year
+  const sumEl = document.getElementById('summary');
+  let totalAll = 0;
+  let peakYear = years[0], peakTot = 0;
+  years.forEach((y, i) => {
+    const t = venues.reduce((acc, v) => acc + (v.counts[i] || 0), 0);
+    totalAll += t;
+    if (t > peakTot) { peakTot = t; peakYear = y; }
+  });
+  const summaryHtml = venues.map(v => {
+    const tot = v.counts.reduce((a, b) => a + b, 0);
+    const firstIdx = v.counts.findIndex(c => c > 0);
+    const firstY = firstIdx >= 0 ? years[firstIdx] : '—';
+    const klass = VENUE_CLASS[v.short] || 'tra';
+    return `<div class="card v-${klass}"><div class="num">${tot.toLocaleString()}</div>
+            <div class="label">${v.short} (${firstY}~)</div></div>`;
+  }).join('') +
+    `<div class="card v-total"><div class="num">${totalAll.toLocaleString()}</div>
+     <div class="label">Grand total</div></div>` +
+    `<div class="card v-total"><div class="num">${peakYear} (${peakTot.toLocaleString()})</div>
+     <div class="label">Peak year</div></div>`;
+  sumEl.innerHTML = summaryHtml;
+
+  // Data table
+  const tbl = document.getElementById('tbl');
+  const headRow = `<thead><tr><th>Year</th>${venues.map(v => `<th>${v.short}</th>`).join('')}<th>Total</th></tr></thead>`;
+  const bodyRows = years.map((y, i) => {
+    const cells = venues.map(v => {
+      const c = v.counts[i] || 0;
+      const cls = VENUE_CLASS[v.short] || 'tra';
+      const style = c ? `color:${VENUE_COLOR[v.short]};font-variant-numeric:tabular-nums;` : 'color:#bbb;';
+      return `<td style="${style}">${c.toLocaleString()}</td>`;
+    }).join('');
+    const tot = venues.reduce((acc, v) => acc + (v.counts[i] || 0), 0);
+    return `<tr><td>${y}</td>${cells}<td class="c-total">${tot.toLocaleString()}</td></tr>`;
+  }).reverse().join('');
+  tbl.innerHTML = headRow + '<tbody>' + bodyRows + '</tbody>';
+
+  // Chart
+  const ctx = document.getElementById('chart').getContext('2d');
+  let chart;
+  const makeDatasets = (mode) => venues.map(v => ({
+    label: v.short,
+    data: v.counts,
+    backgroundColor: VENUE_COLOR[v.short] || '#888',
+    borderColor: VENUE_COLOR[v.short] || '#888',
+    tension: mode === 'line' ? 0.25 : 0,
+    fill: false,
+  }));
+  const render = (mode) => {
+    if (chart) chart.destroy();
+    const stacked = mode === 'stacked';
+    chart = new Chart(ctx, {
+      type: mode === 'line' ? 'line' : 'bar',
+      data: { labels: years, datasets: makeDatasets(mode) },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } },
+        scales: {
+          x: { stacked, title: { display: true, text: 'Year' } },
+          y: { stacked, beginAtZero: true, title: { display: true, text: 'Papers' } },
+        },
+      },
+    });
+  };
+  render('stacked');
+
+  const btns = { stacked: 'btn-stacked', grouped: 'btn-grouped', line: 'btn-line' };
+  Object.entries(btns).forEach(([mode, id]) => {
+    document.getElementById(id).addEventListener('click', () => {
+      Object.values(btns).forEach(x => document.getElementById(x).classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      render(mode);
+    });
+  });
+});
+</script>
+</body>
+</html>
