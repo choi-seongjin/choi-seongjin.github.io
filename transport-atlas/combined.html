@@ -117,7 +117,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2143";
+const cacheBust = "20260421-2146";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -211,7 +211,9 @@ const eScale = d3.scaleSqrt().domain([1, 20]).range([0.35, 3.2]).clamp(true);
   const cidList = [...new Set(
     nodes.map(n => n.cc).filter(c => c != null && !miscCombinedIds.has(c))
   )].sort((a, b) => a - b);
-  const R = Math.min(width, height) * 0.42;
+  // Loose seeding — communities start near their ring position but with enough
+  // jitter that adjacent communities interleave. Force sim tightens them.
+  const R = Math.min(width, height) * 0.30;
   const cx = width / 2, cy = height / 2;
   const commPos = new Map();
   cidList.forEach((cid, i) => {
@@ -221,14 +223,12 @@ const eScale = d3.scaleSqrt().domain([1, 20]).range([0.35, 3.2]).clamp(true);
   for (const n of nodes) {
     const p = commPos.get(n.cc);
     if (p) {
-      n.x = p.x + (Math.random() - 0.5) * 80;
-      n.y = p.y + (Math.random() - 0.5) * 80;
+      n.x = p.x + (Math.random() - 0.5) * 180;
+      n.y = p.y + (Math.random() - 0.5) * 180;
     } else {
-      // Misc / uncommunity-ed: scatter at outer ring
-      const ang = Math.random() * 2 * Math.PI;
-      const r = R * 1.3 + Math.random() * R * 0.3;
-      n.x = cx + Math.cos(ang) * r;
-      n.y = cy + Math.sin(ang) * r;
+      // Misc: scattered throughout, not on a ring
+      n.x = cx + (Math.random() - 0.5) * R * 2;
+      n.y = cy + (Math.random() - 0.5) * R * 2;
     }
   }
 }
@@ -293,13 +293,13 @@ function communityForce(getCid, strength = 0.08) {
 }
 
 let simulation = d3.forceSimulation(nodes)
-  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(35).strength(0.18))
-  .force('semantic', d3.forceLink(semLinks).id(d => d.id).distance(d => 60 * (1.2 - d.sim)).strength(0.10))
-  .force('charge',   d3.forceManyBody().strength(-80))
-  .force('cluster',  communityForce(n => n.cc, 0.28))        // dominant — this is the point
-  .force('center',   d3.forceCenter(width / 2, height / 2).strength(0.02))
+  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(32).strength(0.25))
+  .force('semantic', d3.forceLink(semLinks).id(d => d.id).distance(d => 60 * (1.2 - d.sim)).strength(0.08))
+  .force('charge',   d3.forceManyBody().strength(-60))
+  .force('cluster',  communityForce(n => n.cc, 0.12))        // enough to shape, not enough to bead
+  .force('center',   d3.forceCenter(width / 2, height / 2).strength(0.03))
   .force('collide',  d3.forceCollide().radius(d => rScale(d.papers) + 2))
-  .alphaDecay(0.022)                                         // cool slower so clusters settle
+  .alphaDecay(0.028)
   .on('tick', draw)
   .on('end', () => fitToView());
 console.log(`[combined] forces: ${edges.length} coauthor links · ${semLinks.length} semantic links · cluster on n.cc`);
