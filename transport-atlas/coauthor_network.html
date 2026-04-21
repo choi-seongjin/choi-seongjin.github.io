@@ -109,8 +109,8 @@
 
   <div class="slider-row">
     <span style="font-size:11px;">Edge threshold</span>
-    <input type="range" id="edge-slider" min="1" max="20" value="2">
-    <span class="val" id="edge-val">2</span>
+    <input type="range" id="edge-slider" min="1" max="20" value="3">
+    <span class="val" id="edge-val">3</span>
   </div>
 
   <div class="yr-row">
@@ -211,7 +211,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-1645";
+const cacheBust = "20260421-1700";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -246,7 +246,7 @@ const META = DATA.meta;
     + `</div>`;
 }
 
-const INITIAL_EDGE_THRESHOLD = 2;
+const INITIAL_EDGE_THRESHOLD = 3;  // 29-venue corpus has 65% of edges at weight==2 (noise); default to 3+
 const allNodes = DATA.nodes;
 const allEdges = DATA.edges;
 const nodeById = new Map(allNodes.map(n => [n.id, n]));
