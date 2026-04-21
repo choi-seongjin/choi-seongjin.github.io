@@ -87,30 +87,16 @@
   #tooltip .tt-comm .kw { color:#9ca3af; }
   .slider-row { display:flex; align-items:center; gap:8px; margin-top:6px; }
   .slider-row input[type=range] { flex:1; }
-  .slider-row .val { font-variant-numeric:tabular-nums; min-width:22px; text-align:right; color:#9ca3af; }
-  /* Dual-thumb year slider — two sliders overlaid */
-  .yr-dual { position:relative; height:28px; margin-top:6px; }
-  .yr-dual input[type=range] { position:absolute; inset:0; width:100%; pointer-events:none;
-    -webkit-appearance:none; appearance:none; background:transparent; margin:0; }
-  .yr-dual input[type=range]::-webkit-slider-runnable-track { background:transparent; height:4px; border-radius:2px; }
-  .yr-dual input[type=range]::-moz-range-track { background:transparent; height:4px; border-radius:2px; }
-  .yr-dual input[type=range]::-webkit-slider-thumb { pointer-events:all; -webkit-appearance:none;
-    appearance:none; background:#38bdf8; border:1px solid #0369a1; border-radius:50%;
-    width:14px; height:14px; margin-top:-5px; cursor:pointer; }
-  .yr-dual input[type=range]::-moz-range-thumb { pointer-events:all; background:#38bdf8;
-    border:1px solid #0369a1; border-radius:50%; width:14px; height:14px; cursor:pointer; }
-  .yr-dual .track { position:absolute; top:12px; left:0; right:0; height:4px;
-    background:#374151; border-radius:2px; }
-  .yr-dual .fill  { position:absolute; top:12px; height:4px; background:#38bdf8;
-    border-radius:2px; }
-  .yr-dual .ticks { position:absolute; top:20px; left:0; right:0; display:flex;
-    justify-content:space-between; font-size:9.5px; color:#6b7280; font-variant-numeric:tabular-nums; }
-  .yr-row { display:flex; align-items:baseline; gap:8px; margin-top:8px; }
+  .slider-row .val { font-variant-numeric:tabular-nums; min-width:38px; text-align:right; color:#9ca3af; }
+  .yr-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
   .yr-row .label { font-size:11px; color:#9ca3af; }
   .yr-row .vals { font-size:11px; color:#e5e7eb; font-variant-numeric:tabular-nums; margin-left:auto; }
   .yr-row .play { background:#1f2937; border:1px solid #374151; color:#e5e7eb;
     padding:2px 8px; border-radius:4px; cursor:pointer; font-size:11px; }
   .yr-row .play:hover { background:#374151; }
+  .yr-row .reset { background:#1f2937; border:1px solid #374151; color:#9ca3af;
+    padding:2px 8px; border-radius:4px; cursor:pointer; font-size:11px; }
+  .yr-row .reset:hover { background:#374151; color:#e5e7eb; }
 </style>
 </head>
 <body>
@@ -128,16 +114,20 @@
   </div>
 
   <div class="yr-row">
-    <span class="label">Year range</span>
-    <button class="play" id="yr-play" title="Animate a sliding 5-year window">▶ Play</button>
+    <span class="label">Year window</span>
     <span class="vals" id="yr-vals">—</span>
+    <button class="play" id="yr-play" title="Animate a sliding 5-year window">▶ Play</button>
+    <button class="reset" id="yr-reset" title="Full range">⟲</button>
   </div>
-  <div class="yr-dual" id="yr-dual">
-    <div class="track"></div>
-    <div class="fill" id="yr-fill"></div>
+  <div class="slider-row">
+    <span style="font-size:11px;min-width:30px;">from</span>
     <input type="range" id="yr-lo" min="1970" max="2026" value="1970">
+    <span class="val" id="yr-lo-val">1970</span>
+  </div>
+  <div class="slider-row">
+    <span style="font-size:11px;min-width:30px;">to</span>
     <input type="range" id="yr-hi" min="1970" max="2026" value="2026">
-    <div class="ticks"><span id="yr-tick-lo">—</span><span id="yr-tick-mid">—</span><span id="yr-tick-hi">—</span></div>
+    <span class="val" id="yr-hi-val">2026</span>
   </div>
   <div class="slider-row">
     <span style="font-size:11px;">Layout spread</span>
@@ -217,7 +207,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-1630";
+const cacheBust = "20260421-1634";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -846,7 +836,7 @@ function fullReset() {
   // Reset year window
   yLo = Y_MIN; yHi = Y_MAX;
   yrLo.value = Y_MIN; yrHi.value = Y_MAX;
-  updateYrFill();
+  syncYrUI();
   if (yrPlayTimer) { clearInterval(yrPlayTimer); yrPlayTimer = null; yrPlayBtn.textContent = '▶ Play'; }
   rebuildFromFilters();
   for (const n of nodes) {
@@ -893,33 +883,43 @@ slider.oninput = (e) => {
   applyFilters();
 };
 
-// Year-range dual slider
+// Year-window sliders (two separate inputs, clamped so lo<=hi)
 const yrLo = document.getElementById('yr-lo');
 const yrHi = document.getElementById('yr-hi');
+const yrLoVal = document.getElementById('yr-lo-val');
+const yrHiVal = document.getElementById('yr-hi-val');
 const yrVals = document.getElementById('yr-vals');
-const yrFill = document.getElementById('yr-fill');
 yrLo.min = yrHi.min = Y_MIN;
 yrLo.max = yrHi.max = Y_MAX;
 yrLo.value = Y_MIN; yrHi.value = Y_MAX;
-document.getElementById('yr-tick-lo').textContent = Y_MIN;
-document.getElementById('yr-tick-mid').textContent = Math.round((Y_MIN + Y_MAX) / 2);
-document.getElementById('yr-tick-hi').textContent = Y_MAX;
-function updateYrFill() {
-  const pct = (v) => 100 * (v - Y_MIN) / (Y_MAX - Y_MIN || 1);
-  yrFill.style.left = pct(yLo) + '%';
-  yrFill.style.right = (100 - pct(yHi)) + '%';
-  yrVals.textContent = `${yLo} – ${yHi}`;
+yrLoVal.textContent = Y_MIN;
+yrHiVal.textContent = Y_MAX;
+
+function syncYrUI() {
+  yrLoVal.textContent = yLo;
+  yrHiVal.textContent = yHi;
+  yrVals.textContent = (yLo === yHi) ? `${yLo}` : `${yLo}–${yHi}`;
 }
-function onYrChange() {
-  let lo = parseInt(yrLo.value), hi = parseInt(yrHi.value);
-  if (lo > hi) { if (event && event.target === yrLo) hi = lo; else lo = hi; yrLo.value = lo; yrHi.value = hi; }
-  yLo = lo; yHi = hi;
-  updateYrFill();
+
+yrLo.addEventListener('input', () => {
+  let lo = parseInt(yrLo.value);
+  if (lo > yHi) { yHi = lo; yrHi.value = lo; }
+  yLo = lo;
+  syncYrUI();
   applyFilters();
-}
-yrLo.addEventListener('input', onYrChange);
-yrHi.addEventListener('input', onYrChange);
-updateYrFill();
+});
+yrHi.addEventListener('input', () => {
+  let hi = parseInt(yrHi.value);
+  if (hi < yLo) { yLo = hi; yrLo.value = hi; }
+  yHi = hi;
+  syncYrUI();
+  applyFilters();
+});
+document.getElementById('yr-reset').addEventListener('click', () => {
+  yLo = Y_MIN; yHi = Y_MAX; yrLo.value = Y_MIN; yrHi.value = Y_MAX;
+  syncYrUI(); applyFilters();
+});
+syncYrUI();
 
 // Animate: sliding 5-year window from Y_MIN to Y_MAX
 let yrPlayTimer = null;
@@ -934,7 +934,7 @@ yrPlayBtn.addEventListener('click', () => {
   const step = () => {
     const lo = start, hi = Math.min(Y_MAX, start + WIN - 1);
     yrLo.value = lo; yrHi.value = hi; yLo = lo; yHi = hi;
-    updateYrFill(); applyFilters();
+    syncYrUI(); applyFilters();
     start += 1;
     if (start + WIN - 1 > Y_MAX) {
       clearInterval(yrPlayTimer); yrPlayTimer = null; yrPlayBtn.textContent = '▶ Play';
