@@ -225,7 +225,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2102";
+const cacheBust = "20260421-2104";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -446,8 +446,16 @@ let simulation = d3.forceSimulation(nodes)
   .force('charge', d3.forceManyBody().strength(chargeStrength))
   .force('center', d3.forceCenter(width / 2, height / 2).strength(0.05))
   .force('collide', d3.forceCollide().radius(d => rScale(d.papers) + 2))
+  .alphaMin(0.005)                     // stop ticking once layout settles (saves ~60% CPU)
   .on('tick', draw)
-  .on('end', () => fitToView());
+  .on('end', () => { rebuildQuadtree(); fitToView(); });
+
+// Quadtree for O(log n) hit-testing on hover (mousemove was O(n)=36k scans)
+let _qt = null;
+function rebuildQuadtree() {
+  _qt = d3.quadtree().x(n => n.x).y(n => n.y).addAll(nodes);
+}
+rebuildQuadtree();
 
 function applySparsity(s) {
   sparsity = s;
@@ -579,6 +587,14 @@ function nodeAtScreen(sx, sy) {
   const x = (sx - transform.x) / transform.k;
   const y = (sy - transform.y) / transform.k;
   const nodeMult = Math.min(8, Math.pow(Math.max(1 / transform.k, 1), 0.75));
+  const searchR = rScale(d3.max(nodes, d => d.papers) || 10) * nodeMult + 1.5 / transform.k;
+  // Quadtree find — O(log n) vs O(n) scan. Fallback to linear scan if quadtree missing.
+  if (_qt) {
+    const hit = _qt.find(x, y, searchR);
+    if (!hit) return null;
+    const r = rScale(hit.papers) * nodeMult + 1.5 / transform.k;
+    return ((hit.x - x) ** 2 + (hit.y - y) ** 2 < r * r) ? hit : null;
+  }
   for (let i = nodes.length - 1; i >= 0; i--) {
     const n = nodes[i];
     const r = rScale(n.papers) * nodeMult + 1.5 / transform.k;
