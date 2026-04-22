@@ -161,7 +161,14 @@
       <input type="range" id="f-decay" min="0.005" max="0.1" step="0.001" value="0.035">
       <span class="val" id="f-decay-v">0.035</span></div>
 
-    <button class="reset" id="f-reset" title="Restore defaults">Reset forces</button>
+    <div style="margin-top:6px; font-size:10px; color:#6b7280; line-height:1.5;">
+      Nodes seed from UMAP coords, so small tweaks mostly refine locally.
+      Hit <b>Shake</b> to disturb positions and see forces rebuild layout.
+    </div>
+    <div style="display:flex; gap:6px; margin-top:6px;">
+      <button class="reset" id="f-shake" title="Perturb node positions and re-run">Shake</button>
+      <button class="reset" id="f-reset" title="Restore default values">Reset</button>
+    </div>
   </details>
 
   <div style="margin-top:10px;">
@@ -213,7 +220,7 @@
 </div>
 
 <script>
-const cacheBust = "20260422-0216";
+const cacheBust = "20260422-0218";
 const REPORT_EMAIL = "chois@umn.edu";
 const REPORT_REPO  = "UMN-Choi-Lab/transport-atlas-issues";
 const canvas = document.getElementById('space');
@@ -383,7 +390,10 @@ let simulation = d3.forceSimulation(nodes)
   .on('end', () => fitToView());
 
 // ——— Forces panel wiring ———
-function bumpSim() { simulation.alpha(0.3).restart(); }
+// Nodes seed from UMAP coords, so the simulation converges very close to UMAP.
+// alpha(0.3) barely perturbs that equilibrium — need alpha(1.0) for visible
+// re-arrangement when params change.
+function bumpSim() { simulation.alpha(1.0).restart(); }
 function bindF(id, key, fmt, onChange) {
   const el = document.getElementById(id); if (!el) return;
   const out = document.getElementById(id + '-v');
@@ -404,6 +414,18 @@ bindF('f-collide',   'collidePad',  f2, () => {
   simulation.force('collide').radius(d => rScale(d.papers) + F.collidePad); bumpSim();
 });
 bindF('f-decay',     'decay',       f3, () => { simulation.alphaDecay(F.decay); });
+
+document.getElementById('f-shake').addEventListener('click', () => {
+  // Random jitter proportional to viewport — breaks the UMAP anchor so forces
+  // drive a fresh layout. Stays within the current view bbox for continuity.
+  const jitter = Math.min(width, height) * 0.25;
+  for (const n of nodes) {
+    n.x += (Math.random() - 0.5) * jitter;
+    n.y += (Math.random() - 0.5) * jitter;
+    n.vx = n.vy = 0;
+  }
+  simulation.alpha(1).restart();
+});
 
 document.getElementById('f-reset').addEventListener('click', () => {
   Object.assign(F, F_DEFAULTS);
