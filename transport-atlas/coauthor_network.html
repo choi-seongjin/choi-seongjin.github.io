@@ -87,7 +87,19 @@
   #tooltip .tt-comm .kw { color:#9ca3af; }
   .slider-row { display:flex; align-items:center; gap:8px; margin-top:6px; }
   .slider-row input[type=range] { flex:1; }
-  .slider-row .val { font-variant-numeric:tabular-nums; min-width:38px; text-align:right; color:#9ca3af; }
+  .slider-row .val { font-variant-numeric:tabular-nums; min-width:42px; text-align:right; color:#9ca3af; }
+  .slider-row .lbl { font-size:11px; color:#9ca3af; min-width:92px; }
+  details.forces { margin-top:10px; border-top:1px solid #374151; padding-top:6px; }
+  details.forces > summary { font-size:12px; color:#cbd5e1; cursor:pointer; padding:2px 0;
+                             list-style:none; user-select:none; }
+  details.forces > summary::before { content:'▸ '; color:#6b7280; }
+  details.forces[open] > summary::before { content:'▾ '; }
+  details.forces .group { font-size:10.5px; color:#6b7280; margin-top:8px;
+                          text-transform:uppercase; letter-spacing:.5px; }
+  details.forces .reset { margin-top:8px; font-size:11px; padding:3px 10px;
+                          background:#1f2937; color:#9ca3af; border:1px solid #374151;
+                          border-radius:4px; cursor:pointer; }
+  details.forces .reset:hover { background:#374151; color:#e5e7eb; }
   .yr-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
   .yr-row .label { font-size:11px; color:#9ca3af; }
   .yr-row .vals { font-size:11px; color:#e5e7eb; font-variant-numeric:tabular-nums; margin-left:auto; }
@@ -147,6 +159,39 @@
     <button id="freeze">Freeze</button>
     <button id="center">Center</button>
   </div>
+
+  <details class="forces" open title="Live-tune the force simulation. Applies instantly.">
+    <summary>Layout forces</summary>
+
+    <div class="group">Link (coauthor edges)</div>
+    <div class="slider-row"><span class="lbl">base distance</span>
+      <input type="range" id="f-link-base" min="5" max="120" step="1" value="30">
+      <span class="val" id="f-link-base-v">30</span></div>
+    <div class="slider-row"><span class="lbl">weight inverse</span>
+      <input type="range" id="f-link-winv" min="0" max="200" step="1" value="70">
+      <span class="val" id="f-link-winv-v">70</span></div>
+    <div class="slider-row"><span class="lbl">strength</span>
+      <input type="range" id="f-link-str" min="0" max="1" step="0.01" value="0.35">
+      <span class="val" id="f-link-str-v">0.35</span></div>
+
+    <div class="group">Global</div>
+    <div class="slider-row"><span class="lbl">charge base</span>
+      <input type="range" id="f-charge-base" min="-80" max="0" step="1" value="-14">
+      <span class="val" id="f-charge-base-v">-14</span></div>
+    <div class="slider-row"><span class="lbl">center pull</span>
+      <input type="range" id="f-center" min="0" max="0.2" step="0.005" value="0.05">
+      <span class="val" id="f-center-v">0.05</span></div>
+    <div class="slider-row"><span class="lbl">collide pad</span>
+      <input type="range" id="f-collide" min="0" max="12" step="0.5" value="2">
+      <span class="val" id="f-collide-v">2</span></div>
+
+    <div class="group">Community cohesion</div>
+    <div class="slider-row"><span class="lbl">strength</span>
+      <input type="range" id="f-cluster-str" min="0" max="0.4" step="0.01" value="0.08">
+      <span class="val" id="f-cluster-str-v">0.08</span></div>
+
+    <button class="reset" id="f-reset" title="Restore defaults">Reset forces</button>
+  </details>
 
   <div style="margin-top:10px;">
     <input type="text" id="search" placeholder="Search author name…" autocomplete="off">
@@ -225,7 +270,7 @@
 </div>
 
 <script>
-const cacheBust = "20260422-0210";
+const cacheBust = "20260422-0213";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -427,13 +472,16 @@ function recomputeEdgeTiers() {
 }
 
 let sparsity = 5;
-const CHARGE_BASE = -14;
-const LINK_BASE = 30;
-const LINK_WEIGHT_INV = 70;
-function linkDistance(d) { return LINK_BASE + LINK_WEIGHT_INV / d.weight * Math.sqrt(sparsity); }
+// Force parameters — single source of truth, mutable via the Forces panel.
+const F = {
+  chargeBase: -14, linkBase: 30, linkWinv: 70, linkStr: 0.35,
+  centerStr: 0.05, collidePad: 2, clusterStr: 0.08,
+};
+const F_DEFAULTS = { ...F };
+function linkDistance(d) { return F.linkBase + F.linkWinv / d.weight * Math.sqrt(sparsity); }
 function chargeStrength(d) {
   const deg = nodeDegree.get(d) || 0;
-  return CHARGE_BASE * sparsity * (1 + Math.sqrt(deg) * 0.35);
+  return F.chargeBase * sparsity * (1 + Math.sqrt(deg) * 0.35);
 }
 
 // Seed positions from precomputed FA2 layout (in node.x / node.y already)
@@ -472,13 +520,57 @@ function communityForce(strength = 0.08) {
 }
 
 let simulation = d3.forceSimulation(nodes)
-  .force('link', d3.forceLink(edges).id(d => d.id).distance(linkDistance).strength(0.35))
+  .force('link', d3.forceLink(edges).id(d => d.id).distance(linkDistance).strength(F.linkStr))
   .force('charge', d3.forceManyBody().strength(chargeStrength))
-  .force('center', d3.forceCenter(width / 2, height / 2).strength(0.05))
-  .force('collide', d3.forceCollide().radius(d => rScale(d.papers) + 2))
-  .force('cluster', communityForce(0.08))
+  .force('center', d3.forceCenter(width / 2, height / 2).strength(F.centerStr))
+  .force('collide', d3.forceCollide().radius(d => rScale(d.papers) + F.collidePad))
+  .force('cluster', communityForce(F.clusterStr))
   .on('tick', draw)
   .on('end', () => fitToView());
+
+// ——— Forces panel wiring ———
+function bumpSim() { simulation.alpha(0.3).restart(); }
+function bindF(id, key, fmt, onChange) {
+  const el = document.getElementById(id); if (!el) return;
+  const out = document.getElementById(id + '-v');
+  el.addEventListener('input', () => {
+    F[key] = +el.value;
+    if (out) out.textContent = fmt(F[key]);
+    onChange();
+  });
+}
+const f2 = v => (+v).toFixed(2);
+const f3 = v => (+v).toFixed(3);
+const fi = v => Math.round(+v).toString();
+bindF('f-link-base',   'linkBase',   fi, () => { simulation.force('link').distance(linkDistance); bumpSim(); });
+bindF('f-link-winv',   'linkWinv',   fi, () => { simulation.force('link').distance(linkDistance); bumpSim(); });
+bindF('f-link-str',    'linkStr',    f2, () => { simulation.force('link').strength(F.linkStr); bumpSim(); });
+bindF('f-charge-base', 'chargeBase', fi, () => { simulation.force('charge').strength(chargeStrength); bumpSim(); });
+bindF('f-center',      'centerStr',  f3, () => { simulation.force('center').strength(F.centerStr); bumpSim(); });
+bindF('f-collide',     'collidePad', f2, () => {
+  simulation.force('collide').radius(d => rScale(d.papers) + F.collidePad); bumpSim();
+});
+bindF('f-cluster-str', 'clusterStr', f2, () => { simulation.force('cluster').strength(F.clusterStr); bumpSim(); });
+
+document.getElementById('f-reset').addEventListener('click', () => {
+  Object.assign(F, F_DEFAULTS);
+  const map = [
+    ['f-link-base', F.linkBase, fi], ['f-link-winv', F.linkWinv, fi],
+    ['f-link-str',  F.linkStr,  f2], ['f-charge-base', F.chargeBase, fi],
+    ['f-center',    F.centerStr, f3], ['f-collide', F.collidePad, f2],
+    ['f-cluster-str', F.clusterStr, f2],
+  ];
+  for (const [id, v, fmt] of map) {
+    const el = document.getElementById(id); if (el) el.value = v;
+    const out = document.getElementById(id + '-v'); if (out) out.textContent = fmt(v);
+  }
+  simulation.force('link').distance(linkDistance).strength(F.linkStr);
+  simulation.force('charge').strength(chargeStrength);
+  simulation.force('center').strength(F.centerStr);
+  simulation.force('collide').radius(d => rScale(d.papers) + F.collidePad);
+  simulation.force('cluster').strength(F.clusterStr);
+  bumpSim();
+});
 
 function applySparsity(s) {
   sparsity = s;
