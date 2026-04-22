@@ -59,7 +59,19 @@
   #tooltip .tt-comm .kw  { color:#9ca3af; }
   .slider-row { display:flex; align-items:center; gap:8px; margin-top:6px; }
   .slider-row input[type=range] { flex:1; }
-  .slider-row .val { font-variant-numeric:tabular-nums; min-width:38px; text-align:right; color:#9ca3af; }
+  .slider-row .val { font-variant-numeric:tabular-nums; min-width:42px; text-align:right; color:#9ca3af; }
+  .slider-row .lbl { font-size:11px; color:#9ca3af; min-width:88px; }
+  details.forces { margin-top:10px; border-top:1px solid #374151; padding-top:6px; }
+  details.forces > summary { font-size:12px; color:#cbd5e1; cursor:pointer; padding:2px 0;
+                             list-style:none; user-select:none; }
+  details.forces > summary::before { content:'▸ '; color:#6b7280; }
+  details.forces[open] > summary::before { content:'▾ '; }
+  details.forces .group { font-size:10.5px; color:#6b7280; margin-top:8px;
+                          text-transform:uppercase; letter-spacing:.5px; }
+  details.forces .reset { margin-top:8px; font-size:11px; padding:3px 10px;
+                          background:#1f2937; color:#9ca3af; border:1px solid #374151;
+                          border-radius:4px; cursor:pointer; }
+  details.forces .reset:hover { background:#374151; color:#e5e7eb; }
 </style>
 </head>
 <body>
@@ -90,6 +102,54 @@
     <span class="val" id="edge-val">3</span>
   </div>
 
+  <details class="forces" title="Live-tune the force simulation. Values apply instantly.">
+    <summary>Layout forces</summary>
+
+    <div class="group">Coauthor link</div>
+    <div class="slider-row"><span class="lbl">strength</span>
+      <input type="range" id="f-coauth-str" min="0" max="1" step="0.01" value="0.25">
+      <span class="val" id="f-coauth-str-v">0.25</span></div>
+    <div class="slider-row"><span class="lbl">distance</span>
+      <input type="range" id="f-coauth-dist" min="5" max="120" step="1" value="32">
+      <span class="val" id="f-coauth-dist-v">32</span></div>
+
+    <div class="group">Semantic link (mutual top-K)</div>
+    <div class="slider-row"><span class="lbl">strength</span>
+      <input type="range" id="f-sem-str" min="0" max="0.5" step="0.01" value="0.08">
+      <span class="val" id="f-sem-str-v">0.08</span></div>
+    <div class="slider-row"><span class="lbl">base distance</span>
+      <input type="range" id="f-sem-dist" min="10" max="200" step="1" value="60">
+      <span class="val" id="f-sem-dist-v">60</span></div>
+
+    <div class="group">Global</div>
+    <div class="slider-row"><span class="lbl">charge (repel)</span>
+      <input type="range" id="f-charge" min="-400" max="0" step="5" value="-60">
+      <span class="val" id="f-charge-v">-60</span></div>
+    <div class="slider-row"><span class="lbl">center pull</span>
+      <input type="range" id="f-center" min="0" max="0.2" step="0.005" value="0.03">
+      <span class="val" id="f-center-v">0.03</span></div>
+    <div class="slider-row"><span class="lbl">collide pad</span>
+      <input type="range" id="f-collide" min="0" max="12" step="0.5" value="2">
+      <span class="val" id="f-collide-v">2</span></div>
+
+    <div class="group">Community cohesion (pull same-community → centroid)</div>
+    <div class="slider-row"><span class="lbl">strength</span>
+      <input type="range" id="f-cluster-str" min="0" max="0.4" step="0.01" value="0">
+      <span class="val" id="f-cluster-str-v">0.00</span></div>
+    <div class="radio-row" style="margin-top:4px;">
+      <label><input type="radio" name="cluster-mode" value="combined" checked> combined (cc)</label>
+      <label><input type="radio" name="cluster-mode" value="coauthor"> coauthor</label>
+      <label><input type="radio" name="cluster-mode" value="semantic"> semantic</label>
+    </div>
+
+    <div class="group">Simulation</div>
+    <div class="slider-row"><span class="lbl">alpha decay</span>
+      <input type="range" id="f-decay" min="0.005" max="0.1" step="0.001" value="0.028">
+      <span class="val" id="f-decay-v">0.028</span></div>
+
+    <button class="reset" id="f-reset" title="Restore defaults">Reset forces</button>
+  </details>
+
   <div style="margin-top:10px;">
     <input type="text" id="search" placeholder="Search author name…" autocomplete="off">
     <div id="results"></div>
@@ -117,7 +177,7 @@
 </div>
 
 <script>
-const cacheBust = "20260421-2209";
+const cacheBust = "20260422-0102";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -275,16 +335,96 @@ function communityForce(getCid, strength = 0.08) {
   return f;
 }
 
+// Force parameters — single source of truth, mutated by the Forces panel sliders.
+const F = {
+  coauthStr: 0.25, coauthDist: 32,
+  semStr: 0.08,    semBaseDist: 60,
+  charge: -60,     centerStr: 0.03, collidePad: 2,
+  clusterStr: 0,   clusterMode: 'combined',
+  decay: 0.028,
+};
+const F_DEFAULTS = { ...F };
+
+function clusterCid(n) {
+  if (F.clusterMode === 'coauthor') return n.community;
+  if (F.clusterMode === 'semantic') return n.sc;
+  return n.cc;
+}
+
 let simulation = d3.forceSimulation(nodes)
-  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(32).strength(0.25))
-  .force('semantic', d3.forceLink(semLinks).id(d => d.id).distance(d => 60 * (1.2 - d.sim)).strength(0.08))
-  .force('charge',   d3.forceManyBody().strength(-60))
-  .force('center',   d3.forceCenter(width / 2, height / 2).strength(0.03))
-  .force('collide',  d3.forceCollide().radius(d => rScale(d.papers) + 2))
-  .alphaDecay(0.028)
+  .force('coauth',   d3.forceLink(edges).id(d => d.id).distance(F.coauthDist).strength(F.coauthStr))
+  .force('semantic', d3.forceLink(semLinks).id(d => d.id)
+    .distance(d => F.semBaseDist * (1.2 - d.sim)).strength(F.semStr))
+  .force('charge',   d3.forceManyBody().strength(F.charge))
+  .force('center',   d3.forceCenter(width / 2, height / 2).strength(F.centerStr))
+  .force('collide',  d3.forceCollide().radius(d => rScale(d.papers) + F.collidePad))
+  .force('cluster',  communityForce(clusterCid, F.clusterStr))
+  .alphaDecay(F.decay)
   .on('tick', draw)
   .on('end', () => fitToView());
-console.log(`[combined] forces: ${edges.length} coauthor links · ${semLinks.length} semantic links (no community pull)`);
+console.log(`[combined] forces: ${edges.length} coauthor links · ${semLinks.length} semantic links`);
+
+// ——— Forces panel: live-tune parameters without reload ———
+function bumpSim() { simulation.alpha(0.3).restart(); }
+function bindSlider(id, key, fmt, onChange) {
+  const el = document.getElementById(id);
+  const out = document.getElementById(id + '-v') || document.getElementById(id.replace(/-str$/, '-v'));
+  el.addEventListener('input', () => {
+    F[key] = +el.value;
+    if (out) out.textContent = fmt(F[key]);
+    onChange();
+  });
+  return el;
+}
+const f2 = v => (+v).toFixed(2);
+const f3 = v => (+v).toFixed(3);
+const fi = v => Math.round(+v).toString();
+
+bindSlider('f-coauth-str',  'coauthStr',   f2, () => { simulation.force('coauth').strength(F.coauthStr); bumpSim(); });
+bindSlider('f-coauth-dist', 'coauthDist',  fi, () => { simulation.force('coauth').distance(F.coauthDist); bumpSim(); });
+bindSlider('f-sem-str',     'semStr',      f2, () => { simulation.force('semantic').strength(F.semStr); bumpSim(); });
+bindSlider('f-sem-dist',    'semBaseDist', fi, () => {
+  simulation.force('semantic').distance(d => F.semBaseDist * (1.2 - d.sim)); bumpSim();
+});
+bindSlider('f-charge',      'charge',      fi, () => { simulation.force('charge').strength(F.charge); bumpSim(); });
+bindSlider('f-center',      'centerStr',   f3, () => { simulation.force('center').strength(F.centerStr); bumpSim(); });
+bindSlider('f-collide',     'collidePad',  f2, () => {
+  simulation.force('collide').radius(d => rScale(d.papers) + F.collidePad); bumpSim();
+});
+bindSlider('f-cluster-str', 'clusterStr',  f2, () => { simulation.force('cluster').strength(F.clusterStr); bumpSim(); });
+bindSlider('f-decay',       'decay',       f3, () => { simulation.alphaDecay(F.decay); });
+
+document.querySelectorAll('input[name="cluster-mode"]').forEach(r => r.addEventListener('change', (e) => {
+  F.clusterMode = e.target.value;
+  simulation.force('cluster', communityForce(clusterCid, F.clusterStr));
+  bumpSim();
+}));
+
+document.getElementById('f-reset').addEventListener('click', () => {
+  Object.assign(F, F_DEFAULTS);
+  const map = [
+    ['f-coauth-str',  F.coauthStr,  f2], ['f-coauth-dist', F.coauthDist, fi],
+    ['f-sem-str',     F.semStr,     f2], ['f-sem-dist',    F.semBaseDist, fi],
+    ['f-charge',      F.charge,     fi], ['f-center',      F.centerStr,  f3],
+    ['f-collide',     F.collidePad, f2], ['f-cluster-str', F.clusterStr, f2],
+    ['f-decay',       F.decay,      f3],
+  ];
+  for (const [id, v, fmt] of map) {
+    const el = document.getElementById(id);
+    if (el) el.value = v;
+    const out = document.getElementById(id + '-v');
+    if (out) out.textContent = fmt(v);
+  }
+  document.querySelector('input[name="cluster-mode"][value="combined"]').checked = true;
+  simulation.force('coauth').strength(F.coauthStr).distance(F.coauthDist);
+  simulation.force('semantic').strength(F.semStr).distance(d => F.semBaseDist * (1.2 - d.sim));
+  simulation.force('charge').strength(F.charge);
+  simulation.force('center').strength(F.centerStr);
+  simulation.force('collide').radius(d => rScale(d.papers) + F.collidePad);
+  simulation.force('cluster', communityForce(clusterCid, F.clusterStr));
+  simulation.alphaDecay(F.decay);
+  bumpSim();
+});
 
 let transform = d3.zoomIdentity;
 const zoom = d3.zoom().scaleExtent([0.02, 8]).on('zoom', (e) => { transform = e.transform; draw(); });

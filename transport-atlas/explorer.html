@@ -46,7 +46,7 @@
     <a href="by_year.html">Papers by Year</a>
     <a href="coauthor_network.html">Coauthor Network</a>
   </nav>
-  <span class="muted" style="margin-left:auto">Built 2026-04-21 22:09</span>
+  <span class="muted" style="margin-left:auto">Built 2026-04-22 01:02</span>
 </header>
 <main>
   
@@ -73,7 +73,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/js/tabulator.min.js"></script>
 <script>
-const cacheBust = "20260421-2209";
+const cacheBust = "20260422-0102";
 fetch(`data/papers.json?v=${cacheBust}`).then(r => r.json()).then(rows => {
   const table = new Tabulator("#tbl", {
     data: rows,
