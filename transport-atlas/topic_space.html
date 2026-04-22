@@ -220,7 +220,7 @@
 </div>
 
 <script>
-const cacheBust = "20260422-0221";
+const cacheBust = "20260422-0304";
 const REPORT_EMAIL = "chois@umn.edu";
 const REPORT_REPO  = "UMN-Choi-Lab/transport-atlas-issues";
 const canvas = document.getElementById('space');
@@ -256,6 +256,7 @@ try {
 
 const nodes = Object.entries(COORDS).map(([nid, o]) => ({
   id: +nid, x: +o.x, y: +o.y, community: o.c, sc: o.sc, label: o.n, papers: o.p,
+  orcid: o.o || null,
 }));
 const nodeById = new Map(nodes.map(n => [n.id, n]));
 const nSem = Array.isArray(SEMCOMMS) ? SEMCOMMS.length : 0;
@@ -640,7 +641,11 @@ canvas.addEventListener('mousemove', (e) => {
   if (hovered) {
     canvas.style.cursor = 'pointer';
     ttName.textContent = hovered.label;
-    ttStat.textContent = `${hovered.papers} papers`;
+    ttStat.innerHTML = `${hovered.papers} papers`
+      + (hovered.orcid
+          ? ` · <a href="https://orcid.org/${escHtml(hovered.orcid)}" target="_blank" rel="noopener"
+               style="color:#a7f3d0;text-decoration:none;" title="ORCID profile">ORCID ${escHtml(hovered.orcid)}</a>`
+          : '');
     const coLbl = coauthorLabel.get(hovered.community);
     const semLbl = semanticLabel.get(hovered.sc);
     ttComm.innerHTML =
@@ -679,6 +684,12 @@ function renderSelectedPanel() {
   const body = encodeURIComponent(reportBodyForNode(selected));
   let html =
     `<div class="name">${escHtml(selected.label)}</div>`
+    + (selected.orcid
+        ? `<div style="font-size:11px;margin-top:2px;">`
+          + `<a href="https://orcid.org/${escHtml(selected.orcid)}" target="_blank" rel="noopener"
+               style="color:#a7f3d0;text-decoration:none;" title="Open ORCID profile">`
+          + `ORCID ${escHtml(selected.orcid)} ↗</a></div>`
+        : '')
     + `<div class="stat">${selected.papers} papers`
       + ` · coauthor-comm ${selected.community}`
       + (selected.sc != null ? ` · sem-comm ${selected.sc}` : '')
@@ -764,8 +775,13 @@ const resultsDiv = document.getElementById('results');
 searchInput.addEventListener('input', (e) => {
   const q = e.target.value.trim().toLowerCase();
   if (!q) { resultsDiv.innerHTML = ''; return; }
+  // Labels are stored "last, first" — tokenize the query so "Cathy Wu" matches "wu, cathy".
+  const terms = q.split(/\s+/).filter(Boolean);
   const matches = nodes
-    .filter(n => n.label.toLowerCase().includes(q))
+    .filter(n => {
+      const lbl = n.label.toLowerCase();
+      return terms.every(t => lbl.includes(t));
+    })
     .sort((a, b) => b.papers - a.papers)
     .slice(0, 25);
   resultsDiv.innerHTML = matches.length

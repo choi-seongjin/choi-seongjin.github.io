@@ -270,7 +270,7 @@
 </div>
 
 <script>
-const cacheBust = "20260422-0221";
+const cacheBust = "20260422-0304";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -926,8 +926,14 @@ const resultsDiv = document.getElementById('results');
 searchInput.addEventListener('input', (e) => {
   const q = e.target.value.trim().toLowerCase();
   if (!q) { resultsDiv.innerHTML = ''; return; }
+  // Labels are "last, first" — AND-match on whitespace-split tokens so
+  // "Cathy Wu" finds "wu, cathy".
+  const terms = q.split(/\s+/).filter(Boolean);
   const visibleIds = new Set(nodes.map(n => n.id));
-  const matches = allNodes.filter(n => n.label.toLowerCase().includes(q))
+  const matches = allNodes.filter(n => {
+      const lbl = n.label.toLowerCase();
+      return terms.every(t => lbl.includes(t));
+    })
     .sort((a, b) => b.papers - a.papers).slice(0, 25);
   if (!matches.length) {
     resultsDiv.innerHTML = '<div style="color:#888;padding:4px 8px;font-size:12px;">No matches</div>';
