@@ -168,7 +168,7 @@
 </div>
 
 <script>
-const cacheBust = "20260422-0109";
+const cacheBust = "20260422-0159";
 const REPORT_EMAIL = "chois@umn.edu";
 const REPORT_REPO  = "UMN-Choi-Lab/transport-atlas-issues";
 const canvas = document.getElementById('space');
@@ -607,12 +607,26 @@ function escHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
 
-function centerOn(n, scale = 3) {
+function centerOn(n) {
   selected = n;
   commFilter = null;
   document.querySelectorAll('.comm-item.sel').forEach(el => el.classList.remove('sel'));
   renderSelectedPanel();
-  // Node is in screen-space coords; center of viewport is (width/2, height/2).
+  // Frame the node + its semantic neighbors in view, keeping the selected node centered.
+  // Scale is chosen so the farthest neighbor is ~75% of the way from the viewport center
+  // to the viewport edge — leaving headroom for labels and so the cluster "breathes".
+  const sims = SIMILAR[String(n.id)] || [];
+  let maxDist = 0;
+  for (const s of sims) {
+    const t = nodeById.get(s.id); if (!t) continue;
+    const d = Math.hypot(t.x - n.x, t.y - n.y);
+    if (d > maxDist) maxDist = d;
+  }
+  const pad = 40;
+  const halfViewport = Math.min(width, height) / 2;
+  const scale = maxDist > 0
+    ? Math.min(3.0, Math.max(0.6, (halfViewport * 0.75) / (maxDist + pad)))
+    : 2.0;   // isolated node — modest zoom-in, no reference distance
   const tx = width / 2 - n.x * scale;
   const ty = height / 2 - n.y * scale;
   d3.select(canvas).transition().duration(500)
