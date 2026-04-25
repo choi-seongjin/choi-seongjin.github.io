@@ -47,7 +47,7 @@
     <a href="coauthor_network.html">Coauthor Network</a>
     <a href="trajectories.html">Trajectories</a>
   </nav>
-  <span class="muted" style="margin-left:auto">Built 2026-04-25 16:51</span>
+  <span class="muted" style="margin-left:auto">Built 2026-04-25 17:09</span>
 </header>
 <main>
   
@@ -94,6 +94,7 @@
   table.results .coi-2 { color: #d97706; }
   table.results .coi-3 { color: #65a30d; }
   table.results .coi-x { color: var(--muted); }
+  table.results .venue-hit { color: #047857; font-weight: 700; background: #ecfdf5; padding: 0 4px; border-radius: 3px; }
   .preset-btn {
     background: #f1f5f9; border: 1px solid var(--border); border-radius: 999px;
     padding: 3px 10px; font-size: 11.5px; color: #334155; cursor: pointer; margin-right: 6px;
@@ -139,7 +140,82 @@
         <label for="rev-submitter">Submitter (optional, for COI) — ORCID or "Last, First"</label>
         <input id="rev-submitter" type="text" placeholder="0000-0001-7140-537X  or  choi, seongjin">
       </div>
-      <div class="form-row" style="flex:0 1 110px;">
+      <div class="form-row" style="flex:1 1 180px;">
+        <label for="rev-venue">Target venue (optional, boosts +0.05)</label>
+        <select id="rev-venue">
+          <option value="">(any)</option>
+          
+          <option value="tr-a">TR-A — Transportation Research Part A: Policy and Practice</option>
+          
+          <option value="tr-b">TR-B — Transportation Research Part B: Methodological</option>
+          
+          <option value="tr-c">TR-C — Transportation Research Part C: Emerging Technologies</option>
+          
+          <option value="tr-d">TR-D — Transportation Research Part D: Transport and Environment</option>
+          
+          <option value="tr-e">TR-E — Transportation Research Part E: Logistics and Transportation Review</option>
+          
+          <option value="tr-f">TR-F — Transportation Research Part F: Traffic Psychology and Behaviour</option>
+          
+          <option value="t-its">T-ITS — IEEE Transactions on Intelligent Transportation Systems</option>
+          
+          <option value="t-iv">T-IV — IEEE Transactions on Intelligent Vehicles</option>
+          
+          <option value="its-mag">ITS Mag — IEEE Intelligent Transportation Systems Magazine</option>
+          
+          <option value="comm-tr-res">CommTR — Communications in Transportation Research</option>
+          
+          <option value="transci">TransSci — Transportation Science</option>
+          
+          <option value="trr">TRR — Transportation Research Record: Journal of the Transportation Research Board</option>
+          
+          <option value="amar">AMAR — Analytic Methods in Accident Research</option>
+          
+          <option value="transp-rev">TranspRev — Transport Reviews</option>
+          
+          <option value="jtg">JTG — Journal of Transport Geography</option>
+          
+          <option value="aap">AAP — Accident Analysis and Prevention</option>
+          
+          <option value="jum">JUM — Journal of Urban Mobility</option>
+          
+          <option value="tbs">TBS — Travel Behaviour and Society</option>
+          
+          <option value="tpol">TranspPol — Transport Policy</option>
+          
+          <option value="rtbm">RTBM — Research in Transportation Business and Management</option>
+          
+          <option value="etrr">ETRR — European Transport Research Review</option>
+          
+          <option value="ijst">IJST — International Journal of Sustainable Transportation</option>
+          
+          <option value="trip">TRIP — Transportation Research Interdisciplinary Perspectives</option>
+          
+          <option value="jpt">JPT — Journal of Public Transportation</option>
+          
+          <option value="cacie">CACIE — Computer-Aided Civil and Infrastructure Engineering</option>
+          
+          <option value="jicv">JICV — Journal of Intelligent and Connected Vehicles</option>
+          
+          <option value="jtte">JTTE — Journal of Traffic and Transportation Engineering (English Edition)</option>
+          
+          <option value="rail-eng-sci">RailEng — Railway Engineering Science</option>
+          
+          <option value="oj-its">OJ-ITS — IEEE Open Journal of Intelligent Transportation Systems</option>
+          
+          <option value="ijtst">IJTST — International Journal of Transportation Science and Technology</option>
+          
+          <option value="etrans">eTransp — eTransportation</option>
+          
+          <option value="geit">GEIT — Green Energy and Intelligent Transportation</option>
+          
+          <option value="t-te">T-TE — IEEE Transactions on Transportation Electrification</option>
+          
+          <option value="vtm">VT Mag — IEEE Vehicular Technology Magazine</option>
+          
+        </select>
+      </div>
+      <div class="form-row" style="flex:0 1 90px;">
         <label for="rev-topn">Top N</label>
         <select id="rev-topn">
           <option>15</option><option selected>30</option><option>50</option><option>100</option>
@@ -189,7 +265,7 @@
 </div>
 
 <script type="module">
-const CACHE_BUST = "20260425-1651";
+const CACHE_BUST = "20260425-1709";
 const SPECTER2_REPO = "benchoi93/specter2-base-onnx-web";
 const SPECTER2_IS_DEFAULT = false;
 const EMBED_DIM = 768;
@@ -357,7 +433,7 @@ function venueLabel(slug) {
   return slug ? slug.replace(/^tr-/, "TR-").replace(/^t-(\w+)/, (_, x) => "T-" + x.toUpperCase()) : "";
 }
 
-function renderResults(ranked, distMap, title) {
+function renderResults(ranked, distMap, title, targetVenue) {
   const tbody = $("#rev-table tbody");
   tbody.innerHTML = "";
   const concepts = INDEX.vocab_concepts;
@@ -369,7 +445,12 @@ function renderResults(ranked, distMap, title) {
     const conceptStr = (a.ci || []).slice(0, 6).map((c) => concepts[c]).filter(Boolean).join(" · ");
     const orcidLink = a.o ? `<a href="https://orcid.org/${a.o}" target="_blank" rel="noopener" title="ORCID">⓪</a>` : "";
     const profileHref = `coauthor_network.html?focus=${a.i}`;
-    const venueChips = (a.v || []).slice(0, 3).map(venueLabel).join(" · ");
+    const venueChips = (a.v || []).slice(0, 3).map((slug) => {
+      const lab = venueLabel(slug);
+      return targetVenue && slug === targetVenue
+        ? `<span class="venue-hit" title="publishes in target venue">✓ ${lab}</span>`
+        : lab;
+    }).join(" · ");
     const d = distMap.get(idx);
     let coiHtml;
     if (d === undefined) coiHtml = '<span class="coi-x">—</span>';
@@ -402,6 +483,8 @@ $("#rev-go").addEventListener("click", async () => {
   const submitter = $("#rev-submitter").value.trim();
   const topN = parseInt($("#rev-topn").value, 10) || 30;
   const coiMaxHops = parseInt($("#rev-coi-hops").value, 10) || 0;
+  const targetVenue = $("#rev-venue").value || "";
+  const VENUE_BOOST = 0.05;
 
   $("#rev-go").disabled = true;
   try {
@@ -423,6 +506,20 @@ $("#rev-go").addEventListener("click", async () => {
 
     setStatus(`Scoring ${INDEX.n_authors.toLocaleString()} authors ...`);
     const scores = cosineQueryVsAll(queryVec);
+    if (targetVenue) {
+      // Soft boost: lift any author whose top venues include the target.
+      // Boost is small enough that a strong off-venue match (e.g. cosine 0.65) still
+      // outranks a weak on-venue match (cosine 0.40 + 0.05).
+      let nBoosted = 0;
+      for (let a = 0; a < INDEX.n_authors; a++) {
+        const v = INDEX.authors[a].v;
+        if (v && v.indexOf(targetVenue) !== -1) {
+          scores[a] += VENUE_BOOST;
+          nBoosted++;
+        }
+      }
+      console.log(`[rev] venue boost: ${nBoosted} authors boosted by +${VENUE_BOOST} (target ${targetVenue})`);
+    }
 
     // COI distances (don't filter the scores array yet — we want to *show* COI=∅ entries too,
     // just exclude those within maxHops from the final ranking).
@@ -444,7 +541,7 @@ $("#rev-go").addEventListener("click", async () => {
       ranked.push({ idx, score: scores[idx] });
       if (ranked.length >= topN) break;
     }
-    renderResults(ranked, distMap, title || abstract);
+    renderResults(ranked, distMap, title || abstract, targetVenue);
     if (submitterIdx != null) {
       setStatus(`Done. Submitter matched: ${INDEX.authors[submitterIdx].n}. Excluded ${exclude.size} authors within ${coiMaxHops} hop(s).`, "ok");
     } else if (submitter) {
