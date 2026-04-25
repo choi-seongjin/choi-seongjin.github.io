@@ -10,7 +10,14 @@ header: no
 
 ## Interactive tools
 
-**[Transport Atlas →](/transport-atlas/)** — Browsable atlas of ~49,000 papers across 17 transportation journals (TR A-F, T-ITS, T-IV, Transportation Science, CACIE, JTTE, Comm. in TR, …). Full-text explorer, papers-by-year charts, and an interactive coauthor network with Leiden communities and TF-IDF topic labels.
+**[Transport Atlas →](/transport-atlas/)** — Browsable atlas of 120,000+ papers across 34 transportation journals (TR A-F, T-ITS, T-IV, Transportation Science, TRR, CACIE, JTTE, Comm. in TR, …) from 1967 to today. Includes:
+{:.no_underline}
+
+- **Full-text Explorer** — search and filter all 120k papers by title, author, year, venue, and citation count.
+- **Coauthor Network** — 41k connected researchers, 83k coauthor edges, 172 Leiden communities with TF-IDF topic labels.
+- **Topic Space** — SPECTER2 paper embeddings aggregated to authors and projected to 2D with UMAP; click any author to see semantic neighbors and topic trajectory by year.
+- **Trajectories** — four-class career-arc taxonomy (*stayer*, *drifter*, *returner*, *switcher*) of 3,500+ active researchers.
+- **Reviewer Finder** — paste a paper's title and abstract; get a ranked list of suggested reviewers from the corpus, with COI filtering against the coauthor graph.
 
 ## Code
 [https://github.com/UMN-Choi-Lab/DGMinTransportation](https://github.com/UMN-Choi-Lab/DGMinTransportation)
