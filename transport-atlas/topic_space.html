@@ -220,7 +220,7 @@
 </div>
 
 <script>
-const cacheBust = "20260429-1605";
+const cacheBust = "20260507-1543";
 const REPORT_EMAIL = "chois@umn.edu";
 const REPORT_REPO  = "UMN-Choi-Lab/transport-atlas";
 const canvas = document.getElementById('space');
@@ -911,5 +911,31 @@ window.addEventListener('resize', () => {
 draw();
 })();
 </script>
+
+
+<script data-goatcounter="https://transport-atlas.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<span class="visit-count muted" data-gc-count
+      data-gc-host="transport-atlas.goatcounter.com"
+      style="margin-left:8px;font-size:11px;opacity:.75"></span>
+<script>
+(() => {
+  const el = document.querySelector('[data-gc-count]');
+  if (!el) return;
+  const host = el.dataset.gcHost;
+  // GoatCounter keys pageviews by `vars.p`, which defaults to location.pathname.
+  // Match its default exactly so the counter and the badge agree.
+  const path = encodeURIComponent(location.pathname);
+  fetch(`https://${host}/counter/${path}.json`)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if (!j || j.count === undefined) { el.textContent = ''; return; }
+      const n = Number(String(j.count).replace(/,/g, ''));
+      el.textContent = `· ${isFinite(n) ? n.toLocaleString() : j.count} views`;
+    })
+    .catch(() => { el.textContent = ''; });
+})();
+</script>
+
 </body>
 </html>

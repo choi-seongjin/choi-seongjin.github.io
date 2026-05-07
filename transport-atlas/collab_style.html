@@ -49,7 +49,7 @@
     <a href="collab_style.html" class="active">Collaboration Style</a>
     <a href="personality.html">Personality</a>
   </nav>
-  <span class="muted" style="margin-left:auto">Built 2026-04-29 16:05</span>
+  <span class="muted" style="margin-left:auto">Built 2026-05-07 15:43</span>
 </header>
 <main>
   
@@ -119,7 +119,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/js/tabulator.min.js"></script>
 <script>
 const PAGE = "collab_style";
-fetch("data/collab_style.json?v=20260429-1605").then(r => r.json()).then(payload => {
+fetch("data/collab_style.json?v=20260507-1543").then(r => r.json()).then(payload => {
   const summary = payload.summary;
   const authors = payload.authors;
 
@@ -202,6 +202,32 @@ fetch("data/collab_style.json?v=20260429-1605").then(r => r.json()).then(payload
   <br>
   Source: <a href="https://github.com/UMN-Choi-Lab">UMN-Choi-Lab</a>.
   Inspired by <a href="https://gisbi-kim.github.io/robopaper-atlas/">robopaper-atlas</a>.
+  
+
+<script data-goatcounter="https://transport-atlas.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<span class="visit-count muted" data-gc-count
+      data-gc-host="transport-atlas.goatcounter.com"
+      style="margin-left:8px;font-size:11px;opacity:.75"></span>
+<script>
+(() => {
+  const el = document.querySelector('[data-gc-count]');
+  if (!el) return;
+  const host = el.dataset.gcHost;
+  // GoatCounter keys pageviews by `vars.p`, which defaults to location.pathname.
+  // Match its default exactly so the counter and the badge agree.
+  const path = encodeURIComponent(location.pathname);
+  fetch(`https://${host}/counter/${path}.json`)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if (!j || j.count === undefined) { el.textContent = ''; return; }
+      const n = Number(String(j.count).replace(/,/g, ''));
+      el.textContent = `· ${isFinite(n) ? n.toLocaleString() : j.count} views`;
+    })
+    .catch(() => { el.textContent = ''; });
+})();
+</script>
+
 </footer>
 
 </body>
