@@ -1,65 +1,176 @@
 ---
-layout              : page-fullwidth
-title               : ""
-meta_title          : ""
-subheadline         : ""
-teaser              : ""
-permalink           : "/team/"
-header: no
+layout: editorial
+title: Team
+editorial_page: Team
+permalink: "/team/"
 ---
 
+<section class="page-head">
+  <p class="kicker kicker-mark">Team</p>
+  <h1>The lab.</h1>
+  <p class="lede">A growing lab — currently four graduate students, one incoming postdoctoral researcher, and an undergraduate research assistant. Alumni listed below; reaching out about their work is welcome.</p>
+</section>
 
+<section class="section">
+  <div class="section-head"><div><p class="kicker kicker-mark">Section I · Postdocs</p><h2>Postdoctoral researchers.</h2></div></div>
+  <div class="team-grid">
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Guoliang Feng</div>
+        <div class="role">Postdoctoral Researcher · 2026 –</div>
+        <div class="interest">AI integration in traffic operation · Agentic Traffic Simulation · Synthetic population.</div>
+      </div>
+    </article>
+  </div>
+</section>
 
-## Current Students 
-- ### Graduate Students
-  - **Lindong Liu** (2024-) - Ph.D. Student in CEGE
-    - Inverse Problem, Learning from sparse data, traffic state estimation
-  - **Christopher Cheong** (2025-) - Ph.D. Student in CEGE
-    - Traffic Forecasting, Neural networks for large-scale spatiotemporal data
-  - **Pouya Parsa** (2024-) - Ph.D. Student in CEGE
-    - Scalable Vision-Language-Action Model for Autonomous Driving
-  - **Rammesh Adhav Saravanan** (2024-) - Master student in Minnesota Robotics Institute (MnRI)
-    - Cooperative Vision-Language-Action Model for Autonomous Driving
-  - **Ross Volkov** (2025-) - Master student in Data Science
-    - 3D reconstruction
+<section class="section">
+  <div class="section-head"><div><p class="kicker kicker-mark">Section II · PhD students</p><h2>Current PhD students.</h2></div></div>
+  <div class="team-grid">
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Lindong Liu</div>
+        <div class="role">PhD · CEGE · 2024 –</div>
+        <div class="interest">Inverse problem · Learning from sparse data · Traffic state estimation.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Christopher Cheong</div>
+        <div class="role">PhD · CEGE · 2025 –</div>
+        <div class="interest">Traffic forecasting · Neural networks for large-scale spatiotemporal data.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Pouya Parsa</div>
+        <div class="role">PhD · CEGE · 2024 –</div>
+        <div class="interest">Scalable Vision-Language-Action models for autonomous driving.</div>
+      </div>
+    </article>
+  </div>
+</section>
 
-- ### Undergraduate research assistant
-  - **Leo Curtis** (2025- ) TMC-Agent
-  - **Ismail Yusuf** (2026- ) Traffic Incident Detection using Vision Language Model
+<section class="section">
+  <div class="section-head"><div><p class="kicker kicker-mark">Section III · Master's</p><h2>Master's students.</h2></div></div>
+  <div class="team-grid">
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Rammesh Adhav Saravanan</div>
+        <div class="role">MS · MnRI · 2024 –</div>
+        <div class="interest">Cooperative Vision-Language-Action models for autonomous driving.</div>
+      </div>
+    </article>
+  </div>
+</section>
 
-## Alumni
-  - **Seunghee Ryu** (2025) - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
-  - **Donghoon Kwon** (2025) - Visiting Student from Korea University (co-supervised with Professor Seungmo Kang)
-  - **Sicong Jiang** - Ph.D. Student at McGill University, co-supervised with Professor Lijun Sun
-  - **Mithell Kosieradzki** (2024-2025) - Master student in Data Science (Capstone project)
-  - **Dev Patel** (2024) 
-  - **Noah Hebeisen** (2024)
+<section class="section">
+  <div class="section-head"><div><p class="kicker kicker-mark">Section IV · Undergraduates</p><h2>Undergraduate research.</h2></div></div>
+  <div class="team-grid">
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Taysir Hoque</div>
+        <div class="role">Undergraduate RA · 2026 –</div>
+        <div class="interest">Undergraduate research assistant.</div>
+      </div>
+    </article>
+  </div>
+</section>
 
-## Collaborators
-- [Hwasoo Yeo (KAIST)](https://www.aimobility.kaist.ac.kr/)
-- [Lijun Sun (McGill University)](https://lijunsun.github.io/)
-- [Jiwon Kim (University of Queensland)](https://researchers.uq.edu.au/researcher/10269)
-- [Nicolas Saunier (Polytechnique Montreal)](http://n.saunier.free.fr/saunier/)
-- [Jinwoo Lee (KAIST)](https://lee.kaist.ac.kr/home)
-- Sehyun Tak (KOTI)
-- Donghoun Lee (Sejong University)
-- [Soomin Woo (Konkuk University)](https://www.thesemlab.com/)
+<section class="section">
+  <div class="section-head"><div><p class="kicker kicker-mark">Section V · Alumni</p><h2>Where they went next.</h2></div></div>
+  <div class="team-grid">
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Ross Volkov</div>
+        <div class="role">MS · Data Science · 2025 – 2026</div>
+        <div class="interest">Now at Honeywell.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Seunghee Ryu</div>
+        <div class="role">Visiting Student · 2025</div>
+        <div class="interest">From Korea University (co-supervised with Prof. Seungmo Kang).</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Donghoon Kwon</div>
+        <div class="role">Visiting Student · 2025</div>
+        <div class="interest">From Korea University (co-supervised with Prof. Seungmo Kang).</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Sicong Jiang</div>
+        <div class="role">PhD · McGill</div>
+        <div class="interest">Co-supervised with Prof. Lijun Sun.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Mitch Kosieradzki</div>
+        <div class="role">MS · Data Science · 2024 – 2025</div>
+        <div class="interest">Capstone project.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Leo Curtis</div>
+        <div class="role">2025 – 2026</div>
+        <div class="interest">TMC-Agent.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Ismail Yusuf</div>
+        <div class="role">2026 –</div>
+        <div class="interest">Traffic incident detection using vision-language models.</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Dev Patel</div>
+        <div class="role">2024</div>
+        <div class="interest">—</div>
+      </div>
+    </article>
+    <article class="team-card">
+      <div class="photo"><div class="placeholder" style="height:96px;"></div></div>
+      <div>
+        <div class="name">Noah Hebeisen</div>
+        <div class="role">2024</div>
+        <div class="interest">—</div>
+      </div>
+    </article>
+  </div>
+</section>
 
-<!-- - Zhihao Zheng (McGill University)
-- Zhixiong Jin (Gustave-Eiffel University)
-- Sohyeong Kim (EPFL) -->
-
-## Join Our Team!
-<div>
-    <p style="margin-bottom:5px;">
-        I am looking for students who are excited about machine learning for urban transportation and mobility data. If you're interested, please send me an email at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>. Please include a CV, a research statement, and an academic transcript.
-        <br>
-        Please use “Prospective student [Your name]” as your email subject. Due to the large volume of emails, I apologize for not replying to individual inquiries I have received.
-    </p>
-    <div class="text-right">
-        <a href="/news/230607">Read More</a>
-    </div>
-</div>
-
-
-<!-- ## Alumni -->
+<section class="section soft">
+  <div class="section-head"><div><p class="kicker kicker-mark">Section VI · Collaborators</p><h2>Collaborators.</h2></div></div>
+  <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;font-family:var(--serif);font-size:19px;line-height:1.5;">
+    <li><a href="https://www.aimobility.kaist.ac.kr/" class="link-underline">Hwasoo Yeo (KAIST)</a></li>
+    <li><a href="https://lijunsun.github.io/" class="link-underline">Lijun Sun (McGill University)</a></li>
+    <li><a href="https://researchers.uq.edu.au/researcher/10269" class="link-underline">Jiwon Kim (University of Queensland)</a></li>
+    <li><a href="http://n.saunier.free.fr/saunier/" class="link-underline">Nicolas Saunier (Polytechnique Montréal)</a></li>
+    <li><a href="https://lee.kaist.ac.kr/home" class="link-underline">Jinwoo Lee (KAIST)</a></li>
+    <li>Sehyun Tak (KOTI)</li>
+    <li>Donghoun Lee (Sejong University)</li>
+    <li><a href="https://www.thesemlab.com/" class="link-underline">Soomin Woo (Konkuk University)</a></li>
+  </ul>
+</section>

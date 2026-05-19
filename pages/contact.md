@@ -1,21 +1,49 @@
 ---
-layout              : page-fullwidth
-title               : "Contact Me"
-meta_title          : ""
-subheadline         : ""
-teaser              : ""
-permalink           : "/contact/"
-header: no
+layout: editorial
+title: Contact
+editorial_page: Contact
+permalink: "/contact/"
 ---
 
-Room 162, Civil Engineering Building<br>
-500 Pillsbury Dr. SE<br>
-Minneapolis, MN 55455<br>
-Tel: +1-612-625-1371
+<section class="page-head">
+  <p class="kicker kicker-mark">Contact</p>
+  <h1>Email is the channel.</h1>
+  <p class="lede">Please read the response policy below before sending. I apologize in advance for not being able to reply to every individual inquiry.</p>
+</section>
 
-Meetings are by appointment only.<br>
-Please send me an email to schedule a meeting at <a href="mailto:chois@umn.edu">chois[at]umn.edu</a>.
+<section class="contact-grid">
+  <div>
+    <div class="label-block">Email</div>
+    <div class="email-big">chois@umn.edu</div>
 
-Please consider following calendar when making appointments with me.
+    <div class="label-block">Office</div>
+    <div class="office">
+      Civil Engineering Building, Room 142<br/>
+      500 Pillsbury Drive SE<br/>
+      Minneapolis, MN 55455
+    </div>
 
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FChicago&mode=WEEK&hl=en&showPrint=0&showNav=1&showTitle=0&showCalendars=0&showTabs=0&src=Y2hvaXNAdW1uLmVkdQ&src=YmVuY2hvaTkzQGdtYWlsLmNvbQ&src=dW1uLmVkdV9tN2ZmaDlqcTNpbXU0NTY5OWppczJpbmhwc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&color=%23AD1457&color=%23F6BF26&color=%234285F4" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <div class="label-block">Response policy</div>
+    <ul>
+      <li><strong>Prospective PhD students:</strong> please email with subject "Prospective PhD student [Your name]", attaching CV + research statement + transcript. Due to volume I cannot reply individually.</li>
+      <li><strong>Press / media:</strong> please email with subject "Media inquiry" and the publication name + deadline.</li>
+      <li><strong>Collaboration / talks:</strong> please email with subject "Collaboration: [topic]" or "Talk: [venue]".</li>
+      <li><strong>Course-related (current students):</strong> use Canvas messaging.</li>
+    </ul>
+  </div>
+  <div>
+    <div class="placeholder" style="height:360px;">
+      <span class="label">[ static map · UMN Twin Cities ]</span>
+    </div>
+    <div class="map-note">Static image · no embedded map (privacy &amp; page weight).</div>
+    <div class="elsewhere">
+      <div class="head">Elsewhere</div>
+      <ul>
+        <li><a href="https://scholar.google.com/citations?user=tyLWFk4AAAAJ" class="link-underline">Google Scholar ↗</a></li>
+        <li><a href="https://github.com/UMN-Choi-Lab" class="link-underline">GitHub · @UMN-Choi-Lab ↗</a></li>
+        <li><a href="https://choi-seongjin.umn.edu/" class="link-underline">UMN lab homepage ↗</a></li>
+        <li><a href="https://www.cts.umn.edu/research-scholars/seongjin-choi" class="link-underline">UMN CEGE directory ↗</a></li>
+      </ul>
+    </div>
+  </div>
+</section>

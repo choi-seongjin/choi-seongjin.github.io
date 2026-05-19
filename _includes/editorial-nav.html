@@ -1,0 +1,10 @@
+{%- assign cp = page.editorial_page | default: page.title -%}
+<nav class="editorial-nav">
+  {% for n in site.data.editorial_nav %}
+    {%- assign is_active = false -%}
+    {%- if n.label == cp -%}{%- assign is_active = true -%}{%- endif -%}
+    <a href="{{ site.baseurl }}{{ n.href }}" class="naked{% if is_active %} active{% endif %}">
+      {% if n.mono %}<span class="mono-badge">◼</span>{% endif %}{{ n.label }}
+    </a>
+  {% endfor %}
+</nav>

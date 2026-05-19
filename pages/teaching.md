@@ -1,17 +1,31 @@
 ---
-layout              : page-fullwidth
-title               : "Teaching"
-meta_title          : ""
-subheadline         : ""
-teaser              : ""
-permalink           : "/teaching/"
-header: no
+layout: editorial
+title: Teaching
+editorial_page: Teaching
+permalink: "/teaching/"
 ---
 
-**2025 Fall: CEGE 8490 - Generative AI for Transportation Research**
-- PhD-level course covering autoregressive models, VAEs, GANs, normalizing flows, diffusion models, LLMs, and vision-language models for transportation applications
-- [LinkedIn article about the course](https://www.linkedin.com/pulse/generative-ai-transportation-research-seongjin-choi-rdkkc/)
+<section class="page-head">
+  <p class="kicker kicker-mark">Teaching</p>
+  <h1>Courses.</h1>
+  <p class="lede">Office hours by appointment — please email first. Materials live on the campus LMS; this page links to syllabi only.</p>
+</section>
 
-**2025 Spring: CEGE 4160/5180 - Applied Machine Learning for CEGE**
+<section style="padding:20px var(--pad-x) 56px;">
 
-**2024 Spring: CEGE 3101 - Computer Applications I**
+  <article class="course-entry">
+    <div>
+      <div class="code">CEGE 4501 / 5501</div>
+      <div class="sem">[ pending semester confirmation ]</div>
+    </div>
+    <div>
+      <h3>Course details pending.</h3>
+      <div class="level">// TODO · populate teaching list with active and upcoming courses.</div>
+    </div>
+    <div class="links">
+      <a class="link-underline">Syllabus ↓</a>
+      <a class="link-underline">Canvas ↗</a>
+    </div>
+  </article>
+
+</section>

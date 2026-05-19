@@ -1,46 +1,70 @@
 ---
-layout              : page-fullwidth
-title               : ""
-meta_title          : ""
-subheadline         : ""
-teaser              : ""
-permalink           : "/drseongjinchoi/"
-header: no
+layout: editorial
+title: About
+editorial_page: About
+permalink: "/about/"
 ---
 
-<div class="row">
-    <div class="small-4 columns">
-        <h3></h3>
-        <img src="{{ site.url }}/images/profile_sjchoi.jpg" alt="Seongjin Choi" style="width: 280px; height: 420px;">
-    </div>
-    <div class="small-8 columns">
-        <h3>Dr. Seongjin Choi</h3>
-        <p style="margin-bottom: 2px;"><strong>Department:</strong> Civil, Environmental, and Geo- Engineering</p>
-        <p style="margin-bottom: 2px;"><strong>Institution:</strong> University of Minnesota, Twin Cities --- CivE 162, 500 Pillsbury Dr. SE, Minneapolis, MN 55455, USA</p>
-        <p style="margin-bottom: 2px;"><strong>Position:</strong> Assistant Professor</p>
-        <p style="margin-bottom: 2px;"><strong>E-mail:</strong> <a href="mailto:chois@umn.edu">chois[at]umn.edu</a></p>
-        <p style="margin-bottom: 2px;"><strong> Affiliated faculty at 
-            <a href="https://www.cts.umn.edu/research-scholars/seongjin-choi">Center for Transportation Studies</a>, 
-            <a href="https://cse.umn.edu/mnri/seongjin-choi">Minnesota Robotics Institute</a>, 
-            <a href="https://cse.umn.edu/dsi/seongjin-choi">Data Science Initiative</a>
-        </strong></p>
-        <h4>Education:</h4>
-        <ul>
-            <li><strong>2021 Ph.D.,</strong> Korea Advanced Institute of Science and Technology</li>
-            <li><strong>2017 M.S.,</strong> Korea Advanced Institute of Science and Technology</li>
-            <li><strong>2015 B.S.,</strong> Korea Advanced Institute of Science and Technology</li>
-        </ul>
-        <h4>Professional Career:</h4>
-        <ul>
-            <li><strong>2024.01 - Present:</strong> Assistant Professor at UMN</li>
-            <li><strong>2022.01 - 2023.12:</strong> Postdoctoral Researcher at McGill University</li>
-            <li><strong>2021.09 - 2021.11:</strong> Postdoctoral Researcher at KAIST</li>
-        </ul>
-        <h4>Academic Service:</h4>
-        <ul >
-            <li><strong>2023.06 - Present:</strong> Associate Editor of The Journal of the Korean Society of Transportation (JKST)</li>
-            <li><strong>2023.07 - 2024.02:</strong> Guest Editor of the special issue titled "Advanced Data Intelligence Theory and Practice in Transport 2023" in Journal of Advanced Transportation </li>
-        </ul>
-    </div>
-</div>
+<section class="page-head">
+  <p class="kicker kicker-mark">About</p>
+  <h1>Seongjin Choi.</h1>
+  <p class="lede">Assistant Professor in Civil, Environmental, and Geo-Engineering at the University of Minnesota, Twin Cities. Affiliated with the Center for Transportation Studies, Minnesota Robotics Institute, and Data Science Initiative. Postdoc at McGill (2022–2023) with Lijun Sun; PhD at KAIST with Hwasoo Yeo.</p>
+</section>
 
+<section class="about-body">
+  <div>
+    <h2>Biography.</h2>
+    <p>My research interests are broad and interdisciplinary, encompassing urban mobility data analytics, spatiotemporal data modeling, deep learning &amp; AI, and connected automated vehicles (CAV) &amp; cooperative-ITS. I am particularly driven by the desire to optimize urban mobility and contribute to the development of sustainable, efficient urban transportation systems.</p>
+    <p>My work involves drawing insights from urban mobility data and applying cutting-edge AI technologies — including diffusion and flow-based generative models, vision-language-action models, and large language model agents — to transportation problems.</p>
+
+    <h3>Lineage.</h3>
+    <ul>
+      <li><strong>2024 – present</strong> · Assistant Professor, CEGE, University of Minnesota, Twin Cities</li>
+      <li><strong>2022 – 2023</strong> · Postdoctoral Researcher, Civil Engineering, McGill University (with Lijun Sun)</li>
+      <li><strong>2021</strong> · Postdoctoral Researcher, KAIST (Sep – Nov)</li>
+      <li><strong>2017 – 2021</strong> · PhD, Civil &amp; Environmental Engineering, KAIST (with Hwasoo Yeo)</li>
+      <li><strong>2015 – 2017</strong> · MSc, KAIST</li>
+      <li><strong>2011 – 2015</strong> · BSc, KAIST</li>
+    </ul>
+
+    <h3>Academic service.</h3>
+    <ul>
+      <li><strong>2023 – present</strong> · Associate Editor, <em>Journal of the Korean Society of Transportation (JKST)</em></li>
+      <li><strong>2023 – 2024</strong> · Guest Editor, special issue "Advanced Data Intelligence Theory and Practice in Transport 2023," <em>Journal of Advanced Transportation</em></li>
+    </ul>
+  </div>
+
+  <div>
+    <div class="placeholder" style="height:420px;">
+      <span class="label">[ headshot — drop image ]</span>
+    </div>
+    <div class="quick-facts">
+      <div class="head">Quick facts</div>
+      <ul>
+        <li>Office · Civil Eng. Bldg. 142</li>
+        <li>Email · chois@umn.edu</li>
+        <li>CV (PDF) · <a class="link-underline">[ pending update ]</a></li>
+        <li><a href="https://www.cts.umn.edu/research-scholars/seongjin-choi" class="link-underline">UMN CTS profile ↗</a></li>
+        <li><a href="https://cse.umn.edu/mnri/seongjin-choi" class="link-underline">Minnesota Robotics ↗</a></li>
+        <li><a href="https://cse.umn.edu/dsi/seongjin-choi" class="link-underline">Data Science Initiative ↗</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="recruit-block" id="recruiting">
+  <div>
+    <p class="kicker">◆ Recruiting · Fall 2026</p>
+    <h2>Prospective students.</h2>
+    <p>I'm looking for PhD students (and a Postdoc) for Fall 2026 (starts in September) who are excited about machine learning for urban transportation and mobility data. Please email <span style="border-bottom:1px solid currentColor;">chois@umn.edu</span> with a CV, research statement, and academic transcript. Subject line: "Prospective PhD student [Your name]". Due to the volume of emails, I apologize for not replying to individual inquiries.</p>
+  </div>
+  <div class="card">
+    <div class="head">How to apply</div>
+    <ol>
+      <li>CV (PDF)</li>
+      <li>Research statement (~1 page)</li>
+      <li>Academic transcript</li>
+      <li>Subject: "Prospective PhD student [Your name]"</li>
+    </ol>
+  </div>
+</section>

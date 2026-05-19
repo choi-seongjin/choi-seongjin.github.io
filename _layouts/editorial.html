@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% if page.editorial_title %}{{ page.editorial_title }}{% else %}{{ page.title }}{% endif %} · UMN Choi Lab</title>
+  <meta name="description" content="{% if page.editorial_description %}{{ page.editorial_description }}{% else %}UMN Choi Lab · Seongjin Choi · urban mobility data analytics, spatiotemporal AI, and connected vehicles at the University of Minnesota, Twin Cities.{% endif %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/editorial.css" />
+  {% if page.editorial_extra_css %}<link rel="stylesheet" href="{{ site.baseurl }}{{ page.editorial_extra_css }}" />{% endif %}
+  <link rel="alternate" type="application/atom+xml" title="UMN Choi Lab" href="{{ site.baseurl }}/atom.xml" />
+</head>
+<body>
+<div class="proto-fade">
+
+  {% include editorial-recruiting-strip.html %}
+  {% include editorial-masthead.html %}
+  {% include editorial-nav.html %}
+
+  <main>
+    {{ content }}
+  </main>
+
+  {% include editorial-footer.html %}
+
+</div>
+
+<script src="{{ site.baseurl }}/assets/js/editorial.js" defer></script>
+</body>
+</html>
