@@ -1,25 +1,16 @@
 ---
-layout              : page-fullwidth
-title               : ""
-meta_title          : ""
-subheadline         : ""
-teaser              : ""
-permalink           : "/datasetcode/"
-header: no
+layout: editorial
+title: Data & Code
+editorial_page: Data & Code
+permalink: "/datasetcode/"
+redirect_to: "/datacode/"
 ---
 
-## Code
-[https://github.com/UMN-Choi-Lab/DGMinTransportation](https://github.com/UMN-Choi-Lab/DGMinTransportation)
+<noscript><meta http-equiv="refresh" content="0;url=/datacode/" /></noscript>
+<script>window.location.replace("/datacode/");</script>
 
-[https://github.com/UMN-Choi-Lab/BO4Mob](https://github.com/UMN-Choi-Lab/BO4Mob)
-
-[https://github.com/benchoi93/TrajGAIL](https://github.com/benchoi93/TrajGAIL)
-
-## Datasets
-[https://mtodata.github.io/](https://mtodata.github.io/)
-
-[https://github.com/UMN-Choi-Lab/PeMS-BAY-2022](https://github.com/UMN-Choi-Lab/PeMS-BAY-2022)
-
-
-
-<!-- ## Alumni -->
+<section class="page-head">
+  <p class="kicker kicker-mark">Redirecting</p>
+  <h1>This page has moved.</h1>
+  <p class="lede">If you're not redirected automatically, follow this link to the new <a href="/datacode/" class="link-underline">Data &amp; Code</a> page.</p>
+</section>
