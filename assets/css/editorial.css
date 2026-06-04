@@ -603,6 +603,12 @@ a.link-underline:hover {
 
 /* Mono compact hero (preview on home) */
 .mono-preview .mono-hero h2.big { font-size: 80px; letter-spacing: -2.5px; }
+/* Home preview repos table: 6 columns (no Tags column, unlike full Data & Code).
+   Desktop-only so the max-width:1100px collapse rules still win on mobile. */
+@media (min-width: 1101px) {
+  .mono-preview .repos-table .row,
+  .mono-preview .repos-table .head { grid-template-columns: 44px 1.6fr 1fr 100px 70px 90px; }
+}
 
 .mono-section { padding: 20px var(--pad-x) 40px; }
 .mono-section h2.heading {
@@ -1003,6 +1009,18 @@ a.link-underline:hover {
 .course-entry .links { display: flex; gap: 10px; font-family: var(--mfont); font-size: 11px; letter-spacing: 0.4px; text-transform: uppercase; justify-content: flex-end; }
 
 /* --- NEWS LIST --- */
+.news-year {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -1.5px;
+  color: var(--accent);
+  border-bottom: 2px solid var(--ink);
+  padding: 8px 0;
+  margin-bottom: 16px;
+}
 .news-entry {
   display: grid;
   grid-template-columns: 140px 130px 1fr 24px;
@@ -1113,7 +1131,7 @@ a.link-underline:hover {
   .hero h1, .page-head h1 { font-size: 64px; letter-spacing: -1.6px; }
   .mono-hero h1, .mono-hero h2.big { font-size: 76px; letter-spacing: -2.5px; }
   .section-head h2 { font-size: 40px; }
-  .pubs-year { font-size: 44px; }
+  .pubs-year, .news-year { font-size: 44px; }
   .pub-entry { grid-template-columns: 50px 1fr; }
   .pub-entry .links { grid-column: 2 / 3; flex-direction: row; flex-wrap: wrap; }
   .area-entry { grid-template-columns: 80px 1fr; }
@@ -1132,7 +1150,7 @@ a.link-underline:hover {
   .hero h1, .page-head h1 { font-size: 44px; letter-spacing: -1.2px; }
   .mono-hero h1, .mono-hero h2.big { font-size: 52px; letter-spacing: -1.6px; }
   .featured-grid, .news-grid, .areas-grid, .team-grid { grid-template-columns: 1fr; }
-  .pubs-year { font-size: 32px; }
+  .pubs-year, .news-year { font-size: 32px; }
   .recruit-strip { font-size: 10.5px; flex-wrap: wrap; }
   .masthead-meta, .editorial-nav { font-size: 11px; }
   .masthead-main { flex-direction: column; align-items: flex-start; gap: 8px; }
