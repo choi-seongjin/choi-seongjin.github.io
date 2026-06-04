@@ -8,7 +8,6 @@ quiet_active: Teaching
 <section class="q-page-head">
   <p class="q-eyebrow">Teaching</p>
   <h1>Courses.</h1>
-  <p class="q-lede">Office hours by appointment — please email first. Materials live on the campus LMS; this page links to syllabi only.</p>
 </section>
 
 <section class="q-section">
