@@ -75,7 +75,7 @@ quiet_active: Team
   <div class="q-alumni">
     <div class="q-alumni-row">
       <span class="who">Ross Volkov</span>
-      <span class="where">MS · Data Science · 2025 – 2026 · Now at Honeywell.</span>
+      <span class="where">MS · Data Science · 2025 – 2026 · <strong>Now at Honeywell.</strong></span>
     </div>
     <div class="q-alumni-row">
       <span class="who">Seunghee Ryu</span>
