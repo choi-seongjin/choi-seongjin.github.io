@@ -323,6 +323,18 @@ quiet_active: Publications
   </div>
 </article>
 
+<article class="pub-entry" id="zheng2024betterbatch" data-year="2024" data-type="conference" data-tags="Forecasting">
+  <div class="num">02</div>
+  <div>
+    <div class="meta"><em>27th International Conference on Artificial Intelligence and Statistics (AISTATS)</em>, PMLR 238:91–99 · Conference · Forecasting</div>
+    <h3>Better Batch for Deep Probabilistic Time Series Forecasting</h3>
+    <div class="authors">Zheng, V. Z., <strong>Choi, S.</strong>, Sun, L.</div>
+  </div>
+  <div class="links"><div class="row"><a href="https://proceedings.mlr.press/v238/zheng24a.html" class="link-underline">PMLR ↗</a></div>
+    <a href="#zheng2024betterbatch" class="anchor">#zheng2024betterbatch</a>
+  </div>
+</article>
+
 <article class="pub-entry" id="cheong2024weaver" data-year="2024" data-type="preprint" data-tags="Forecasting">
   <div class="num">04</div>
   <div>

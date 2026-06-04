@@ -137,6 +137,16 @@ window.QUIET_BIBS = {
   eprint = {2412.08099},
   archivePrefix = {arXiv}
 }`,
+"zheng2024betterbatch": `@inproceedings{zheng2024betterbatch,
+  author = {Zheng, Vincent Zhihao and Choi, Seongjin and Sun, Lijun},
+  title = {Better Batch for Deep Probabilistic Time Series Forecasting},
+  booktitle = {Proceedings of the 27th International Conference on Artificial Intelligence and Statistics (AISTATS)},
+  series = {Proceedings of Machine Learning Research},
+  volume = {238},
+  pages = {91--99},
+  year = {2024},
+  url = {https://proceedings.mlr.press/v238/zheng24a.html}
+}`,
 "li2024customizable": `@inproceedings{li2024customizable,
   author = {Li, Tianyi and Wang, Shian and Shang, Mingfeng and Choi, Seongjin and Stern, Raphael},
   title = {A Customizable Neural Network Based Framework for Autonomous Vehicle Control with Human-Guided Learning},
