@@ -9,3 +9,11 @@ _site/
 vendor/
 .bundle/
 .jekyll-cache/
+
+# local build outputs (regenerated; not source)
+_site_prod/
+_site_test/
+
+# scratch / source material kept locally, not published
+HeaderFooter-2022/
+design_handoff_quiet/
