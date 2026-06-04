@@ -29,8 +29,8 @@ permalink: /
     </a>
     <a class="q-area" href="{{ site.baseurl }}/research/">
       <div class="q-area-chip">02</div>
-      <h3>Vision-Language-Action Models for Autonomous Driving</h3>
-      <p>Multimodal foundation models that unify visual perception, language understanding, and vehicle control — and transfer to traffic-surveillance tasks like vehicle identification and monitoring.</p>
+      <h3>AI-Powered Connected and Automated Driving</h3>
+      <p>Multimodal foundation and Vision-Language-Action models, plus deep RL for cooperative driving and vehicle control — extending to traffic-surveillance tasks like vehicle identification and monitoring.</p>
     </a>
     <a class="q-area" href="{{ site.baseurl }}/research/">
       <div class="q-area-chip">03</div>
