@@ -145,8 +145,9 @@ body.quiet { margin: 0; background: var(--bg); color: var(--ink); font-family: v
   .q-lede { font-size: 18px; }
   .q-areas, .q-cards { grid-template-columns: 1fr; }
   .q-team { grid-template-columns: repeat(2, 1fr); }
-  .q-nav { gap: 16px; font-size: 14px; }
-  .q-brand-name { font-size: 18px; }
+  .q-topbar { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .q-nav { gap: 16px 18px; font-size: 14px; }
+  .q-brand-name { font-size: 18px; white-space: nowrap; }
   .q-brand-org { display: none; }
 }
 
