@@ -186,6 +186,17 @@ body.quiet { margin: 0; background: var(--bg); color: var(--ink); font-family: v
 .q-research-entry p { font-size: 16px; line-height: 1.6; color: var(--sub); margin: 0; max-width: 760px; text-wrap: pretty; }
 .q-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 .q-tag { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; color: var(--sub); font-weight: 600; }
+/* representative papers under a research entry */
+.q-repr { margin-top: 20px; max-width: 760px; }
+.q-repr-head { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sub); margin-bottom: 4px; }
+.q-repr ul { list-style: none; margin: 0; padding: 0; }
+.q-repr a { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 15px; line-height: 1.45; }
+.q-repr a:hover { color: var(--accent); }
+.q-repr a span { flex: 0 0 auto; font-size: 12.5px; color: var(--sub); white-space: nowrap; }
+@media (max-width: 680px) {
+  .q-repr a { flex-direction: column; gap: 2px; }
+  .q-repr a span { font-size: 12px; }
+}
 .q-funders { display: flex; gap: 14px 28px; flex-wrap: wrap; margin-top: 14px; color: var(--ink); font-size: 16px; }
 .q-funders .sep { color: var(--line); }
 
