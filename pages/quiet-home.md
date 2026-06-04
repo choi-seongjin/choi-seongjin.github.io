@@ -163,7 +163,7 @@ permalink: /
     <div class="q-person">
       <div class="q-fig"></div>
       <h3><a href="https://pouya-parsa.github.io/" target="_blank" rel="noopener" style="color:var(--accent);">Pouya Parsa</a></h3>
-      <div class="role">PhD · CEGE · 2024 –</div>
+      <div class="role">PhD · CEGE · 2026 –</div>
       <div class="sub">Scalable VLA models for autonomous driving</div>
     </div>
     <div class="q-person">
@@ -171,12 +171,6 @@ permalink: /
       <h3>Rammesh Adhav Saravanan</h3>
       <div class="role">MS · MnRI · 2024 –</div>
       <div class="sub">Cooperative VLA models for autonomous driving</div>
-    </div>
-    <div class="q-person">
-      <div class="q-fig"></div>
-      <h3>Taysir Hoque</h3>
-      <div class="role">Undergraduate RA · 2026 –</div>
-      <div class="sub">Undergraduate research assistant</div>
     </div>
   </div>
 </section>

@@ -40,8 +40,8 @@ quiet_active: Team
     <div class="q-person">
       <div class="q-fig"></div>
       <h3><a href="https://pouya-parsa.github.io/" target="_blank" rel="noopener" style="color:var(--accent);">Pouya Parsa</a></h3>
-      <div class="role">PhD · CEGE · 2024 –</div>
-      <div class="sub">Scalable Vision-Language-Action models for autonomous driving.</div>
+      <div class="role">PhD · CEGE · 2026 –</div>
+      <div class="sub">Scalable Vision-Language-Action models for autonomous driving. <em>Earlier: MS · CEGE · 2024 – 2025.</em></div>
     </div>
   </div>
 </section>

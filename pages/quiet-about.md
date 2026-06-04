@@ -29,6 +29,11 @@ quiet_active: PI
 
     <h3>Academic service.</h3>
     <ul>
+      <li><strong>2026 – present</strong> · Early Career Editorial Board Member, <em>Transportation Research Part C: Emerging Technologies</em></li>
+      <li><strong>2025</strong> · Member, TRB AED50(7) Subcommittee on Edge Computing</li>
+      <li><strong>2024 – 2025</strong> · Member, TRB AED50(6) Subcommittee on Artificial Intelligence Ethics and Equity</li>
+      <li><strong>2024 – present</strong> · Member, CTS Transportation Safety and Mobility Council</li>
+      <li><strong>2024</strong> · Program Committee, Socially Interactive Autonomous Mobility (SIAM)</li>
       <li><strong>2023 – present</strong> · Associate Editor, <em>Journal of the Korean Society of Transportation (JKST)</em></li>
       <li><strong>2023 – 2024</strong> · Guest Editor, special issue "Advanced Data Intelligence Theory and Practice in Transport 2023," <em>Journal of Advanced Transportation</em></li>
     </ul>
@@ -44,7 +49,7 @@ quiet_active: PI
         <li>University: <span>University of Minnesota, Twin Cities</span></li>
         <li>Office: <span>Civil Eng. Bldg. 162</span></li>
         <li>Email: <span>chois@umn.edu</span></li>
-        <li><a href="{{ site.baseurl }}/assets/CV_SJCHOI_231114.pdf">CV (PDF) ↓</a></li>
+        <li><a href="{{ site.baseurl }}/assets/CV_SJCHOI_260403.pdf">CV (PDF) ↓</a></li>
         <li><a href="https://www.cts.umn.edu/research-scholars/seongjin-choi" target="_blank" rel="noopener">UMN CTS profile ↗</a></li>
         <li><a href="https://cse.umn.edu/mnri/seongjin-choi" target="_blank" rel="noopener">Minnesota Robotics ↗</a></li>
         <li><a href="https://cse.umn.edu/dsi/seongjin-choi" target="_blank" rel="noopener">Data Science Initiative ↗</a></li>
