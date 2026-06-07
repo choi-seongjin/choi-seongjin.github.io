@@ -40,6 +40,8 @@ quiet_active: Contact
         <li><a href="https://github.com/UMN-Choi-Lab">GitHub · @UMN-Choi-Lab ↗</a></li>
         <li><a href="https://orcid.org/0000-0001-7140-537X">ORCID 0000-0001-7140-537X ↗</a></li>
         <li><a href="https://cse.umn.edu/cege/directory/choi-seongjin">UMN CEGE directory ↗</a></li>
+        <li><a href="https://www.youtube.com/@TransportationResearchNetwork">Transportation Research Network · YouTube ↗</a></li>
+        <li><a href="https://sites.google.com/view/transport-research-network">Transportation Research Network · Site ↗</a></li>
       </ul>
     </aside>
   </div>
