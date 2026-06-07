@@ -102,6 +102,16 @@ quiet_active: Data
   <div class="q-datasets">
 
     <div class="q-dataset">
+      <div class="name">Transport Atlas</div>
+      <div class="desc">Interactive explorer of the transportation research literature — coauthorship network, author trajectories, topic space, venues, and a reviewer finder.</div>
+      <div class="meta">
+        <span>type · interactive</span>
+        <span>scope · authors, papers, venues</span>
+        <span><a class="dl" href="{{ site.baseurl }}/transport-atlas/">Open ↗</a></span>
+      </div>
+    </div>
+
+    <div class="q-dataset">
       <div class="name">MTOdata</div>
       <div class="desc">Curated mobility &amp; transportation operations datasets, hosted at mtodata.github.io.</div>
       <div class="meta">
