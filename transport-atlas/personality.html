@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Researcher Personality — Transport Atlas</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/css/tabulator_simple.min.css">
+<style>
+  :root { --bg:#fafafa; --fg:#1a1a1a; --muted:#666; --accent:#1f6feb; --card:#fff; --border:#e4e4e7; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         margin:0; background:var(--bg); color:var(--fg); }
+  header { background:var(--card); border-bottom:1px solid var(--border); padding:14px 24px; display:flex;
+           align-items:center; gap:24px; position:sticky; top:0; z-index:20; }
+  header h1 { margin:0; font-size:18px; font-weight:700; }
+  header .parent { font-size:11px; color:#888; text-decoration:none; margin-right:8px;
+                   letter-spacing:.3px; }
+  header .parent:hover { color:var(--accent); }
+  nav a { margin-right:16px; color:var(--fg); text-decoration:none; font-size:14px; }
+  nav a.active { color:var(--accent); font-weight:600; }
+  main { padding:24px; max-width:1400px; margin:0 auto; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; }
+  .card h2 { margin:0 0 8px; font-size:16px; }
+  .muted { color:var(--muted); font-size:13px; }
+  .stat { font-size:28px; font-weight:700; }
+  footer { text-align:center; color:var(--muted); font-size:12px; padding:24px; }
+  .controls { display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .controls label { font-size:13px; color:var(--muted); }
+  button, select, input[type="range"] { font:inherit; padding:6px 10px; border:1px solid var(--border);
+           background:var(--card); border-radius:6px; }
+  button:hover { background:#f1f5f9; cursor:pointer; }
+  #graph-container { width:100%; height:calc(100vh - 220px); background:var(--card); border:1px solid var(--border);
+                     border-radius:8px; position:relative; }
+  .chart-wrap { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; }
+  .chart-wrap canvas { max-height: 420px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="parent" href="https://choi-seongjin.github.io/">← Choi Lab</a>
+  <h1><a href="index.html" style="color:inherit;text-decoration:none;">🚚 Transport Atlas</a></h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="explorer.html">Explorer</a>
+    <a href="by_year.html">Papers by Year</a>
+    <a href="coauthor_network.html">Coauthor Network</a>
+    <a href="trajectories.html">Trajectories</a>
+    <a href="collab_style.html">Collaboration Style</a>
+    <a href="personality.html" class="active">Personality</a>
+  </nav>
+  <span class="muted" style="margin-left:auto">Built 2026-05-07 15:43</span>
+</header>
+<main>
+  
+<style>
+  .pers-axes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+               gap: 12px; margin-bottom: 18px; }
+  .pers-axis { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+               padding: 12px 14px; }
+  .pers-axis h3 { margin: 0 0 4px; font-size: 13px; color: var(--accent);
+                  text-transform: uppercase; letter-spacing: 0.4px; }
+  .pers-axis p { margin: 2px 0; font-size: 13px; color: var(--fg); }
+  .pers-axis .endpoints { display: flex; gap: 8px; align-items: center; font-size: 12px; }
+  .pers-axis .ep { padding: 2px 7px; border-radius: 10px; background: #eef2f7;
+                   color: var(--fg); font-weight: 600; }
+
+  #cells-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+                padding: 14px; margin-bottom: 16px; }
+  #cells-wrap h2 { margin: 0 0 4px; font-size: 15px; }
+  #cells-wrap .sub { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+  #cells-grid { display: grid; grid-template-columns: 110px repeat(4, 1fr);
+                grid-auto-rows: minmax(70px, auto); gap: 6px; align-items: stretch; }
+  .col-head, .row-head { font-size: 10.5px; color: var(--muted); text-transform: uppercase;
+                         letter-spacing: 0.4px; display: flex; align-items: center;
+                         justify-content: center; text-align: center; line-height: 1.25;
+                         padding: 4px; }
+  .col-head { font-weight: 600; }
+  .row-head { font-weight: 600; padding: 4px 8px; }
+  .row-head span.minor { display: block; color: #aaa; font-size: 9.5px;
+                         text-transform: none; letter-spacing: 0; margin-top: 1px; }
+  .cell { padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px;
+          cursor: pointer; transition: background 0.1s, transform 0.05s;
+          background: var(--card); display: flex; flex-direction: column;
+          justify-content: center; align-items: center; text-align: center; }
+  .cell:hover { background: #f5f7fb; transform: translateY(-1px); }
+  .cell.sel { background: #e6f0ff; border-color: var(--accent); }
+  .cell .label { font-size: 10.5px; font-weight: 600; line-height: 1.2; color: #4b5563; }
+  .cell .count { font-size: 16px; font-weight: 700; color: var(--accent); margin-top: 2px;
+                 font-variant-numeric: tabular-nums; }
+
+  #matrix-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+                 padding: 14px; margin-bottom: 16px; }
+  #matrix-wrap h2 { margin: 0 0 4px; font-size: 15px; }
+  #matrix-wrap .sub { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+  .matrix-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 12px;
+                     font-size: 12px; flex-wrap: wrap; }
+  .matrix-controls label { color: var(--muted); }
+  #matrix-table { border-collapse: collapse; font-size: 10.5px; font-variant-numeric: tabular-nums;
+                  margin: 0 auto; }
+  #matrix-table th, #matrix-table td { padding: 0; border: 1px solid #f0f0f0;
+                                       text-align: center; }
+  #matrix-table th.col-h { writing-mode: vertical-rl; transform: rotate(180deg);
+                           font-weight: 500; padding: 4px 2px; height: 130px;
+                           white-space: nowrap; color: #444; background: var(--card); }
+  #matrix-table th.row-h { font-weight: 500; padding: 4px 8px; text-align: right;
+                           color: #444; background: var(--card); white-space: nowrap; }
+  #matrix-table td.heat { width: 38px; height: 28px; cursor: default;
+                          color: #1a1a1a; font-weight: 500; }
+  #matrix-table td.heat:hover { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .legend { display: flex; gap: 4px; align-items: center; font-size: 11px;
+            color: var(--muted); margin-top: 10px; }
+  .legend .stop { width: 22px; height: 14px; display: inline-block; border: 1px solid #eee; }
+  #matrix-tip { font-size: 12px; color: var(--fg); margin-top: 8px; min-height: 18px;
+                font-variant-numeric: tabular-nums; }
+
+  #table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+                padding: 14px; }
+  #table-wrap h2 { margin: 0 0 4px; font-size: 15px; }
+  #table-wrap .sub { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+  #pers-table { font-size: 12.5px; }
+  .help { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.55; }
+</style>
+
+<h1 style="font-size: 22px; margin: 0 0 4px;">Researcher Personality</h1>
+<p style="color: var(--muted); margin: 0 0 14px; font-size: 13px;">
+  Each researcher in the topical-homophily cohort gets a four-letter
+  type assembled from four career-stage-neutral axes. Cell counts give
+  the population inside each of the 16 types; click a cell to filter
+  the table to its members. The classification covers the
+  <span id="n-classified">…</span> researchers with a homophily score
+  (≥3 coauthors with semantic communities).
+</p>
+
+<div class="pers-axes" id="axes-panel">
+  <!-- axes injected by JS once data loads -->
+</div>
+
+<div id="cells-wrap">
+  <h2>16 personality cells (4×4 grid)</h2>
+  <div class="sub">
+    Rows: Mover/Stayer × Heterophilous/Homophilous.
+    Columns: Broker/Local × Team/Solo.
+    Click a cell to filter the table; click again to clear.
+  </div>
+  <div id="cells-grid"></div>
+</div>
+
+<div id="matrix-wrap">
+  <h2>Who collaborates with whom (16×16)</h2>
+  <div class="sub">
+    For each ordered pair of personality types, the heatmap shows the
+    coauthor edges between them. Switch between <em>row share</em>
+    (what fraction of type-i's edges land in type-j) and <em>lift</em>
+    (row share divided by type-j's population fraction; ×1 = chance).
+  </div>
+  <div class="matrix-controls">
+    <label><input type="radio" name="mode" value="lift" checked> Lift vs chance</label>
+    <label><input type="radio" name="mode" value="row_share"> Row share (%)</label>
+    <span style="color: var(--muted)">·</span>
+    <span class="muted" id="matrix-meta"></span>
+  </div>
+  <div style="overflow-x: auto;">
+    <table id="matrix-table"></table>
+  </div>
+  <div id="matrix-tip">Hover a cell for details.</div>
+  <div class="legend" id="matrix-legend"></div>
+</div>
+
+<div id="table-wrap">
+  <h2>Per-author profile</h2>
+  <div class="sub">
+    Default sort is by citations. Click a column header to re-rank.
+    The four binary axes are shown as separate columns; the combined
+    type is in the first column.
+  </div>
+  <div id="pers-table"></div>
+  <div class="help">
+    The Mover signal uses the §9 trajectory class when available
+    (≥3 five-year bins after truncating the partial 2025–29 window),
+    falls back to a simple Stayer/Mover cut on raw bins for authors
+    with ≥2 observable bins, and defaults to <em>Stayer</em> for
+    authors whose career history is too short to register movement.
+    The Bridge axis is binary on weighted betweenness centrality
+    (Broker iff bcw &gt; 0); 78% of the cohort sits at bcw = 0 in this
+    32k-node graph, so brokerage is genuinely rare.
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/js/tabulator.min.js"></script>
+<script>
+const PAGE = "personality";
+const AXIS_DESCRIPTIONS = {
+  mover:   { name: "Mover",    pos: "Mover",        neg: "Stayer",
+             desc: "Career-arc shape: does the author's centroid move across decades?" },
+  topical: { name: "Topical",  pos: "Homophilous",  neg: "Heterophilous",
+             desc: "Coauthor topical homophily: same-community fraction, median split." },
+  bridge:  { name: "Bridge",   pos: "Broker",       neg: "Local",
+             desc: "Network brokerage (weighted betweenness). Broker iff bcw > 0." },
+  solo:    { name: "Style",    pos: "Team",         neg: "Solo",
+             desc: "Mean team size on the author's papers, median split." },
+};
+
+let TABLE = null;
+let SEL_TYPE = null;
+let MATRIX_PAYLOAD = null;
+
+function shortLabel(label) {
+  // "Mover-Heterophilous-Broker-Solo" -> "M·Het·Br·So"
+  const parts = label.split("-");
+  const map = {
+    Mover: "M", Stayer: "S",
+    Heterophilous: "Het", Homophilous: "Hom",
+    Broker: "Br", Local: "Lo",
+    Team: "Te", Solo: "So",
+  };
+  return parts.map(p => map[p] || p).join("·");
+}
+
+// Diverging color scale: ×0 (blue) - ×1 (white) - ×8+ (red), log-ish.
+function liftColor(v) {
+  if (v == null || v === 0) return "#f7f7f7";
+  // Normalize log2(v) to [-3, +3]
+  const z = Math.max(-3, Math.min(3, Math.log2(v)));
+  const t = (z + 3) / 6; // 0..1
+  // 0 -> #2c7bb6 (blue), 0.5 -> #ffffff, 1 -> #d7191c (red)
+  const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+  let r, g, b;
+  if (t < 0.5) {
+    const u = t * 2;
+    r = lerp(44, 255, u); g = lerp(123, 255, u); b = lerp(182, 255, u);
+  } else {
+    const u = (t - 0.5) * 2;
+    r = lerp(255, 215, u); g = lerp(255, 25, u); b = lerp(255, 28, u);
+  }
+  return `rgb(${r},${g},${b})`;
+}
+
+// Sequential 0..max for row-share (white -> dark blue)
+function shareColor(v, vmax) {
+  if (v == null || v === 0 || vmax <= 0) return "#f7f7f7";
+  const t = Math.min(1, v / vmax);
+  const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+  const r = lerp(247, 8, t), g = lerp(247, 81, t), bl = lerp(247, 156, t);
+  return `rgb(${r},${g},${bl})`;
+}
+
+function renderMatrix(mode) {
+  if (!MATRIX_PAYLOAD) return;
+  const m = MATRIX_PAYLOAD;
+  const data = mode === "lift" ? m.lift_vs_chance : m.row_share;
+  // Determine vmax for share mode (ignore diagonal so off-diagonal contrast is visible)
+  let vmax = 0;
+  if (mode === "row_share") {
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].length; j++) {
+        if (i === j) continue;
+        if (data[i][j] > vmax) vmax = data[i][j];
+      }
+    }
+  }
+
+  const tbl = document.getElementById("matrix-table");
+  let html = '<thead><tr><th></th>';
+  for (const lab of m.labels) {
+    html += `<th class="col-h" title="${lab}">${shortLabel(lab)}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+  for (let i = 0; i < m.labels.length; i++) {
+    html += `<tr><th class="row-h" title="${m.labels[i]}">${shortLabel(m.labels[i])}</th>`;
+    for (let j = 0; j < m.labels.length; j++) {
+      const v = data[i][j];
+      const ct = m.counts[i][j];
+      const color = mode === "lift" ? liftColor(v) : shareColor(v, vmax);
+      let txt;
+      if (mode === "lift") {
+        txt = (v == null || v === 0) ? "" : "×" + v.toFixed(1);
+      } else {
+        txt = (v == null || v === 0) ? "" : (v * 100).toFixed(0) + "%";
+      }
+      html += `<td class="heat" data-i="${i}" data-j="${j}" data-ct="${ct}"
+               data-v="${v}" style="background:${color}">${txt}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody>';
+  tbl.innerHTML = html;
+
+  // Hover tooltip
+  const tip = document.getElementById("matrix-tip");
+  tbl.querySelectorAll("td.heat").forEach(td => {
+    td.addEventListener("mouseenter", () => {
+      const i = +td.dataset.i, j = +td.dataset.j;
+      const v = parseFloat(td.dataset.v), ct = +td.dataset.ct;
+      const li = m.labels[i], lj = m.labels[j];
+      const liftStr = m.lift_vs_chance[i][j].toFixed(2);
+      const shareStr = (m.row_share[i][j] * 100).toFixed(1);
+      tip.innerHTML = `<strong>${li}</strong> → <strong>${lj}</strong>:
+        ${ct.toLocaleString()} edges · ${shareStr}% of row · ×${liftStr} vs chance`;
+    });
+    td.addEventListener("mouseleave", () => {
+      tip.textContent = "Hover a cell for details.";
+    });
+  });
+
+  // Legend
+  const legend = document.getElementById("matrix-legend");
+  if (mode === "lift") {
+    legend.innerHTML = `Lift scale (log<sub>2</sub>): ` +
+      [0.125, 0.25, 0.5, 1, 2, 4, 8].map(v =>
+        `<span class="stop" style="background:${liftColor(v)}"></span><span>×${v}</span>`
+      ).join(" ");
+  } else {
+    legend.innerHTML = `Row-share scale: 0% — ${(vmax * 100).toFixed(0)}% (off-diagonal max)`;
+  }
+}
+
+fetch("data/author_personality.json?v=20260507-1543").then(r => r.json()).then(payload => {
+  const summary = payload.summary;
+  const authors = payload.authors;
+
+  document.getElementById("n-classified").textContent =
+    summary.n_authors_classified.toLocaleString();
+
+  // Axis tiles
+  const axesPanel = document.getElementById("axes-panel");
+  ["mover","topical","bridge","solo"].forEach(k => {
+    const a = AXIS_DESCRIPTIONS[k];
+    const el = document.createElement("div");
+    el.className = "pers-axis";
+    el.innerHTML = `
+      <h3>${a.name}</h3>
+      <div class="endpoints"><span class="ep">${a.neg}</span>↔<span class="ep">${a.pos}</span></div>
+      <p>${a.desc}</p>`;
+    axesPanel.appendChild(el);
+  });
+
+  // ----- 4x4 cell grid -----
+  // Rows: Mover x Topical; Cols: Bridge x Style.
+  const ROWS = [
+    ["Mover",  "Heterophilous"],
+    ["Mover",  "Homophilous"],
+    ["Stayer", "Heterophilous"],
+    ["Stayer", "Homophilous"],
+  ];
+  const COLS = [
+    ["Broker", "Team"],
+    ["Broker", "Solo"],
+    ["Local",  "Team"],
+    ["Local",  "Solo"],
+  ];
+  const byLabel = new Map();
+  for (const c of summary.cell_grid) byLabel.set(c.label, c);
+
+  const grid = document.getElementById("cells-grid");
+  grid.innerHTML = "";
+  // Top-left blank
+  grid.appendChild(document.createElement("div"));
+  // Column headers
+  for (const [b, s] of COLS) {
+    const h = document.createElement("div");
+    h.className = "col-head";
+    h.innerHTML = `${b}<br>${s}`;
+    grid.appendChild(h);
+  }
+  // Rows
+  for (const [m, t] of ROWS) {
+    const rh = document.createElement("div");
+    rh.className = "row-head";
+    rh.innerHTML = `${m}<span class="minor">${t}</span>`;
+    grid.appendChild(rh);
+    for (const [b, s] of COLS) {
+      const label = `${m}-${t}-${b}-${s}`;
+      const info = byLabel.get(label) || {n: 0};
+      const el = document.createElement("div");
+      el.className = "cell";
+      el.dataset.type = label;
+      el.innerHTML = `<div class="label">${shortLabel(label)}</div>
+                      <div class="count">${info.n.toLocaleString()}</div>`;
+      el.title = label;
+      el.addEventListener("click", () => {
+        if (SEL_TYPE === label) {
+          SEL_TYPE = null;
+          document.querySelectorAll(".cell").forEach(c => c.classList.remove("sel"));
+          if (TABLE) TABLE.clearFilter();
+        } else {
+          SEL_TYPE = label;
+          document.querySelectorAll(".cell").forEach(c => c.classList.toggle("sel", c.dataset.type === label));
+          if (TABLE) TABLE.setFilter("type", "=", label);
+        }
+      });
+      grid.appendChild(el);
+    }
+  }
+
+  // ----- 16x16 collaboration matrix -----
+  MATRIX_PAYLOAD = summary.collab_matrix;
+  document.getElementById("matrix-meta").textContent =
+    `${MATRIX_PAYLOAD.edges_both_classified.toLocaleString()} of ` +
+    `${MATRIX_PAYLOAD.edges_total.toLocaleString()} unique coauthor edges have ` +
+    `both endpoints classified.`;
+  renderMatrix("lift");
+  document.querySelectorAll('input[name="mode"]').forEach(r => {
+    r.addEventListener("change", e => renderMatrix(e.target.value));
+  });
+
+  // ----- Per-author table -----
+  TABLE = new Tabulator("#pers-table", {
+    data: authors,
+    layout: "fitColumns",
+    pagination: true,
+    paginationSize: 25,
+    initialSort: [{ column: "citations", dir: "desc" }],
+    columns: [
+      { title: "Type", field: "type", widthGrow: 3, sorter: "string",
+        headerFilter: "input", headerFilterPlaceholder: "filter…" },
+      { title: "Author", field: "name", widthGrow: 2,
+        headerFilter: "input", headerFilterPlaceholder: "search…" },
+      { title: "Mover", field: "mover", widthGrow: 1 },
+      { title: "Topical", field: "topical", widthGrow: 1 },
+      { title: "Bridge", field: "bridge", widthGrow: 1 },
+      { title: "Style", field: "solo", widthGrow: 1 },
+      { title: "Homophily", field: "homophily", widthGrow: 1, sorter: "number",
+        formatter: c => (c.getValue() * 100).toFixed(0) + "%" },
+      { title: "Team size", field: "mean_team_size", widthGrow: 1, sorter: "number" },
+      { title: "Papers", field: "n_papers", widthGrow: 1, sorter: "number" },
+      { title: "Citations", field: "citations", widthGrow: 1, sorter: "number",
+        formatter: c => (c.getValue() || 0).toLocaleString() },
+    ],
+  });
+}).catch(err => {
+  document.getElementById("cells-wrap").innerHTML =
+    `<h2>Data unavailable</h2><div class="sub">${err}</div>`;
+});
+</script>
+
+</main>
+<footer>
+  Data: <a href="https://openalex.org/">OpenAlex</a> (CC0) ·
+  <a href="https://www.crossref.org/">Crossref</a> (CC0).
+  <br>
+  Source: <a href="https://github.com/UMN-Choi-Lab">UMN-Choi-Lab</a>.
+  Inspired by <a href="https://gisbi-kim.github.io/robopaper-atlas/">robopaper-atlas</a>.
+  
+
+<script data-goatcounter="https://transport-atlas.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<span class="visit-count muted" data-gc-count
+      data-gc-host="transport-atlas.goatcounter.com"
+      style="margin-left:8px;font-size:11px;opacity:.75"></span>
+<script>
+(() => {
+  const el = document.querySelector('[data-gc-count]');
+  if (!el) return;
+  const host = el.dataset.gcHost;
+  // GoatCounter keys pageviews by `vars.p`, which defaults to location.pathname.
+  // Match its default exactly so the counter and the badge agree.
+  const path = encodeURIComponent(location.pathname);
+  fetch(`https://${host}/counter/${path}.json`)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if (!j || j.count === undefined) { el.textContent = ''; return; }
+      const n = Number(String(j.count).replace(/,/g, ''));
+      el.textContent = `· ${isFinite(n) ? n.toLocaleString() : j.count} views`;
+    })
+    .catch(() => { el.textContent = ''; });
+})();
+</script>
+
+</footer>
+
+</body>
+</html>
