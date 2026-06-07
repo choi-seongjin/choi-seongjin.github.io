@@ -81,6 +81,11 @@ permalink: /
     <a class="q-more" href="{{ site.baseurl }}/datacode/">All repos &amp; data →</a>
   </div>
   <div class="q-projects">
+    <a class="q-proj" href="{{ site.baseurl }}/transport-atlas/">
+      <span class="tag">Atlas · Bibliometrics</span><h3>Transport Atlas</h3>
+      <p>Interactive explorer of the transportation research literature — coauthorship network, author trajectories, topic space, venues, and a reviewer finder.</p>
+      <span class="meta">Live · Interactive</span>
+    </a>
     <a class="q-proj" href="https://github.com/benchoi93/TrajGAIL">
       <span class="tag">GenAI · Trajectories</span><h3>TrajGAIL</h3>
       <p>Urban vehicle trajectory generation via generative adversarial imitation learning (TR-C 2021).</p>
