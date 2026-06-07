@@ -4,7 +4,7 @@ title: "Featured in the CTS webinar: Preparing for AI use in transportation"
 meta_title: ""
 subheadline: "Outreach"
 teaser: "Prof. Choi joined a University of Minnesota Center for Transportation Studies (CTS) webinar on how AI is shaping transportation in Minnesota — alongside Qizhi He (UMN) and Melissa Barnes (MnDOT) — on how AI supports transportation work today and how professionals can prepare for its growing influence."
-permalink: "/news/260326"
+permalink: "/news/260324"
 header: no
 readmore: true
 ---
