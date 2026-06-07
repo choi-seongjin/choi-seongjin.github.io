@@ -58,7 +58,7 @@
 <div id="table"></div>
 
 <script>
-const cacheBust = "20260607-1641";
+const cacheBust = "20260607-2058";
 
 function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c =>
@@ -111,7 +111,7 @@ function buildDetail(d) {
   </div>`;
 }
 
-fetch(`data/venue_stats.json?v=${cacheBust}`)
+fetch(`https://choi-seongjin.github.io/transport-atlas-data/venue_stats.json?v=${cacheBust}`)
   .then(r => r.json())
   .then(data => {
     const table = new Tabulator("#table", {

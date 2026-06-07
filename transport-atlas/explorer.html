@@ -49,7 +49,7 @@
     <a href="collab_style.html">Collaboration Style</a>
     <a href="personality.html">Personality</a>
   </nav>
-  <span class="muted" style="margin-left:auto">Built 2026-06-07 16:41</span>
+  <span class="muted" style="margin-left:auto">Built 2026-06-07 20:58</span>
 </header>
 <main>
   
@@ -189,7 +189,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.5/js/tabulator.min.js"></script>
 <script>
-const cacheBust = "20260607-1641";
+const cacheBust = "20260607-2058";
 const venueGroupsDef = [
   { name: 'Elsevier TR-family', venues: ['TR-A','TR-B','TR-C','TR-D','TR-E','TR-F'] },
   { name: 'Elsevier (other)',   venues: ['AAP','JTG','TranspPol','TRIP','RTBM','TBS','JTTE','IJTST','JPT','AMAR','JUM','CommTR'] },
@@ -212,7 +212,7 @@ const elInfo = document.getElementById('result-info');
 
 function fmt(n) { return n == null ? '—' : Number(n).toLocaleString(); }
 
-fetch(`data/papers.json?v=${cacheBust}`).then(r => r.json()).then(rows => {
+fetch(`https://choi-seongjin.github.io/transport-atlas-data/papers.json?v=${cacheBust}`).then(r => r.json()).then(rows => {
   // ——— Precompute per-venue year ranges + global stats ———
   const venueYears = new Map();   // venue -> {min, max, n}
   let gYmin = Infinity, gYmax = -Infinity;

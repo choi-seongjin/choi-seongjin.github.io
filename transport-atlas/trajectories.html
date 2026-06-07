@@ -49,7 +49,7 @@
     <a href="collab_style.html">Collaboration Style</a>
     <a href="personality.html">Personality</a>
   </nav>
-  <span class="muted" style="margin-left:auto">Built 2026-06-07 16:41</span>
+  <span class="muted" style="margin-left:auto">Built 2026-06-07 20:58</span>
 </header>
 <main>
   
@@ -133,7 +133,7 @@ const CLASS_LABEL = {
   switcher: 'Switcher (re-oriented)',
 };
 const CLASS_ORDER = ['stayer', 'drifter', 'returner', 'switcher'];
-const cacheBust = "20260607-1641";
+const cacheBust = "20260607-2058";
 
 const visibleClasses = new Set(CLASS_ORDER);
 let TAXONOMY = null;
@@ -424,8 +424,8 @@ document.getElementById('traj-search').addEventListener('input', ev => {
 (async function init() {
   buildLegend();
   const [tax, traj] = await Promise.all([
-    fetch(`data/trajectory_taxonomy.json?v=${cacheBust}`).then(r => r.json()),
-    fetch(`data/author_trajectories.json?v=${cacheBust}`).then(r => r.json()),
+    fetch(`https://choi-seongjin.github.io/transport-atlas-data/trajectory_taxonomy.json?v=${cacheBust}`).then(r => r.json()),
+    fetch(`https://choi-seongjin.github.io/transport-atlas-data/author_trajectories.json?v=${cacheBust}`).then(r => r.json()),
   ]);
   TAXONOMY = tax; TRAJ = traj;
   drawScatter();

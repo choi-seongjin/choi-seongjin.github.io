@@ -220,7 +220,7 @@
 </div>
 
 <script>
-const cacheBust = "20260607-1641";
+const cacheBust = "20260607-2058";
 const REPORT_EMAIL = "chois@umn.edu";
 const REPORT_REPO  = "UMN-Choi-Lab/transport-atlas";
 const canvas = document.getElementById('space');
@@ -235,15 +235,15 @@ const progress = (msg) => { meta.innerHTML = `<div class="count">${msg}</div>`; 
 let COORDS, SIMILAR, TRAJ, NETMETA, SEMCOMMS;
 try {
   progress('Fetching topic coords…');
-  const pC  = fetch(`data/topic_coords.json?v=${cacheBust}`).then(r => r.json());
+  const pC  = fetch(`https://choi-seongjin.github.io/transport-atlas-data/topic_coords.json?v=${cacheBust}`).then(r => r.json());
   progress('Fetching semantic neighbors (~90MB)…');
-  const pS  = fetch(`data/author_similar.json?v=${cacheBust}`).then(r => r.json());
+  const pS  = fetch(`https://choi-seongjin.github.io/transport-atlas-data/author_similar.json?v=${cacheBust}`).then(r => r.json());
   progress('Fetching trajectories…');
-  const pT  = fetch(`data/author_trajectories.json?v=${cacheBust}`).then(r => r.json());
+  const pT  = fetch(`https://choi-seongjin.github.io/transport-atlas-data/author_trajectories.json?v=${cacheBust}`).then(r => r.json());
   progress('Fetching coauthor meta…');
-  const pN  = fetch(`data/coauthor_network.json?v=${cacheBust}`).then(r => r.json()).then(d => d.meta);
+  const pN  = fetch(`https://choi-seongjin.github.io/transport-atlas-data/coauthor_network.json?v=${cacheBust}`).then(r => r.json()).then(d => d.meta);
   progress('Fetching semantic communities…');
-  const pCm = fetch(`data/semantic_communities.json?v=${cacheBust}`).then(r => r.ok ? r.json() : []).catch(() => []);
+  const pCm = fetch(`https://choi-seongjin.github.io/transport-atlas-data/semantic_communities.json?v=${cacheBust}`).then(r => r.ok ? r.json() : []).catch(() => []);
   progress('Downloading data (total ~125MB)…');
   [COORDS, SIMILAR, TRAJ, NETMETA, SEMCOMMS] = await Promise.all([pC, pS, pT, pN, pCm]);
   progress('Building view…');

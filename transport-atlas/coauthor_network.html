@@ -270,7 +270,7 @@
 </div>
 
 <script>
-const cacheBust = "20260607-1641";
+const cacheBust = "20260607-2058";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -281,12 +281,12 @@ metaEl.innerHTML = '<div class="count">Loading…</div><div class="params">fetch
 (async function boot() {
 let DATA, SIMILAR = {};
 try {
-  const res = await fetch(`data/coauthor_network.json?v=${cacheBust}`);
+  const res = await fetch(`https://choi-seongjin.github.io/transport-atlas-data/coauthor_network.json?v=${cacheBust}`);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   DATA = await res.json();
   // Optional: semantic neighbors (may not exist yet on first ingest). Fail soft.
   try {
-    const r2 = await fetch(`data/author_similar.json?v=${cacheBust}`);
+    const r2 = await fetch(`https://choi-seongjin.github.io/transport-atlas-data/author_similar.json?v=${cacheBust}`);
     if (r2.ok) SIMILAR = await r2.json();
   } catch {}
 } catch (err) {
