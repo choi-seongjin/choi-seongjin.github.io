@@ -48,3 +48,36 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Mirror the built site to UMN-CSE-CHOI/UMN-Choi.github.io, which serves
+  # choi-seongjin.umn.edu from its main branch (Pages source: branch, root).
+  # Separate job so a sync failure never blocks the main Pages deploy.
+  sync-umn:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download built site
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: artifact
+      - name: Unpack artifact
+        run: mkdir _site && tar -xf artifact/artifact.tar -C _site
+      - name: Push to UMN-CSE-CHOI/UMN-Choi.github.io
+        env:
+          DEPLOY_KEY: ${{ secrets.UMN_SYNC_DEPLOY_KEY }}
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "$DEPLOY_KEY"
+          cd _site
+          # .nojekyll: stop GitHub's legacy Jekyll 3.x from rebuilding the
+          # already-built output; CNAME: keep the custom domain bound.
+          touch .nojekyll
+          echo choi-seongjin.umn.edu > CNAME
+          git init -q -b main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Sync built site from choi-seongjin/choi-seongjin.github.io@${GITHUB_SHA}"
+          GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new" \
+            git push --force git@github.com:UMN-CSE-CHOI/UMN-Choi.github.io.git main
