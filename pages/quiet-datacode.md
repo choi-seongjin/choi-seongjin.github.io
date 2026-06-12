@@ -112,6 +112,16 @@ quiet_active: Data
     </div>
 
     <div class="q-dataset">
+      <div class="name">Activity Chain Generator</div>
+      <div class="desc">Gallery demo of persona-as-rationale distillation — a 1.5B open student model generates a persona, a reasoning trace, and a 24-hour activity chain from coarse demographics alone (Minneapolis&ndash;St.&nbsp;Paul &amp; Seoul).</div>
+      <div class="meta">
+        <span>type · interactive</span>
+        <span>scope · synthetic activity chains</span>
+        <span><a class="dl" href="{{ site.baseurl }}/activity-chains/">Open ↗</a></span>
+      </div>
+    </div>
+
+    <div class="q-dataset">
       <div class="name">MTOdata</div>
       <div class="desc">Curated mobility &amp; transportation operations datasets, hosted at mtodata.github.io.</div>
       <div class="meta">
