@@ -113,7 +113,7 @@ quiet_active: Data
 
     <div class="q-dataset">
       <div class="name">Activity Chain Generator</div>
-      <div class="desc">Gallery demo of persona-as-rationale distillation — a 1.5B open student model generates a persona, a reasoning trace, and a 24-hour activity chain from coarse demographics alone (Minneapolis&ndash;St.&nbsp;Paul &amp; Seoul).</div>
+      <div class="desc">Gallery + live in-browser (WebGPU) demo of persona-as-rationale distillation — a 1.5B open student model generates a persona, a reasoning trace, and a 24-hour activity chain from coarse demographics alone (Minneapolis&ndash;St.&nbsp;Paul &amp; Seoul). Model weights on <a href="https://huggingface.co/UMN-Choi-Lab">Hugging Face</a> (CC-BY-NC-4.0).</div>
       <div class="meta">
         <span>type · interactive</span>
         <span>scope · synthetic activity chains</span>
