@@ -41,8 +41,7 @@ quiet_active: Publications
         <button class="chip" data-filter="tag" data-value="GenAI">GenAI</button>
         <button class="chip" data-filter="tag" data-value="Forecasting">Forecasting</button>
         <button class="chip" data-filter="tag" data-value="CAV">CAV</button>
-        <button class="chip" data-filter="tag" data-value="LLM">LLM</button>
-        <button class="chip" data-filter="tag" data-value="VLA">VLA</button>
+        <button class="chip" data-filter="tag" data-value="LLM">LLM/VLM</button>
         <button class="chip" data-filter="tag" data-value="Trajectories">Trajectories</button>
         <button class="chip" data-filter="tag" data-value="Imputation">Imputation</button>
         <button class="chip" data-filter="tag" data-value="OD">OD</button>
@@ -133,11 +132,12 @@ quiet_active: Publications
 <article class="pub-entry" id="liu2026pma" data-year="2026" data-type="journal" data-tags="GenAI|Imputation">
   <div class="num">03</div>
   <div>
-    <div class="meta"><em>Transportation Research Part C: Emerging Technologies</em> · Journal · GenAI / Imputation</div>
+    <div class="meta"><em>Transportation Research Part C: Emerging Technologies</em>, 190, 105801 · Journal · GenAI / Imputation</div>
     <h3>PMA-Diffusion: A Physics-guided Mask-aware Diffusion Framework for Traffic State Estimation from Sparse Observations</h3>
-    <div class="authors"><strong class="lab">Liu, L.</strong>, <strong>Choi, S.</strong></div>
+    <div class="authors"><strong class="lab">Liu, L.</strong>, Jin, Z., <strong>Choi, S.</strong></div>
   </div>
-  <div class="links"><div class="row"><a href="https://arxiv.org/abs/2512.06183" class="link-underline">arXiv ↗</a></div>
+  <div class="links"><div class="row"><a href="https://arxiv.org/abs/2512.06183" class="link-underline">arXiv ↗</a>
+      <a href="https://doi.org/10.1016/j.trc.2026.105801" class="link-underline">DOI ↗</a></div>
     <a href="#liu2026pma" class="anchor">#liu2026pma</a>
   </div>
 </article>
@@ -154,15 +154,27 @@ quiet_active: Publications
   </div>
 </article>
 
-<article class="pub-entry" id="parsa2026video" data-year="2026" data-type="conference" data-tags="VLA|LLM">
+<article class="pub-entry" id="parsa2026video" data-year="2026" data-type="conference" data-tags="LLM">
   <div class="num">05</div>
   <div>
-    <div class="meta"><em>105th Transportation Research Board Annual Meeting</em> · Conference · VLA / LLM</div>
+    <div class="meta"><em>105th Transportation Research Board Annual Meeting</em> · Conference · LLM</div>
     <h3>Video-Based Vehicle Surveillance in the Wild: License Plate Make and Model Recognition with Self Reflective Vision-Language Models</h3>
     <div class="authors"><strong class="lab">Parsa, P.</strong>, Li, K., Kockelman, K., <strong>Choi, S.</strong></div>
   </div>
   <div class="links"><div class="row"><a href="https://arxiv.org/abs/2508.01387" class="link-underline">arXiv ↗</a></div>
     <a href="#parsa2026video" class="anchor">#parsa2026video</a>
+  </div>
+</article>
+
+<article class="pub-entry" id="yoo2026renewable" data-year="2026" data-type="journal" data-tags="LLM">
+  <div class="num">06</div>
+  <div>
+    <div class="meta"><em>Renewable and Sustainable Energy Reviews</em> · Journal (in press) · LLM</div>
+    <h3>Can Renewable Energy Meet the Surging Power Demand of Artificial Intelligence? A Systematic Review</h3>
+    <div class="authors">Yoo, S., <strong>Choi, S.</strong>, Kim, D.</div>
+  </div>
+  <div class="links">
+    <a href="#yoo2026renewable" class="anchor">#yoo2026renewable</a>
   </div>
 </article>
 
@@ -190,10 +202,10 @@ quiet_active: Publications
   </div>
 </article>
 
-<article class="pub-entry" id="kosieradzki2026trajflow" data-year="2026" data-type="conference" data-tags="GenAI|Trajectories">
+<article class="pub-entry" id="kosieradzki2026trajflow" data-year="2026" data-type="journal" data-tags="GenAI|Trajectories">
   <div class="num">09</div>
   <div>
-    <div class="meta"><em>105th Transportation Research Board Annual Meeting</em> · Conference · GenAI / Trajectories</div>
+    <div class="meta"><em>Artificial Intelligence for Transportation</em> · Journal (in press) · GenAI / Trajectories</div>
     <h3>TrajFlow: A Generative Framework for Occupancy Density Estimation Using Normalizing Flows</h3>
     <div class="authors"><strong class="lab">Kosieradzki, M.</strong>, <strong>Choi, S.</strong></div>
   </div>
@@ -282,10 +294,10 @@ quiet_active: Publications
   </div>
 </article>
 
-<article class="pub-entry" id="jiang2025survey" data-year="2025" data-type="conference" data-tags="VLA|CAV">
+<article class="pub-entry" id="jiang2025survey" data-year="2025" data-type="conference" data-tags="LLM|CAV">
   <div class="num">06</div>
   <div>
-    <div class="meta"><em>IEEE/CVF International Conference on Computer Vision (ICCV)</em> · Conference · VLA / CAV</div>
+    <div class="meta"><em>IEEE/CVF International Conference on Computer Vision (ICCV)</em> · Conference · LLM / CAV</div>
     <h3>A Survey on Vision-Language-Action Models for Autonomous Driving</h3>
     <div class="authors"><strong class="lab">Jiang, S.</strong>, Huang, Z., Qian, K., Luo, Z., Zhu, T., Zhong, Y., Tang, Y., Kong, M., et al. (incl. <strong>Choi, S.</strong>)</div>
   </div>
@@ -335,11 +347,11 @@ quiet_active: Publications
   </div>
 </article>
 
-<article class="pub-entry" id="cheong2024weaver" data-year="2024" data-type="preprint" data-tags="Forecasting">
+<article class="pub-entry" id="cheong2024weaver" data-year="2024" data-type="journal" data-tags="Forecasting">
   <div class="num">04</div>
   <div>
-    <div class="meta"><em>Transportation Research Part C: Emerging Technologies</em> · Preprint / Under review · Forecasting</div>
-    <h3>Weaver: A Spatio-Temporal Deep Learning Model Architecture Based on the Mixed Kronecker Matrix-Vector Identity</h3>
+    <div class="meta"><em>Transportation Research Part C: Emerging Technologies</em> · Journal (in press) · Forecasting</div>
+    <h3>Weaver: Kronecker Product Approximations of Spatiotemporal Attention for Traffic Network Forecasting</h3>
     <div class="authors"><strong class="lab">Cheong, C.</strong>, Davis, G., <strong>Choi, S.</strong></div>
   </div>
   <div class="links"><div class="row"><a href="https://arxiv.org/abs/2511.08888" class="link-underline">arXiv ↗</a></div>
@@ -739,7 +751,7 @@ quiet_active: Publications
   <div>
     <p class="kicker">Note · Pre-prints &amp; under review</p>
     <h3>Working papers live separately.</h3>
-    <p>Pre-prints, under-review manuscripts, and technical reports are listed on the lab's  and on individual authors' pages — to keep the venue of record honest. Notable current preprints include the e-scooter speed governance study (arXiv 2604.26236), the coauthorship semantic structure analysis (arXiv 2604.23699), and Weaver (arXiv 2511.08888).</p>
+    <p>Pre-prints, under-review manuscripts, and technical reports are listed on the lab's  and on individual authors' pages — to keep the venue of record honest. Notable current preprints include the e-scooter speed governance study (arXiv 2604.26236) and the coauthorship semantic structure analysis (arXiv 2604.23699).</p>
   </div>
   <div>
     <p class="kicker">Note · Citing</p>
