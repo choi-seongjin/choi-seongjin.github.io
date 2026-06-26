@@ -40,7 +40,7 @@ quiet_active: PI
   </div>
 
   <aside>
-    <img class="q-pi-photo" src="{{ site.baseurl }}/images/profile_sjchoi.jpg" alt="Seongjin Choi" />
+    <img class="q-pi-photo" src="{{ site.baseurl }}/images/profile_sjchoi_2026.jpg" alt="Seongjin Choi" />
     <div class="q-facts">
       <div class="head">Quick facts</div>
       <ul>

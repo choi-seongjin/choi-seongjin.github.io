@@ -142,7 +142,7 @@ permalink: /
   </div>
   <div class="q-team">
     <div class="q-person">
-      <div class="q-fig"><img src="{{ site.baseurl }}/images/profile_sjchoi.jpg" alt="Seongjin Choi" /></div>
+      <div class="q-fig"><img src="{{ site.baseurl }}/images/profile_sjchoi_2026.jpg" alt="Seongjin Choi" /></div>
       <h3><a href="{{ site.baseurl }}/PI/" style="color:var(--accent);">Seongjin Choi</a></h3>
       <div class="role">Principal Investigator · Assistant Professor</div>
       <div class="sub">AI for urban mobility · generative models · VLA · LLM agents</div>
