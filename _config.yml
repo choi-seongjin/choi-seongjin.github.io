@@ -63,6 +63,8 @@ collections:
 paginate: 5 # Paginates all X entries
 paginate_path: "blog/page:num" # Pagination path › Important for blog page in /blog/ to work
 
+future: true # Build posts dated in the future (e.g. pre-announced lab news)
+
 # Theme works best with Kramdown (using the table of contents function)
 markdown: kramdown
 permalink: /:categories/:title/
