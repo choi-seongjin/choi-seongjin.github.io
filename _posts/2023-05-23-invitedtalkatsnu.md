@@ -1,10 +1,10 @@
 ---
 layout: page-fullwidth
-title: "[230523] Invited Talk at Seoul National University"
+title: "Invited Talk at Seoul National University"
 meta_title: ""
-subheadline: ""
+subheadline: "Talk"
 teaser: 'It was such a pleasure to present my works on "Learning the Distribution of Traffic and Mobility Data" at the Department of Civil and Environmental Engineering, Seoul National University. I would like to thank Prof. Dongkyu Kim for the invitation.'
-permalink: "/news/230607"
+permalink: "/news/230523"
 header: no
 readmore: false
 ---

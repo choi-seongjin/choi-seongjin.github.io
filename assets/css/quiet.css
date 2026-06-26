@@ -218,6 +218,10 @@ body.quiet { margin: 0; background: var(--bg); color: var(--ink); font-family: v
 .q-news-row .tag { font-size: 11.5px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; color: var(--accent); }
 .q-news-row h3 { font-family: var(--serif); font-weight: 500; font-size: 20px; margin: 0; letter-spacing: -0.3px; }
 .q-news-row p { font-size: 14px; color: var(--sub); margin: 6px 0 0; line-height: 1.55; }
+.q-news-row h3 a { color: inherit; text-decoration: none; transition: color 0.15s; }
+.q-news-row h3 a:hover { color: var(--accent); }
+.q-news-more { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.2px; color: var(--accent); }
+.q-news-more:hover { text-decoration: underline; }
 
 /* --- DATA & CODE (light) --- */
 .q-repo-row { display: grid; grid-template-columns: 1.6fr 2fr 90px 70px 100px; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: baseline; font-size: 14px; }

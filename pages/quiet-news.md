@@ -21,8 +21,9 @@ quiet_active: News
     <div class="date">{{ post.date | date: "%Y·%m·%d" }}</div>
     <div class="tag">{% if post.subheadline %}{{ post.subheadline }}{% else %}News{% endif %}</div>
     <div>
-      <h3>{{ post.title | remove: "[" | remove: "]" | replace: "260112 ", "" | replace: "250307 ", "" | replace: "250420 ", "" | replace: "250424 ", "" | replace: "250425 ", "" | replace: "250225 ", "" | replace: "250107 ", "" | replace: "240903 ", "" | replace: "240901 ", "" | replace: "240621 ", "" }}</h3>
-      <p>{{ post.teaser | strip_html | truncate: 200 }}</p>
+      <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <p>{{ post.teaser | strip_html }}</p>
+      {% if post.readmore %}<a class="q-news-more" href="{{ post.url }}">Read →</a>{% endif %}
     </div>
   </article>
   {% endfor %}

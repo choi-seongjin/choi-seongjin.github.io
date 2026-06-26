@@ -1,8 +1,8 @@
 ---
 layout: page-fullwidth
-title: "[240621] Invited Talk at The 2nd Cho Chun Shik Graduate School of Mobility Summer Camp"
+title: "Invited Talk at The 2nd Cho Chun Shik Graduate School of Mobility Summer Camp"
 meta_title: ""
-subheadline: ""
+subheadline: "Talk"
 teaser: 'It was such a pleasure to present my works on "Deep Generative Models for Transportation and Mobility Data" at The 2nd Cho Chun Shik Graduate School of Mobility Summer Camp.'
 permalink: "/news/240621"
 header: no
