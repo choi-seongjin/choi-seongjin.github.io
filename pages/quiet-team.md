@@ -113,8 +113,26 @@ quiet_active: Team
 </section>
 
 <section class="q-section">
-  <figure style="margin:0;max-width:1100px;">
-    <img src="{{ site.baseurl }}/images/group_photo.jpg" alt="The Choi Lab group photo, summer 2026" style="width:100%;border-radius:12px;border:1px solid var(--line);" />
-    <figcaption style="margin-top:12px;font-size:14px;color:var(--sub);letter-spacing:0.2px;">The Choi Lab — University of Minnesota, summer 2026.</figcaption>
-  </figure>
+  <div class="q-sec-head"><h2 class="q-h2">The lab, over time.</h2></div>
+  <style>
+    .q-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; }
+    .q-photos figure { margin: 0; }
+    .q-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+    .q-photos figcaption { margin-top: 10px; font-size: 14px; color: var(--sub); letter-spacing: 0.2px; }
+    @media (max-width: 768px) { .q-photos { grid-template-columns: 1fr; } }
+  </style>
+  <div class="q-photos">
+    <figure>
+      <img src="{{ site.baseurl }}/images/202409.jpg" alt="The Choi Lab, September 2024" />
+      <figcaption>September 2024</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ site.baseurl }}/images/202601.jpg" alt="The Choi Lab, January 2026" />
+      <figcaption>January 2026</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ site.baseurl }}/images/group_photo.jpg" alt="The Choi Lab, summer 2026" />
+      <figcaption>Summer 2026</figcaption>
+    </figure>
+  </div>
 </section>
