@@ -10,6 +10,13 @@ quiet_active: Team
   <h1>Our Team</h1>
 </section>
 
+<section class="q-section" style="padding-top:8px;">
+  <figure style="margin:0;max-width:1100px;">
+    <img src="{{ site.baseurl }}/images/group_photo.jpg" alt="The Choi Lab group photo, summer 2026" style="width:100%;border-radius:12px;border:1px solid var(--line);" />
+    <figcaption style="margin-top:12px;font-size:14px;color:var(--sub);letter-spacing:0.2px;">The Choi Lab — University of Minnesota, summer 2026.</figcaption>
+  </figure>
+</section>
+
 <section class="q-section">
   <div class="q-sec-head"><h2 class="q-h2">Postdoctoral researchers.</h2></div>
   <div class="q-team">
