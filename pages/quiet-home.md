@@ -7,7 +7,7 @@ permalink: /
 <!-- HERO -->
 <section class="q-hero">
   <p class="q-eyebrow">University of Minnesota · Choi Lab</p>
-  <h1>AI that turns <em>messy city data</em> into operational insight.</h1>
+  <h1>AI for <em>transportation and urban mobility</em>.</h1>
   <p class="q-lede">We're the Choi Lab in Civil, Environmental, and Geo-Engineering at the University of Minnesota, Twin Cities — building AI for urban mobility with deep generative models, vision-language-action models, and LLM agents, in service of more sustainable, efficient transportation systems.</p>
   <div class="q-btn-row">
     <a class="q-btn primary" href="{{ site.baseurl }}/research/">Read the research →</a>

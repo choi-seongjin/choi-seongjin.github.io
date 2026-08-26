@@ -8,14 +8,14 @@ quiet_active: PI
 <section class="q-page-head">
   <p class="q-eyebrow">Principal Investigator</p>
   <h1>Seongjin Choi</h1>
-  <p class="q-lede">I'm an Assistant Professor in Civil, Environmental, and Geo-Engineering at the University of Minnesota, Twin Cities, working at the intersection of <strong>artificial intelligence and transportation</strong> — generative models, vision-language-action models, and LLM agents that turn messy city data into operational insight.</p>
+  <p class="q-lede">I'm an Assistant Professor in Civil, Environmental, and Geo-Engineering at the University of Minnesota, Twin Cities, working at the intersection of <strong>artificial intelligence and transportation</strong> — generative models, vision-language-action models, and LLM agents.</p>
 </section>
 
 <section class="q-about">
   <div class="q-prose">
     <h2>Biography.</h2>
     <p>My research is broad and interdisciplinary, spanning urban mobility data analytics, spatiotemporal data modeling, deep learning &amp; AI, and connected automated vehicles (CAV) &amp; cooperative-ITS. I'm driven by the goal of optimizing urban mobility and helping build sustainable, efficient transportation systems.</p>
-    <p>My work draws insights from urban mobility data and applies cutting-edge AI — diffusion and flow-based generative models, vision-language-action models, and large language model agents — to real transportation problems.</p>
+    <p>My work draws insights from urban mobility data and applies AI — diffusion and flow-based generative models, vision-language-action models, and large language model agents — to real transportation problems.</p>
 
     <h3>Lineage.</h3>
     <ul>
