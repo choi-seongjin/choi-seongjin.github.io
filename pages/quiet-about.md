@@ -60,5 +60,5 @@ quiet_active: PI
 
 <section class="q-recruit" id="recruiting">
   <h2>Prospective students.</h2>
-  <p>I'm looking for PhD students (and a postdoc) for Fall 2027 (starting in September) who are excited about machine learning for urban transportation and mobility data. Please email <span class="email">chois@umn.edu</span> with a CV, research statement, and academic transcript. Subject line: "Prospective PhD student [Your name]". Due to the volume of emails, I apologize for not replying to individual inquiries.</p>
+  <p>I'm looking for PhD students (and a postdoc) for Fall 2027 (starting in September) who are excited about machine learning for urban transportation and mobility data. Please email <span class="email">chois@umn.edu</span> with a CV, research statement, and academic transcript. Subject line: "Prospective PhD student [Your name]".</p>
 </section>

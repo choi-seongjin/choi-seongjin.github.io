@@ -7,8 +7,7 @@ quiet_active: Contact
 
 <section class="q-page-head">
   <p class="q-eyebrow">Contact</p>
-  <h1>Email is the channel.</h1>
-  <p class="q-lede">Please read the response policy below before sending. I apologize in advance for not being able to reply to every individual inquiry.</p>
+  <h1>Get in touch.</h1>
 </section>
 
 <section class="q-contact">
@@ -25,7 +24,7 @@ quiet_active: Contact
 
     <div class="label">Response policy</div>
     <ul>
-      <li><strong>Prospective PhD students:</strong> please email with subject "Prospective PhD student [Your name]", attaching CV + research statement + transcript. Due to volume I cannot reply individually.</li>
+      <li><strong>Prospective PhD students:</strong> please email with subject "Prospective PhD student [Your name]", attaching CV + research statement + transcript.</li>
       <li><strong>Press / media:</strong> please email with subject "Media inquiry" and the publication name + deadline.</li>
       <li><strong>Collaboration / talks:</strong> please email with subject "Collaboration: [topic]" or "Talk: [venue]".</li>
       <li><strong>Course-related (current students):</strong> email with the course number in the subject line.</li>
