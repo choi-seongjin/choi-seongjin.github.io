@@ -270,7 +270,7 @@
 </div>
 
 <script>
-const cacheBust = "20260929-0407";
+const cacheBust = "20261005-1135";
 const canvas = document.getElementById('net');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
@@ -753,8 +753,8 @@ canvas.addEventListener('mousemove', (e) => {
       ttComm.style.display = '';
     } else { ttComm.style.display = 'none'; }
     if (n.top && n.top.length) {
-      ttTop.innerHTML = '<b>Top cited papers:</b>'
-        + n.top.map(p => `<span class="pap">• ${escHtml(p.t)} <span class="mc">(${p.y}, ${p.c.toLocaleString()} cites)</span></span>`).join('');
+      ttTop.innerHTML = '<b>Top cited + latest papers:</b>'
+        + n.top.map(p => `<span class="pap">• ${escHtml(p.t)} <span class="mc">(${p.y}, ${p.c.toLocaleString()} cites${p.r ? ', latest' : ''})</span></span>`).join('');
       ttTop.style.display = '';
     } else { ttTop.style.display = 'none'; }
     const co = collectCoauthors(n);
