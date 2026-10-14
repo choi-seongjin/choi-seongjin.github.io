@@ -122,6 +122,16 @@ quiet_active: Data
     </div>
 
     <div class="q-dataset">
+      <div class="name">Lab GPU Status</div>
+      <div class="desc">What the lab's GPU nodes are doing right now — per-card utilization, memory, temperature and power draw, with 24-hour history. Snapshots are published about once a minute from the lab-side orchestrator; node names, job contents, and user names never leave the lab.</div>
+      <div class="meta">
+        <span>type · live status</span>
+        <span>scope · 8 &times; RTX 6000 Ada</span>
+        <span><a class="dl" href="{{ site.baseurl }}/gpu/">Open ↗</a></span>
+      </div>
+    </div>
+
+    <div class="q-dataset">
       <div class="name">MTOdata</div>
       <div class="desc">Curated mobility &amp; transportation operations datasets, hosted at mtodata.github.io.</div>
       <div class="meta">

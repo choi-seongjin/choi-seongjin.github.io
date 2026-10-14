@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lab GPU Status — UMN Choi Lab</title>
+<meta name="description" content="Live-ish utilization of the UMN Choi Lab GPU nodes: per-GPU utilization, memory, temperature and power draw, with 24-hour history. Snapshots are published about once a minute.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { box-sizing:border-box; }
+  body { font-family:-apple-system,"Segoe UI","Helvetica Neue",sans-serif;
+         max-width:960px; margin:0 auto; padding:40px 24px;
+         color:#222; background:#fafafa; line-height:1.6; }
+  .parent-link { display:inline-block; font-size:12px; color:#888; text-decoration:none;
+                 letter-spacing:.3px; margin-bottom:8px; }
+  .parent-link:hover { color:#1f77b4; }
+  h1 { font-size:32px; margin:0 0 8px; letter-spacing:-0.5px; }
+  .tagline { color:#666; font-size:16px; margin-bottom:20px; }
+  a { color:#1f77b4; }
+
+  .status { font-size:13px; color:#888; margin-bottom:20px; }
+  .status .dot { display:inline-block; width:8px; height:8px; border-radius:50%;
+                 background:#2E8B57; margin-right:6px; vertical-align:middle; }
+  .status.stale .dot { background:#C0392B; }
+  .warn { background:#fdecea; border:1px solid #e6a39d; border-radius:8px;
+          padding:10px 14px; font-size:13px; color:#7a2e28; margin-bottom:20px; }
+
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+           gap:12px; margin-bottom:28px; }
+  .tile { background:#fff; border:1px solid #e5e5e5; border-radius:8px; padding:14px 16px; }
+  .tile .lab { font-size:11px; color:#888; text-transform:uppercase;
+               letter-spacing:.5px; margin-bottom:4px; }
+  .tile .val { font-size:26px; font-weight:600; letter-spacing:-0.5px; line-height:1.2; }
+  .tile .val small { font-size:14px; font-weight:400; color:#888; letter-spacing:0; }
+  .tile .sub { font-size:12px; color:#999; }
+
+  .node { background:#fff; border:1px solid #e5e5e5; border-radius:8px;
+          padding:16px 18px; margin-bottom:16px; }
+  .node h2 { font-size:17px; margin:0 0 2px; letter-spacing:-0.2px; }
+  .node .meta { font-size:12px; color:#999; margin-bottom:12px; }
+  .node.offline { opacity:.6; }
+
+  .gpu { display:grid; grid-template-columns:34px 1fr 150px; gap:12px;
+         align-items:center; padding:10px 0; border-top:1px solid #f0f0f0; }
+  .gpu:first-of-type { border-top:none; }
+  .idx { font-size:12px; font-weight:700; color:#888; text-align:center;
+         background:#f4f4f4; border-radius:5px; padding:4px 0; }
+  .bars { min-width:0; }
+  .brow { display:flex; align-items:center; gap:8px; font-size:12px; color:#666;
+          margin-bottom:3px; }
+  .brow .tag { width:34px; color:#999; text-transform:uppercase;
+               letter-spacing:.4px; font-size:10px; flex:none; }
+  .bar { flex:1; height:8px; background:#eee; border-radius:4px; overflow:hidden; }
+  .bar .fill { display:block; height:100%; width:0; background:#1f77b4; transition:width .4s; }
+  .bar .fill.mem { background:#9ecae1; }
+  .num { width:92px; text-align:right; flex:none; font-variant-numeric:tabular-nums; }
+  .env { font-size:11px; color:#999; margin-top:2px; }
+  .env .hot { color:#C0392B; }
+  .spark { width:100%; height:30px; display:block; background:#fafafa;
+           border-radius:3px; }
+  .spark-empty { height:30px; background:#fafafa; border-radius:3px; font-size:10px;
+                 color:#ccc; text-align:center; line-height:30px; }
+  .spark-lab { font-size:10px; color:#bbb; text-align:right; letter-spacing:.4px; }
+
+  .explain { background:#fff; border:1px solid #e5e5e5; border-radius:8px;
+             padding:16px 18px; margin-top:28px; font-size:13px; color:#555; }
+  .explain h3 { font-size:13px; text-transform:uppercase; letter-spacing:.5px;
+                color:#888; margin:0 0 8px; }
+  .explain p { margin:0 0 8px; }
+  .explain p:last-child { margin-bottom:0; }
+  footer { margin-top:40px; font-size:12px; color:#999;
+           border-top:1px solid #e5e5e5; padding-top:14px; }
+
+  @media (max-width:560px) {
+    .gpu { grid-template-columns:30px 1fr; }
+    .sparkwrap { grid-column:1 / -1; }
+  }
+</style>
+</head>
+<body>
+<a class="parent-link" href="https://choi-seongjin.github.io/">&larr; Choi Lab</a>
+<h1>Lab GPU Status</h1>
+<p class="tagline">What the lab's GPUs are doing right now. Two nodes, eight
+NVIDIA RTX&nbsp;6000 Ada cards, sampled once a second and published here about
+once a minute. Jobs are research runs — generative models for mobility,
+LLM/VLM fine-tuning, trajectory and traffic-state work.</p>
+
+<div class="status" id="status"><span class="dot"></span><span id="statustext">loading…</span></div>
+<div class="warn" id="warn" style="display:none"></div>
+
+<div class="tiles" id="tiles"></div>
+<div id="nodes"></div>
+
+<div class="explain">
+  <h3>How this page works</h3>
+  <p>The lab's orchestrator samples each GPU once a second over NVML. It is not
+  reachable from the public internet, so a publisher on the lab side writes a
+  stripped-down snapshot — utilization, memory, temperature, power — to a
+  <a href="https://github.com/choi-seongjin/gpu-status">public data repo</a>
+  roughly every minute, and this page reads that file. Nothing on this page
+  queries the lab network, and no job names, user names, host names, or data
+  ever leave it.</p>
+  <p>&ldquo;Busy&rdquo; means a card is at 20% utilization or above at the moment of
+  the snapshot. GPU-hours are utilization-weighted: a card at 50% for two hours
+  counts as one GPU-hour. History is accumulated from the moment the publisher
+  started, so the stated window is the real one, not an assumed full day.</p>
+</div>
+
+<footer>UMN Choi Lab &middot; Seongjin Choi &middot; node labels are deliberately
+generic &middot; snapshot cadence ~60&nbsp;s, CDN caching can add a few minutes.</footer>
+
+<script>
+const SRC = "https://raw.githubusercontent.com/choi-seongjin/gpu-status/main/gpu.json";
+const POLL_MS = 30000;
+let lastGood = null;
+
+const esc = s => String(s).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const gb = mb => (mb / 1024).toFixed(1);
+
+function ago(sec) {
+  if (sec < 60) return Math.max(0, Math.round(sec)) + " s ago";
+  if (sec < 3600) return Math.round(sec / 60) + " min ago";
+  return (sec / 3600).toFixed(1) + " h ago";
+}
+
+// 24h of 5-minute utilization buckets; -1 marks a gap, which stays a gap
+// rather than being interpolated into an idle-looking dip.
+function sparkline(series) {
+  const n = series.length, H = 30, W = 288;
+  const segs = [];
+  let cur = [];
+  series.forEach((v, i) => {
+    if (v < 0) { if (cur.length) { segs.push(cur); cur = []; } return; }
+    cur.push([i * (W / (n - 1)), H - 1 - (Math.min(v, 100) / 100) * (H - 2)]);
+  });
+  if (cur.length) segs.push(cur);
+  if (!segs.length) return '<div class="spark-empty">no history yet</div>';
+  const paths = segs.map(seg => {
+    const d = seg.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    const area = seg.length > 1
+      ? `<path d="${d} L${seg[seg.length-1][0].toFixed(1)} ${H} L${seg[0][0].toFixed(1)} ${H} Z" fill="#1f77b4" opacity=".12"/>`
+      : "";
+    return area + `<path d="${d}" fill="none" stroke="#1f77b4" stroke-width="1.2" stroke-linecap="round"/>`;
+  }).join("");
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${paths}</svg>`;
+}
+
+function renderTiles(d) {
+  const s = d.summary;
+  // Both windows report their real coverage; until the publisher has been up
+  // long enough they are the same number, so say so once instead of twice.
+  const span = h => h < 1 ? `${Math.round(h * 60)} min`
+                 : h < 48 ? `${h.toFixed(1)} h`
+                 : `${(h / 24).toFixed(1)} d`;
+  const full24 = s.coverage_24h_h >= 23.5, full7 = s.coverage_7d_h >= 167;
+  const cov = full24 && full7 ? "last 24 h &middot; last 7 days"
+            : full24 ? `last 24 h &middot; ${span(s.coverage_7d_h)} collected`
+            : `only ${span(s.coverage_24h_h)} collected so far`;
+  document.getElementById("tiles").innerHTML = `
+    <div class="tile"><div class="lab">GPUs busy</div>
+      <div class="val">${s.gpus_busy}<small> / ${s.gpus_online}</small></div>
+      <div class="sub">at &ge;${d.busy_threshold_pct}% utilization</div></div>
+    <div class="tile"><div class="lab">Memory in use</div>
+      <div class="val">${s.mem_used_gb}<small> / ${s.mem_total_gb} GB</small></div>
+      <div class="sub">across all cards</div></div>
+    <div class="tile"><div class="lab">Power draw</div>
+      <div class="val">${s.power_w}<small> W</small></div>
+      <div class="sub">board power, all cards</div></div>
+    <div class="tile"><div class="lab">GPU-hours 24 h / 7 d</div>
+      <div class="val">${s.gpu_hours_24h}<small> / ${s.gpu_hours_7d}</small></div>
+      <div class="sub">${cov}</div></div>`;
+}
+
+function renderNodes(d) {
+  document.getElementById("nodes").innerHTML = d.nodes.map(node => {
+    const rows = node.gpus.map(g => {
+      const util = g.live ? g.util_pct : 0;
+      const memPct = g.live && g.mem_total_mb ? (g.mem_used_mb / g.mem_total_mb) * 100 : 0;
+      const env = g.live
+        ? `${g.temp_c != null ? `<span class="${g.temp_c >= 85 ? "hot" : ""}">${g.temp_c} &deg;C</span>` : ""}`
+          + `${g.power_w != null ? ` &middot; ${g.power_w} W` : ""}`
+          + ` &middot; ${esc(g.name).replace(/^NVIDIA /, "")}`
+        : "no recent sample";
+      return `<div class="gpu">
+        <div class="idx">${g.index}</div>
+        <div class="bars">
+          <div class="brow"><span class="tag">util</span>
+            <span class="bar"><span class="fill" style="width:${util}%"></span></span>
+            <span class="num">${g.live ? util + "%" : "—"}</span></div>
+          <div class="brow"><span class="tag">mem</span>
+            <span class="bar"><span class="fill mem" style="width:${memPct}%"></span></span>
+            <span class="num">${g.live ? gb(g.mem_used_mb) + " / " + gb(g.mem_total_mb) + " GB" : "—"}</span></div>
+          <div class="env">${env}</div>
+        </div>
+        <div class="sparkwrap">${sparkline(g.spark)}<div class="spark-lab">24 h utilization</div></div>
+      </div>`;
+    }).join("");
+    return `<div class="node${node.online ? "" : " offline"}">
+      <h2>${esc(node.label)}</h2>
+      <div class="meta">${node.gpus.length} GPU${node.gpus.length === 1 ? "" : "s"} &middot;
+        ${node.online ? "reporting" : "not reporting" + (node.age_s != null ? ` (last sample ${ago(node.age_s)})` : "")}</div>
+      ${rows}</div>`;
+  }).join("");
+}
+
+function render(d) {
+  const age = (Date.now() - Date.parse(d.updated)) / 1000;
+  const stale = age > 600;
+  const st = document.getElementById("status");
+  st.className = "status" + (stale ? " stale" : "");
+  document.getElementById("statustext").textContent =
+    "snapshot " + ago(age) + " · refreshes every " + (POLL_MS / 1000) + " s";
+  const warn = document.getElementById("warn");
+  if (stale) {
+    warn.style.display = "";
+    warn.innerHTML = "<b>This snapshot is " + ago(age) + ".</b> The publisher on the "
+      + "lab side is probably stopped, so the numbers below are historical, not current.";
+  } else {
+    warn.style.display = "none";
+  }
+  renderTiles(d);
+  renderNodes(d);
+}
+
+async function tick() {
+  try {
+    // Bucket the cache-buster to the publish cadence: unique enough to beat
+    // the 5-minute CDN cache, shared enough that repeat polls don't force a
+    // fresh origin hit every 30 s.
+    const bust = Math.floor(Date.now() / 60000);
+    const r = await fetch(SRC + "?t=" + bust, { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    lastGood = await r.json();
+    render(lastGood);
+  } catch (e) {
+    if (lastGood) {
+      render(lastGood);
+    } else {
+      document.getElementById("statustext").textContent = "could not load the snapshot (" + e.message + ")";
+      document.getElementById("status").className = "status stale";
+    }
+  }
+}
+
+tick();
+setInterval(tick, POLL_MS);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) tick(); });
+</script>
+</body>
+</html>
